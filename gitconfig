@@ -1,0 +1,14 @@
+[core]
+  editor = vim
+  excludesfile = /home/robyoung/.gitignore
+[color]
+  ui = true
+[alias]
+  st = status
+  cm = commit -v
+  co = checkout
+[user]
+  name = Rob Young
+  email = rob.young@digital.cabinet-office.gov.uk
+[merge]
+  tool = vimdiff

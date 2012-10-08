@@ -1,0 +1,23 @@
+# skip the startup message
+# startup_message off
+
+shell -$SHELL
+
+# Display a caption string below, appearing like tabs and
+# displaying the window number and application name (by default).
+caption always
+caption string "%{kw}%-w%{wr}%n %t%{-}%+w"
+#
+# j to move down a window, k to move up. Like teh VIM!
+bind j focus down
+bind k focus up
+#
+# Default screens
+screen -t Code
+screen -t Code
+screen -t Data
+screen -t Data
+screen -t Shell
+#
+# Select first screen
+select 0
