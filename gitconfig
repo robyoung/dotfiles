@@ -1,14 +1,20 @@
+[init]
+	templatedir = ~/.git_template
 [core]
   editor = vim
   excludesfile = /home/robyoung/.gitignore
 [color]
   ui = true
 [alias]
-  st = status
-  cm = commit -v
-  co = checkout
+	ctags = !.git/hooks/ctags
+	st = status
+	co = checkout
+	cm = commit -v
+	pl = pull --rebase
 [user]
   name = Rob Young
   email = rob.young@digital.cabinet-office.gov.uk
 [merge]
   tool = vimdiff
+[push]
+	default = simple
