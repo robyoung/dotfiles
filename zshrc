@@ -14,3 +14,11 @@ source $ZSH/oh-my-zsh.sh
 PROMPT='%{$fg[green]%}h %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%} % %{$reset_color%}'
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
+[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
+
+if [ -e $(which virtualenvwrapper.sh) ]; then
+  export WORKON_HOME=$HOME/.virtualenvs
+  source $(which virtualenvwrapper.sh)
+fi
+
+alias p='pass -c'
