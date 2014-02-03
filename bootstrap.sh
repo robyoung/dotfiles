@@ -12,9 +12,14 @@ done
 
 mkdir ~/.git_template
 
-# Install pathogen
+# Setup VIM
 mkdir -p ~/.vim/autoload ~/.vim/bundle
+
+## Install pathogen
 curl -Sso ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 
 ## Install NerdTREE
 git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
+
+## Install vim-puppet
+git clone https://github.com/rodjek/vim-puppet.git ~/.vim/bundle/vim-puppet
