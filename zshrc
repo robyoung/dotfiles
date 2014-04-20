@@ -22,3 +22,6 @@ if [ -e $(which virtualenvwrapper.sh) ]; then
 fi
 
 alias p='pass -c'
+
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin:$HOME/bin
