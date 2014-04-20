@@ -26,6 +26,8 @@ syntax on
 au BufRead,BufNewFile *.md set filetype=markdown  " set .md files as markdown
 colorscheme darkblue
 
+set colorcolumn=80
+highlight ColorColumn ctermbg=7
 " Set up mapleader
 let mapleader=","
 map <Leader>t :NERDTree<CR>
