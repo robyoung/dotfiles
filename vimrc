@@ -12,6 +12,10 @@ set smarttab
 set expandtab
 filetype plugin indent on
 
+"  - Filetype specific settings
+autocmd FileType python setlocal shiftwidth=4 tabstop=4
+
+
 set nowrap   " do not wrap lines
 set ruler    " show cursor position all the time
 "set number   " show the line numbers
