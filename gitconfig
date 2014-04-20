@@ -1,15 +1,15 @@
 [init]
-	templatedir = ~/.git_template
+  templatedir = ~/.git_template
 [core]
   editor = vim
   excludesfile = /home/robyoung/.gitignore
 [color]
   ui = true
 [alias]
-	ctags = !.git/hooks/ctags
-	st = status
-	co = checkout
-	cm = commit -v
+  ctags = !.git/hooks/ctags
+  st = status
+  co = checkout
+  cm = commit -v
   pl = pull --rebase
   lg = log --graph --abbrev-commit --oneline
 [user]
@@ -18,4 +18,4 @@
 [merge]
   tool = vimdiff
 [push]
-	default = simple
+  default = simple
