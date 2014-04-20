@@ -10,7 +10,8 @@
 	st = status
 	co = checkout
 	cm = commit -v
-	pl = pull --rebase
+  pl = pull --rebase
+  lg = log --graph --abbrev-commit --oneline
 [user]
   name = Rob Young
   email = rob.young@digital.cabinet-office.gov.uk
