@@ -31,6 +31,7 @@ highlight ColorColumn ctermbg=7
 " Set up mapleader
 let mapleader=","
 map <Leader>t :NERDTree<CR>
+let g:pep8_map='<leader>8'
 
 " Useful key mappings
 " <C-w>c close window
