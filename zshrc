@@ -24,4 +24,8 @@ fi
 alias p='pass -c'
 
 export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin:$HOME/bin
+# Add GNU getopt to path
+if [[ -n "$(which brew)" ]]; then
+  export PATH=$(brew --prefix gnu-getopt)/bin:$PATH
+fi
+export PATH=$HOME/bin:$PATH:$GOPATH/bin
