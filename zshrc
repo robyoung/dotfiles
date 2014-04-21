@@ -29,3 +29,16 @@ if [[ -n "$(which brew)" ]]; then
   export PATH=$(brew --prefix gnu-getopt)/bin:$PATH
 fi
 export PATH=$HOME/bin:$PATH:$GOPATH/bin
+
+# Set up GPG key share combining
+calculate_shares() {
+  local usb_drive
+  if [[ -d /Volumes ]]; then
+    usb_drive=/Volumes
+  else
+    usb_drive=/media/removable
+  fi
+  echo $(ls $usb_drive/UNTITLED/gpg/secring.gpg.parts.*)
+  echo $(ls ~/.gnupg/secring.gpg.parts.*)
+}
+export GFSHARES="$(calculate_shares)"
