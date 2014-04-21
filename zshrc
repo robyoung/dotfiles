@@ -16,7 +16,11 @@ PROMPT='%{$fg[green]%}h %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$f
 
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
 
-if [ -e $(which virtualenvwrapper.sh) ]; then
+if [ -e "$(which virtualenvwrapper.sh)" ]; then
+  if [ ! -e "$(which python)" ]; then
+    VIRTUALENVWRAPPER_PYTHON="$(which python3)"
+  fi
+  
   export WORKON_HOME=$HOME/.virtualenvs
   source $(which virtualenvwrapper.sh)
 fi
@@ -24,11 +28,12 @@ fi
 alias p='pass -c'
 
 export GOPATH=$HOME/go
+[ -d /usr/sbin ] && export PATH="$PATH:/usr/sbin"
 # Add GNU getopt to path
 if [[ -n "$(which brew)" ]]; then
   export PATH=$(brew --prefix gnu-getopt)/bin:$PATH
 fi
-export PATH=$HOME/bin:$PATH:$GOPATH/bin
+export PATH=$HOME/bin:$PATH:${GOPATH//://bin:}/bin
 
 # Set up GPG key share combining
 calculate_shares() {
