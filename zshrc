@@ -30,7 +30,7 @@ alias p='pass -c'
 export GOPATH=$HOME/go
 [ -d /usr/sbin ] && export PATH="$PATH:/usr/sbin"
 # Add GNU getopt to path
-if [[ -n "$(which brew)" ]]; then
+if which brew > /dev/null; then
   export PATH=$(brew --prefix gnu-getopt)/bin:$PATH
 fi
 export PATH=$HOME/bin:$PATH:${GOPATH//://bin:}/bin
