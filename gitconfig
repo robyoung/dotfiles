@@ -2,7 +2,7 @@
   templatedir = ~/.git_template
 [core]
   editor = vim
-  excludesfile = /home/robyoung/.gitignore
+  excludesfile = ~/.gitignore
 [color]
   ui = true
 [alias]
