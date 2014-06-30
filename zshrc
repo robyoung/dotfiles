@@ -35,6 +35,9 @@ if which brew > /dev/null; then
 fi
 export PATH=$HOME/bin:$PATH:${GOPATH//://bin:}/bin
 
+# Set up gpg-agent
+eval $(gpg-agent --daemon)
+
 # Set up GPG key share combining
 calculate_shares() {
   local usb_drive
