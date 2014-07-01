@@ -39,6 +39,22 @@ export PATH=$HOME/bin:$PATH:${GOPATH//://bin:}/bin
 eval $(gpg-agent --daemon)
 
 # Set up GPG key share combining
+combine_keyring() {
+  local error
+  if [ "$GFSHARES" ]; then
+    shares=(${=GFSHARES})
+    error=$(gfcombine -o ${GNUPGHOME:-~/.gnupg}/secring.gpg $shares[1,2] 2>&1)
+    if [ $? != 0 ]; then
+      echo "Failed to combine keyring: ${error}"
+      exit 1
+    fi
+  fi
+}
+remove_keyring() {
+  if [ "$GFSHARES" ]; then
+    srm -f -z ${GNUPGHOME:-~/.gnupg}/secring.gpg
+  fi
+}
 calculate_shares() {
   local usb_drive
   if [[ -d /Volumes ]]; then
