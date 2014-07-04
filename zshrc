@@ -66,3 +66,8 @@ calculate_shares() {
   echo $(ls ~/.gnupg/secring.gpg.part.*)
 }
 export GFSHARES="$(calculate_shares)"
+
+# Set homebrew github token if available
+[ -e ~/.config/homebrew/token ] && export HOMEBREW_GITHUB_API_TOKEN="$(cat ~/.config/homebrew/token)"
+
+
