@@ -62,7 +62,7 @@ calculate_shares() {
   else
     usb_drive=/media/removable
   fi
-  echo $(ls $usb_drive/UNTITLED/gpg/secring.gpg.parts.*)
-  echo $(ls ~/.gnupg/secring.gpg.parts.*)
+  echo $(ls $usb_drive/UNTITLED/gpg/secring.gpg.part.*)
+  echo $(ls ~/.gnupg/secring.gpg.part.*)
 }
 export GFSHARES="$(calculate_shares)"
