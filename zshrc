@@ -70,4 +70,10 @@ export GFSHARES="$(calculate_shares)"
 # Set homebrew github token if available
 [ -e ~/.config/homebrew/token ] && export HOMEBREW_GITHUB_API_TOKEN="$(cat ~/.config/homebrew/token)"
 
-
+# Start camlistored if available
+if [ -e ~/bin/camlistored ]; then
+  if [ ! "$(pidof camlistored)" ]; then
+    echo "Starting camlistore server"
+    (camlistored >> ~/log/camlistored.log 2>&1 &)
+  fi
+fi
