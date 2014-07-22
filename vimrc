@@ -47,3 +47,6 @@ let g:pep8_map='<leader>8'
 "
 " Useful help
 " :help index  - index of key mappings
+
+set foldmethod=indent
+set foldlevel=20
