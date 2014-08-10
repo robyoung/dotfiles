@@ -21,6 +21,11 @@ filetype plugin indent on
 
 "  - Filetype specific settings
 autocmd FileType python setlocal shiftwidth=4 tabstop=4
+autocmd FileType go setlocal noexpandtab
+
+" Smartcase search
+set ignorecase
+set smartcase
 
 
 set nowrap   " do not wrap lines
@@ -29,9 +34,11 @@ set ruler    " show cursor position all the time
 set relativenumber " show line numbers relative to current position
 
 " Syntax handling
+set t_Co=256
 syntax on
 au BufRead,BufNewFile *.md set filetype=markdown  " set .md files as markdown
-colorscheme darkblue
+colorscheme vividchalk
+set background=dark
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=7
