@@ -7,7 +7,7 @@ CASE_SENSITIVE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git vagrant golang ssh)
+plugins=(git vagrant golang ssh rbenv)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -29,6 +29,7 @@ alias p='pass -c'
 
 export GOPATH=$HOME/go
 [ -d /usr/sbin ] && export PATH="$PATH:/usr/sbin"
+[ -d ~/src/go_appengine ] && export PATH="$PATH:$(echo ~/src/go_appengine)"
 # Add GNU getopt to path
 if which brew > /dev/null; then
   export PATH=$(brew --prefix gnu-getopt)/bin:$PATH
@@ -57,9 +58,11 @@ remove_keyring() {
 }
 calculate_shares() {
   local usb_drive
-  if [[ -d /Volumes ]]; then
+  if [[ -d ~/media/UNTITLED ]]; then
+    usb_drive=~/media
+  elif [[ -d /Volumes ]]; then
     usb_drive=/Volumes
-  else
+  elif [[ -d /media/removable ]]; then
     usb_drive=/media/removable
   fi
   echo $(ls $usb_drive/UNTITLED/gpg/secring.gpg.part.*)
@@ -72,8 +75,11 @@ export GFSHARES="$(calculate_shares)"
 
 # Start camlistored if available
 if [ -e ~/bin/camlistored ]; then
-  if [ ! "$(pidof camlistored)" ]; then
+  if [ ! "$(ps -A | grep -v grep | grep camlistored > /dev/null)" ]; then
     echo "Starting camlistore server"
     (camlistored >> ~/log/camlistored.log 2>&1 &)
   fi
 fi
+
+# added by travis gem
+[ -f /Users/robyoung/.travis/travis.sh ] && source /Users/robyoung/.travis/travis.sh
