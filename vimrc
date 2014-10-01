@@ -27,7 +27,7 @@ autocmd FileType go setlocal noexpandtab
 set ignorecase
 set smartcase
 
-
+" Rulers and markers
 set nowrap   " do not wrap lines
 set ruler    " show cursor position all the time
 "set number   " show the line numbers
@@ -46,6 +46,10 @@ highlight ColorColumn ctermbg=7
 let mapleader=","
 map <Leader>t :NERDTree<CR>
 let g:pep8_map='<leader>8'
+
+" Searching and navigating
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+set wildignore+=*.pyc
 
 " Useful key mappings
 " <C-w>c close window
