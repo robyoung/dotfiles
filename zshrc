@@ -1,3 +1,6 @@
+# local overrides
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -34,6 +37,7 @@ export GOPATH=$HOME/go
 if which brew > /dev/null; then
   export PATH=$(brew --prefix gnu-getopt)/bin:$PATH
 fi
+[ -d /usr/local/go/bin ] && export PATH="/usr/local/go/bin:$PATH"
 export PATH=$HOME/bin:$PATH:${GOPATH//://bin:}/bin
 
 # Set up gpg-agent
@@ -65,7 +69,7 @@ calculate_shares() {
   elif [[ -d /media/removable ]]; then
     usb_drive=/media/removable
   fi
-  echo $(ls $usb_drive/UNTITLED/gpg/secring.gpg.part.*)
+  echo $(ls $usb_drive/*/gpg/secring.gpg.part.*)
   echo $(ls ~/.gnupg/secring.gpg.part.*)
 }
 export GFSHARES="$(calculate_shares)"
@@ -74,7 +78,7 @@ export GFSHARES="$(calculate_shares)"
 [ -e ~/.config/homebrew/token ] && export HOMEBREW_GITHUB_API_TOKEN="$(cat ~/.config/homebrew/token)"
 
 # Start camlistored if available
-if [ -e ~/bin/camlistored ]; then
+if [ -e ~/bin/camlistored -a -z "$CAMLISTORE_DISABLE" ]; then
   if [ ! "$(ps -A | grep -v grep | grep camlistored > /dev/null)" ]; then
     echo "Starting camlistore server"
     (camlistored >> ~/log/camlistored.log 2>&1 &)
