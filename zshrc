@@ -39,7 +39,7 @@ if which brew > /dev/null; then
   export PATH=$(brew --prefix gnu-getopt)/bin:$PATH
 fi
 [ -d /usr/local/go/bin ] && export PATH="/usr/local/go/bin:$PATH"
-export PATH=$HOME/bin:$PATH:${GOPATH//://bin:}/bin
+export PATH=$HOME/bin:$PATH:${GOPATH//://bin:}/bin:$HOME/anaconda/bin
 
 # Set up gpg-agent
 eval $(gpg-agent --daemon)
