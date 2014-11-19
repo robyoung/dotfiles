@@ -88,3 +88,10 @@ fi
 
 # added by travis gem
 [ -f /Users/robyoung/.travis/travis.sh ] && source /Users/robyoung/.travis/travis.sh
+
+# Restart virtualbox network interfaces
+restart_vboxnets() {
+  for net in $(ifconfig | grep '^vboxnet' | cut -f 1 -d :); do
+    sudo ifconfig $net down && sudo ifconfig $net up
+  done
+}
