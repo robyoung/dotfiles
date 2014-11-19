@@ -22,6 +22,7 @@ filetype plugin indent on
 "  - Filetype specific settings
 autocmd FileType python setlocal shiftwidth=4 tabstop=4
 autocmd FileType go setlocal noexpandtab
+autocmd FileType java setlocal shiftwidth=4 tabstop=4
 
 " Smartcase search
 set ignorecase
