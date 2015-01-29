@@ -61,16 +61,19 @@ remove_keyring() {
     srm -f -z ${GNUPGHOME:-~/.gnupg}/secring.gpg
   fi
 }
+find_share() {
+  for dir in "$@"; do
+    if [ "$(find $dir -name 'secring*' 2> /dev/null)" != "" ]; then
+      echo "$(find $dir -name 'secring*' | head -n 1)"
+      exit 0
+    fi
+  done
+  exit 1
+}
 calculate_shares() {
   local usb_drive
-  if [[ -d ~/media/UNTITLED ]]; then
-    usb_drive=~/media
-  elif [[ -d /Volumes ]]; then
-    usb_drive=/Volumes
-  elif [[ -d /media/removable ]]; then
-    usb_drive=/media/removable
-  fi
-  echo $(ls $usb_drive/*/gpg/secring.gpg.part.*)
+
+  echo $(find_share ~/media /Volumes /media)
   echo $(ls ~/.gnupg/secring.gpg.part.*)
 }
 export GFSHARES="$(calculate_shares)"
