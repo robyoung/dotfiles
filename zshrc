@@ -58,7 +58,8 @@ combine_keyring() {
 }
 remove_keyring() {
   if [ "$GFSHARES" ]; then
-    srm -f -z ${GNUPGHOME:-~/.gnupg}/secring.gpg
+    shred ${GNUPGHOME:-~/.gnupg}/secring.gpg
+    rm -f ${GNUPGHOME:-~/.gnupg}/secring.gpg
   fi
 }
 find_share() {
