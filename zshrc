@@ -11,7 +11,7 @@ DEFAULT_USER="robyoung"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git vagrant golang ssh rbenv fabric)
+plugins=(git vagrant golang ssh rbenv fabric pass)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -58,19 +58,23 @@ combine_keyring() {
 }
 remove_keyring() {
   if [ "$GFSHARES" ]; then
-    srm -f -z ${GNUPGHOME:-~/.gnupg}/secring.gpg
+    shred ${GNUPGHOME:-~/.gnupg}/secring.gpg
+    rm -f ${GNUPGHOME:-~/.gnupg}/secring.gpg
   fi
+}
+find_share() {
+  for dir in "$@"; do
+    if [ "$(find $dir -name 'secring*' 2> /dev/null)" != "" ]; then
+      echo "$(find $dir -name 'secring*' | head -n 1)"
+      exit 0
+    fi
+  done
+  exit 1
 }
 calculate_shares() {
   local usb_drive
-  if [[ -d ~/media/UNTITLED ]]; then
-    usb_drive=~/media
-  elif [[ -d /Volumes ]]; then
-    usb_drive=/Volumes
-  elif [[ -d /media/removable ]]; then
-    usb_drive=/media/removable
-  fi
-  echo $(ls $usb_drive/*/gpg/secring.gpg.part.*)
+
+  echo $(find_share ~/media /Volumes /media)
   echo $(ls ~/.gnupg/secring.gpg.part.*)
 }
 export GFSHARES="$(calculate_shares)"
