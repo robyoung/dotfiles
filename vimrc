@@ -4,6 +4,17 @@ execute pathogen#infect()
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" Vundle
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#begin()
+Plugin 'mileszs/ack.vim'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'othree/html5.vim'
+Plugin 'tpope/vim-fugitive'
+call vundle#end()
+filetype plugin indent on
+
 " Set up Go support
 filetype off
 filetype plugin indent off
