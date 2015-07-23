@@ -35,6 +35,17 @@ autocmd FileType python setlocal shiftwidth=4 tabstop=4
 autocmd FileType go setlocal noexpandtab
 autocmd FileType java setlocal shiftwidth=4 tabstop=4
 
+" NERDTree
+
+let NERDTreeShowHidden=1
+
+" Ack
+imap <C-a> <ESC>:Ack
+nmap <C-a> :Ack
+
+" Ctrlp
+let g:ctrlp_user_command = 'find %s -type f | grep -v "/node_modules/" | grep -v "\.pyc$" | grep -v "\.git/"'
+
 " Smartcase search
 set ignorecase
 set smartcase
@@ -52,7 +63,9 @@ au BufRead,BufNewFile *.md set filetype=markdown  " set .md files as markdown
 colorscheme vividchalk
 set background=dark
 
-set colorcolumn=80
+let g:syntastic_python_checkers = ["pylint"]
+let g:syntastic_python_pylint_post_args="--max-line-length=120" " set python max line length to 120
+set colorcolumn=120
 highlight ColorColumn ctermbg=7
 " Set up mapleader
 let mapleader=","
