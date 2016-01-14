@@ -12,6 +12,9 @@ Plugin 'mileszs/ack.vim'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'othree/html5.vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'janko-m/vim-test'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'benmills/vimux'
 call vundle#end()
 filetype plugin indent on
 
@@ -60,11 +63,14 @@ set relativenumber " show line numbers relative to current position
 set t_Co=256
 syntax on
 au BufRead,BufNewFile *.md set filetype=markdown  " set .md files as markdown
-colorscheme vividchalk
+colorscheme solarized
 set background=dark
 
-let g:syntastic_python_checkers = ["pylint"]
-let g:syntastic_python_pylint_post_args="--max-line-length=120" " set python max line length to 120
+" Set up vim-test
+let test#strategy = "dispatch"
+let test#python#pytest#options = '-s'
+
+let g:syntastic_python_checkers = ["pep8"]
 set colorcolumn=120
 highlight ColorColumn ctermbg=7
 " Set up mapleader
@@ -86,3 +92,4 @@ set wildignore+=*.pyc
 
 set foldmethod=indent
 set foldlevel=20
+set diffopt+=vertical
