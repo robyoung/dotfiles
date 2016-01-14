@@ -47,7 +47,7 @@ combine_keyring() {
   local error
   if [ "$GFSHARES" ]; then
     shares=(${=GFSHARES})
-    error=$(gfcombine -o ${GNUPGHOME:-~/.gnupg}/secring.gpg $shares[1,2] 2>&1)
+    error=$(gfcombine -o "${GNUPGHOME:-~/.gnupg}/secring.gpg" $shares[1,2] 2>&1)
     if [ $? != 0 ]; then
       echo "Failed to combine keyring: ${error}"
       exit 1
@@ -56,24 +56,22 @@ combine_keyring() {
 }
 remove_keyring() {
   if [ "$GFSHARES" ]; then
-    shred ${GNUPGHOME:-~/.gnupg}/secring.gpg
-    rm -f ${GNUPGHOME:-~/.gnupg}/secring.gpg
+    shred "${GNUPGHOME:-~/.gnupg}/secring.gpg"
+    rm -f "${GNUPGHOME:-~/.gnupg}/secring.gpg"
   fi
 }
 find_share() {
   for dir in "$@"; do
-    if [ "$(find $dir -name 'secring*' 2> /dev/null)" != "" ]; then
-      echo "$(find $dir -name 'secring*' | head -n 1)"
+    if [ "$(find "$dir" -name 'secring*' 2> /dev/null)" != "" ]; then
+      find "$dir" -name 'secring*' | head -n 1
       exit 0
     fi
   done
   exit 1
 }
 calculate_shares() {
-  local usb_drive
-
-  echo $(find_share ~/media /Volumes /media)
-  echo $(ls ~/.gnupg/secring.gpg.part.*)
+  echo "$(find_share ~/media /Volumes /media)"
+  echo "$(ls ~/.gnupg/secring.gpg.part.*)"
 }
 export GFSHARES="$(calculate_shares)"
 
@@ -86,12 +84,12 @@ export GFSHARES="$(calculate_shares)"
 # Restart virtualbox network interfaces
 restart_vboxnets() {
   for net in $(ifconfig | grep '^vboxnet' | cut -f 1 -d :); do
-    sudo ifconfig $net down && sudo ifconfig $net up
+    sudo ifconfig "$net" down && sudo ifconfig "$net" up
   done
 }
 
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "/Users/robyoung/.gvm/bin/gvm-init.sh" ]] && source "/Users/robyoung/.gvm/bin/gvm-init.sh"
-
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "/Users/robyoung/.gvm/bin/gvm-init.sh" ]] && source "/Users/robyoung/.gvm/bin/gvm-init.sh"
