@@ -39,6 +39,10 @@ export GOPATH=$HOME/go
 export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:$PATH
 export PATH=$HOME/bin:$PATH:${GOPATH//://bin:}/bin
 
+# Navigation
+# Move forwards with Ctrl+o
+bindkey ^o forward-word
+
 # Set up gpg-agent
 eval $(gpg-agent --daemon)
 
