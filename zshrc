@@ -37,7 +37,7 @@ export GOPATH=$HOME/go
 [ -d ~/src/go_appengine ] && export PATH="$PATH:$(echo ~/src/go_appengine)"
 [ -d /usr/local/go/bin ] && export PATH="/usr/local/go/bin:$PATH"
 export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:$PATH
-export PATH=$HOME/bin:$PATH:${GOPATH//://bin:}/bin
+export PATH=$HOME/bin:/usr/local/bin:$PATH:${GOPATH//://bin:}/bin
 
 # Navigation
 # Move forwards with Ctrl+o
