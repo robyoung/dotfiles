@@ -77,6 +77,7 @@ highlight ColorColumn ctermbg=7
 let mapleader=","
 map <Leader>t :NERDTree<CR>
 let g:pep8_map='<leader>8'
+map <Leader>s :w<CR>
 
 " Searching and navigating
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -90,6 +91,4 @@ set wildignore+=*.pyc
 " Useful help
 " :help index  - index of key mappings
 
-set foldmethod=indent
-set foldlevel=20
 set diffopt+=vertical
