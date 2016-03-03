@@ -34,7 +34,7 @@ alias p='pass -c'
 
 export GOPATH=$HOME/go
 [ -d /usr/sbin ] && export PATH="$PATH:/usr/sbin"
-[ -d ~/src/go_appengine ] && export PATH="$PATH:$(echo ~/src/go_appengine)"
+[ -d ~/src/go_appengine ] && export PATH="$PATH:$(echo "$HOME/src/go_appengine")"
 [ -d /usr/local/go/bin ] && export PATH="/usr/local/go/bin:$PATH"
 export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:$PATH
 export PATH=$HOME/bin:/usr/local/bin:$PATH:${GOPATH//://bin:}/bin
@@ -44,14 +44,19 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH:${GOPATH//://bin:}/bin
 bindkey ^o forward-word
 
 # Set up gpg-agent
-eval $(gpg-agent --daemon)
+if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then
+  eval "$(gpg-agent --daemon --write-env-file "${GNUPGHOME:-$HOME/.gnupg}/gpg-agent.info")"
+else
+  eval "$(cat "${GNUPGHOME:-$HOME/.gnupg}/gpg-agent.info")"
+  export GPG_AGENT_INFO
+fi
 
 # Set up GPG key share combining
 combine_keyring() {
   local error
   if [ "$GFSHARES" ]; then
     shares=(${=GFSHARES})
-    error=$(gfcombine -o "${GNUPGHOME:-~/.gnupg}/secring.gpg" $shares[1,2] 2>&1)
+    error=$(gfcombine -o "${GNUPGHOME:-$HOME/.gnupg}/secring.gpg" $shares[1,2] 2>&1)
     if [ $? != 0 ]; then
       echo "Failed to combine keyring: ${error}"
       exit 1
@@ -60,8 +65,8 @@ combine_keyring() {
 }
 remove_keyring() {
   if [ "$GFSHARES" ]; then
-    shred "${GNUPGHOME:-~/.gnupg}/secring.gpg"
-    rm -f "${GNUPGHOME:-~/.gnupg}/secring.gpg"
+    shred "${GNUPGHOME:-"${HOME}/.gnupg"}/secring.gpg"
+    rm -f "${GNUPGHOME:-"${HOME}/.gnupg"}/secring.gpg"
   fi
 }
 find_share() {
