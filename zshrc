@@ -52,39 +52,6 @@ else
 fi
 export GPG_TTY=$(tty)
 
-# Set up GPG key share combining
-combine_keyring() {
-  local error
-  if [ "$GFSHARES" ]; then
-    shares=(${=GFSHARES})
-    error=$(gfcombine -o "${GNUPGHOME:-$HOME/.gnupg}/secring.gpg" $shares[1,2] 2>&1)
-    if [ $? != 0 ]; then
-      echo "Failed to combine keyring: ${error}"
-      exit 1
-    fi
-  fi
-}
-remove_keyring() {
-  if [ "$GFSHARES" ]; then
-    shred "${GNUPGHOME:-"${HOME}/.gnupg"}/secring.gpg"
-    rm -f "${GNUPGHOME:-"${HOME}/.gnupg"}/secring.gpg"
-  fi
-}
-find_share() {
-  for dir in "$@"; do
-    if [ "$(find "$dir" -name 'secring*' 2> /dev/null)" != "" ]; then
-      find "$dir" -name 'secring*' | head -n 1
-      exit 0
-    fi
-  done
-  exit 1
-}
-calculate_shares() {
-  echo "$(find_share ~/media /Volumes /media)"
-  echo "$(ls ~/.gnupg/secring.gpg.part.*)"
-}
-export GFSHARES="$(calculate_shares)"
-
 # Set homebrew github token if available
 [ -e ~/.config/homebrew/token ] && export HOMEBREW_GITHUB_API_TOKEN="$(cat ~/.config/homebrew/token)"
 
