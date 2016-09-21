@@ -8,13 +8,18 @@ set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#begin()
-Plugin 'mileszs/ack.vim'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'othree/html5.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'janko-m/vim-test'
-Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'benmills/vimux'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'janko-m/vim-test'
+Plugin 'mileszs/ack.vim'
+Plugin 'othree/html5.vim'
+Plugin 'rust-lang/rust.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'pangloss/vim-javascript'
+Plugin 'elzr/vim-json'
+Plugin 'pearofducks/ansible-vim'
 call vundle#end()
 filetype plugin indent on
 
