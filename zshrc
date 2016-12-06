@@ -47,9 +47,9 @@ if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then
   eval "$(gpg-agent --daemon --write-env-file "${GNUPGHOME:-$HOME/.gnupg}/gpg-agent.info")"
 else
   eval "$(cat "${GNUPGHOME:-$HOME/.gnupg}/gpg-agent.info")"
-  export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
+  export SSH_AUTH_SOCK SSH_AGENT_PID
 fi
-export GPG_TTY=$(tty)
+unset GPG_AGENT_INFO GPG_TTY
 
 # Set homebrew github token if available
 [ -e ~/.config/homebrew/token ] && export HOMEBREW_GITHUB_API_TOKEN="$(cat ~/.config/homebrew/token)"
