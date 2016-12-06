@@ -13,11 +13,9 @@ DEFAULT_USER="robyoung"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git vagrant golang ssh rbenv fabric pass colors)
+plugins=(git vagrant golang ssh rbenv fabric pass colors docker dash)
 
 source $ZSH/oh-my-zsh.sh
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
 
@@ -37,7 +35,8 @@ export GOPATH=$HOME/go
 [ -d ~/src/go_appengine ] && export PATH="$PATH:$(echo "$HOME/src/go_appengine")"
 [ -d /usr/local/go/bin ] && export PATH="/usr/local/go/bin:$PATH"
 export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:$PATH
-export PATH=$HOME/bin:/usr/local/bin:$PATH:${GOPATH//://bin:}/bin
+export PATH=$HOME/bin:/usr/local/sbin:/usr/local/bin:$PATH:${GOPATH//://bin:}/bin
+export PATH=$HOME/.cargo/bin:$PATH
 
 # Navigation
 # Move forwards with Ctrl+o
@@ -65,8 +64,14 @@ restart_vboxnets() {
   done
 }
 
+export HOMEBREW_GITHUB_API_TOKEN="$(pass p/github/homebrew-api-token)"
+
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+# rbenv setup
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/Users/robyoung/.gvm/bin/gvm-init.sh" ]] && source "/Users/robyoung/.gvm/bin/gvm-init.sh"
