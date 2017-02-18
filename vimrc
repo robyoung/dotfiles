@@ -8,19 +8,23 @@ set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#begin()
+Plugin 'Matt-Deacalion/vim-systemd-syntax'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'benmills/vimux'
+Plugin 'cespare/vim-toml'
 Plugin 'derekwyatt/vim-scala'
+Plugin 'editorconfig/editorconfig-vim'
 Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'elzr/vim-json'
+Plugin 'fatih/vim-go'
 Plugin 'janko-m/vim-test'
 Plugin 'mileszs/ack.vim'
+Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'othree/html5.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'pearofducks/ansible-vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'tpope/vim-fugitive'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'pangloss/vim-javascript'
-Plugin 'elzr/vim-json'
-Plugin 'pearofducks/ansible-vim'
-Plugin 'fatih/vim-go'
 call vundle#end()
 filetype plugin indent on
 
@@ -69,6 +73,7 @@ set relativenumber " show line numbers relative to current position
 set t_Co=256
 syntax on
 au BufRead,BufNewFile *.md set filetype=markdown  " set .md files as markdown
+au BufRead,BufNewFile Jenkinsfile set filetype=groovy
 colorscheme solarized
 set background=dark
 
