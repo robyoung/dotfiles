@@ -76,8 +76,6 @@ restart_vboxnets() {
   done
 }
 
-export HOMEBREW_GITHUB_API_TOKEN="$(pass p/github/homebrew-api-token)"
-
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
