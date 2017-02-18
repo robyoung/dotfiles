@@ -12,6 +12,7 @@
 	cm = commit -v
 	pl = pull --rebase
 	lg = log --graph --abbrev-commit --oneline
+	lf = log --decorate --graph --all
 [user]
 	name = Rob Young
 	email = rob@robyoung.digital
