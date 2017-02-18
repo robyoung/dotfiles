@@ -21,17 +21,18 @@ source $ZSH/oh-my-zsh.sh
 echo "$(date) oh-my-zsh" >> /tmp/zsh-startup-robyoung
 
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
-
-if [ -e "$(which virtualenvwrapper.sh)" ]; then
-  if [ ! -e "$(which python)" ]; then
-    VIRTUALENVWRAPPER_PYTHON="$(which python3)"
 echo "$(date) boxen" >> /tmp/zsh-startup-robyoung
 
+function venv() {
+  if [ -e "$(which virtualenvwrapper.sh)" ]; then
+    if [ ! -e "$(which python)" ]; then
+      VIRTUALENVWRAPPER_PYTHON="$(which python3)"
+    fi
+
+    export WORKON_HOME=$HOME/.virtualenvs
+    source $(which virtualenvwrapper.sh)
   fi
-  
-  export WORKON_HOME=$HOME/.virtualenvs
-  source $(which virtualenvwrapper.sh)
-fi
+}
 echo "$(date) Stage 2" >> /tmp/zsh-startup-robyoung
 
 alias p='pass -c'
