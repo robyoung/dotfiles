@@ -2,6 +2,10 @@
 echo "$(date ) Boot start" >> /tmp/zsh-startup-robyoung
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
+function check_bin {
+  hash $1 2>/dev/null
+}
+
 skip_global_compinit=1
 
 # Path to your oh-my-zsh configuration.
@@ -81,8 +85,10 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 echo "$(date) Stage 5 (pre-rbenv)" >> /tmp/zsh-startup-robyoung
 # rbenv setup
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+if check_bin rbenv; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
 
 echo "$(date) Stage 6 (pre-gvm)" >> /tmp/zsh-startup-robyoung
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
