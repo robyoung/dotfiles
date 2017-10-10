@@ -95,6 +95,14 @@ let mapleader=","
 map <Leader>t :NERDTree<CR>
 let g:pep8_map='<leader>8'
 map <Leader>s :w<CR>
+" go to next tab
+noremap <Leader>l :tabnext<CR>
+" go to previous tab
+noremap <Leader>k :tabprevious<CR>
+" move tab right
+noremap <Leader>L :execute 'silent! tabmove ' . (tabpagenr() + 1)<CR>
+" move tab left
+noremap <Leader>K :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 
 " Searching and navigating
 set runtimepath^=~/.vim/bundle/ctrlp.vim
