@@ -27,7 +27,10 @@ Plugin 'othree/html5.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'pearofducks/ansible-vim'
 Plugin 'rust-lang/rust.vim'
-Plugin 'tpope/vim-fugitive'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'saltstack/salt-vim'
+Plugin 'gcmt/taboo.vim'
 call vundle#end()
 filetype plugin indent on
 
@@ -77,7 +80,7 @@ set t_Co=256
 syntax on
 au BufRead,BufNewFile *.md set filetype=markdown  " set .md files as markdown
 au BufRead,BufNewFile Jenkinsfile set filetype=groovy
-colorscheme solarized
+colorscheme vividchalk
 set background=dark
 
 " Set up vim-test
