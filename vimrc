@@ -4,6 +4,9 @@ execute pathogen#infect()
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+set encoding=utf-8
+set fileencoding=utf-8
+
 " Vundle
 filetype off
 set rtp+=~/.vim/bundle/vundle/
