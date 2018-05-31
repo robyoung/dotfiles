@@ -2,6 +2,12 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" fix arrow keys in insert mode
+imap <ESC>oA <ESC>ki
+imap <ESC>oB <ESC>ji
+imap <ESC>oC <ESC>li
+imap <ESC>oD <ESC>hi
+
 set encoding=utf-8
 set fileencoding=utf-8
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -11,12 +17,16 @@ call plug#begin()
 Plug 'airblade/vim-gitgutter'
 Plug 'benmills/vimux'
 Plug 'cespare/vim-toml'
+Plug 'chr4/nginx.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'elzr/vim-json'
 Plug 'flazz/vim-colorschemes'
+Plug 'fatih/vim-go'
 Plug 'gcmt/taboo.vim'
 Plug 'hashivim/vim-terraform'
+Plug 'hashivim/vim-vagrant'
+Plug 'hashivim/vim-packer'
 Plug 'janko-m/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -25,6 +35,11 @@ Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'python-mode/python-mode'
 Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-vinegar'
+Plug 'lepture/vim-jinja'
 call plug#end()
 
 " Set up Go support
@@ -45,6 +60,8 @@ filetype plugin indent on
 autocmd FileType python setlocal shiftwidth=4 tabstop=4
 autocmd FileType go setlocal noexpandtab
 autocmd FileType java setlocal shiftwidth=4 tabstop=4
+let g:xml_syntax_folding=1
+autocmd FileType xml setlocal foldmethod=syntax
 
 " netrw
 let g:netrw_liststyle = 3
@@ -52,6 +69,8 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 15
 
+imap <C-[> <Esc>
+imap jj <Esc>
 
 " Ack
 imap <C-_> <ESC>:Ack 
@@ -89,7 +108,6 @@ else
   colorscheme vividchalk
 endif
 set background=dark
-let g:syntastic_python_checkers = ["flake8"]
 set colorcolumn=80
 highlight ColorColumn ctermbg=7
 
@@ -115,6 +133,7 @@ nmap <silent> <leader>a :TestSuite<CR>
 nmap <silent> <leader>m :TestLast<CR>
 " go back to last test file
 nmap <silent> <leader>M :TestVisit<CR>
+
 
 " go to next tab
 noremap <Leader>l :tabnext<CR>
@@ -147,11 +166,16 @@ set backspace=indent,eol,start
 
 " python-mode
 let g:pymode_python = 'python3'
-set foldlevel=20
+let g:pymode_lint = 1
+let g:pymode_rope = 1
+let g:pymode_rope_lookup_project = 1
 let g:pymode_rope_goto_definition_cmd = 'e'
 let g:pymode_rope_complete_on_dot = 0
 set completeopt=menu
 let g:pymode_rope_show_doc_bind = 'K'
+
+" > disable pymode folding because it's really slow
+let g:pymode_folding = 0
 
 " vim-json
 let g:vim_json_syntax_conceal = 0
