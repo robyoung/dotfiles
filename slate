@@ -36,7 +36,7 @@ alias hyper ctrl;alt;cmd
 alias browser 'Google Chrome'
 # bind c:alt;shift focus ${browser}
 
-# bind t:${hyper} focus 'Twitter'
+bind t:${hyper} focus 'iTerm2'
 
 # bind g:${hyper} focus 'Things'
 

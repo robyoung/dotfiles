@@ -5,3 +5,4 @@
 .vimrc
 .ropeproject
 .python-version
+pylama.ini
