@@ -12,6 +12,8 @@ set encoding=utf-8
 set fileencoding=utf-8
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
+let g:plug_url_format = 'git@github.com:%s.git'
+
 " vim-plug https://github.com/junegunn/vim-plug
 call plug#begin()
 Plug 'airblade/vim-gitgutter'
@@ -33,13 +35,15 @@ Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'python-mode/python-mode'
+" Plug 'python-mode/python-mode'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-vinegar'
+Plug 'jgdavey/tslime.vim'
 Plug 'lepture/vim-jinja'
+Plug 'leafgarland/typescript-vim'
 call plug#end()
 
 " Set up Go support
@@ -62,6 +66,9 @@ autocmd FileType go setlocal noexpandtab
 autocmd FileType java setlocal shiftwidth=4 tabstop=4
 let g:xml_syntax_folding=1
 autocmd FileType xml setlocal foldmethod=syntax
+
+" block help on F1
+nnoremap <F1> :echo "something useful"<CR>
 
 " netrw
 let g:netrw_liststyle = 3
@@ -112,7 +119,7 @@ set colorcolumn=80
 highlight ColorColumn ctermbg=7
 
 " Set up vim-test
-let test#strategy = "dispatch"
+let test#strategy = "tslime"
 let test#python#runner = 'pytest'
 let test#python#pytest#options = '-s'
 

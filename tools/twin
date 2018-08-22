@@ -1,0 +1,4 @@
+#!/bin/bash
+
+name="$(git config --get robyoung.tmux-window-name || basename $(git rev-parse --show-toplevel))"
+tmux rename-window -t${TMUX_PANE} "${name}"

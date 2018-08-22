@@ -117,9 +117,17 @@ echo "$(~/bin/stamp) Stage 8 (pre-gvm)" >> /tmp/zsh-startup-robyoung
 [[ -s "~/.gvm/bin/gvm-init.sh" ]] && source "~/.gvm/bin/gvm-init.sh"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '~/usr/src/google-cloud-sdk/path.zsh.inc' ]; then source '~/usr/src/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f ~/usr/src/google-cloud-sdk/path.zsh.inc ]; then
+  source ~/usr/src/google-cloud-sdk/path.zsh.inc;
+fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '~/usr/src/google-cloud-sdk/completion.zsh.inc' ]; then source '~/usr/src/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f ~/usr/src/google-cloud-sdk/completion.zsh.inc ]; then
+  source ~/usr/src/google-cloud-sdk/completion.zsh.inc;
+fi
+export CLOUDSDK_PYTHON=/usr/local/bin/python2
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/vault vault
 
 echo "$(~/bin/stamp) Stage 9 (end)" >> /tmp/zsh-startup-robyoung
