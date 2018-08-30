@@ -2,6 +2,12 @@
 
 set -x
 
+if [ -n "${DOCKER_USER}" ]; then
+  sudo="sudo -u ${DOCKER_USER}"
+else
+  sudo=""
+fi
+
 function main-container() {
   git config robyoung.dc-main-container || echo flask
 }
@@ -25,7 +31,7 @@ case $1 in
     ;;
   psql)
     shift
-    docker exec \
+    $sudo docker exec \
       -ti \
       --env COLUMNS=$(tput cols) --env LINES=$(tput lines) \
       --user postgres \
