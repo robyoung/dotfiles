@@ -10,6 +10,10 @@ function test-runner() {
   git config robyoung.dc-test-runner || echo pytest -vvs
 }
 
+function postgres-container() {
+  git config robyoung.dc-postgres || echo postgres
+}
+
 case $1 in
   test)
     if [ $# -eq 1 ]; then
@@ -25,7 +29,7 @@ case $1 in
       -ti \
       --env COLUMNS=$(tput cols) --env LINES=$(tput lines) \
       --user postgres \
-      $(docker-compose ps -q postgres) psql "$@"
+      $(docker-compose ps -q $(postgres-container)) psql "$@"
     ;;
   flask)
     shift
