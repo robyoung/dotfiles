@@ -1,6 +1,4 @@
-ZSH_SHELL="$(chsh -l | grep zsh)"
-echo "Shell is: $SHELL -- $ZSH_SHELL"
-if [ "$SHELL" != "$ZSH_SHELL" ]; then
-  export SHELL="$ZSH_SHELL"
-  exec $ZSH_SHELL -l
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
 fi

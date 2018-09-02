@@ -15,36 +15,40 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let g:plug_url_format = 'git@github.com:%s.git'
 
 " vim-plug https://github.com/junegunn/vim-plug
-call plug#begin()
-Plug 'airblade/vim-gitgutter'
-Plug 'benmills/vimux'
-Plug 'cespare/vim-toml'
-Plug 'chr4/nginx.vim'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'elzr/vim-json'
-Plug 'flazz/vim-colorschemes'
-Plug 'fatih/vim-go'
-Plug 'gcmt/taboo.vim'
-Plug 'hashivim/vim-terraform'
-Plug 'hashivim/vim-vagrant'
-Plug 'hashivim/vim-packer'
-Plug 'janko-m/vim-test'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim'
-Plug 'othree/html5.vim'
-Plug 'pangloss/vim-javascript'
-" Plug 'python-mode/python-mode'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-vinegar'
-Plug 'jgdavey/tslime.vim'
-Plug 'lepture/vim-jinja'
-Plug 'leafgarland/typescript-vim'
-call plug#end()
+if !empty($VIM_EXTRA_PLUGINS)
+  call plug#begin()
+  " Provides :Files, :Buffers
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
+
+  Plug 'airblade/vim-gitgutter'
+  Plug 'benmills/vimux'
+  Plug 'cespare/vim-toml'
+  Plug 'chr4/nginx.vim'
+  Plug 'editorconfig/editorconfig-vim'
+  Plug 'ekalinin/Dockerfile.vim'
+  Plug 'elzr/vim-json'
+  Plug 'flazz/vim-colorschemes'
+  Plug 'fatih/vim-go'
+  Plug 'gcmt/taboo.vim'
+  Plug 'hashivim/vim-terraform'
+  Plug 'hashivim/vim-vagrant'
+  Plug 'hashivim/vim-packer'
+  Plug 'janko-m/vim-test'
+  Plug 'mileszs/ack.vim'  " maybe
+  Plug 'othree/html5.vim'
+  Plug 'pangloss/vim-javascript'
+  " Plug 'python-mode/python-mode'
+  Plug 'tpope/vim-dispatch'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-git'
+  Plug 'tpope/vim-rhubarb'
+  Plug 'tpope/vim-vinegar'
+  Plug 'jgdavey/tslime.vim'
+  Plug 'lepture/vim-jinja'
+  Plug 'leafgarland/typescript-vim'
+  call plug#end()
+endif
 
 " Set up Go support
 filetype off
@@ -111,8 +115,6 @@ au BufRead,BufNewFile *.md set filetype=markdown  " set .md files as markdown
 au BufRead,BufNewFile Jenkinsfile set filetype=groovy
 if has('gui_running')
   colorscheme solarized
-else
-  colorscheme vividchalk
 endif
 set background=dark
 set colorcolumn=80
