@@ -1,0 +1,54 @@
+#!/bin/bash
+
+[ $# -eq 1 ] || { >&2 echo "Direction needed"; exit 1; }
+
+do_in() {
+  for path_name in $(find . -name '.git' 2> /dev/null); do
+    path_name=$(echo $path_name | sed 's#/.git##g')
+    pushd $path_name > /dev/null
+    echo "path=$path_name"
+    git config -l  | grep -E '^remote\.([^\.]*)\.url'
+    popd > /dev/null
+  done
+}
+
+do_out() {
+  current_path=''
+  while read line; do
+    case "$line" in
+      path=*)
+        current_path=$(echo $line | sed 's/^path=//g')
+        ;;
+      remote.*)
+        if [ -n $current_path ]; then
+          remote_name=$(echo $line | sed -E 's/^remote\.([^\.]*).*/\1/g')
+          remote_url=$(echo $line | sed -E 's/^remote\.[^\.]*\.url=(.*)/\1/g')
+          parent_path=$(dirname $current_path)
+          if [ ! -d $parent_path ]; then
+            mkdir -p $parent_path
+          fi
+          if [ ! -d ${current_path} ]; then
+            pushd $parent_path > /dev/null
+            git clone --origin $remote_name $remote_url $(basename $current_path)
+            popd
+          else
+            >&2 echo "${current_path} already exists"
+          fi
+        fi
+        ;;
+    esac
+  done < /dev/stdin
+}
+
+case "$1" in
+  in)
+    do_in
+    ;;
+  out)
+    do_out
+    ;;
+  *)
+    >&2 echo "Invalid argument"
+    exit 1
+    ;;
+esac
