@@ -1,11 +1,7 @@
 # local overrides
-echo "--------------------------------" >> /tmp/zsh-startup-robyoung
-echo "$(~/bin/stamp ) Boot start" >> /tmp/zsh-startup-robyoung
+#echo "--------------------------------" >> /tmp/zsh-startup-robyoung
+#echo "$(~/bin/stamp ) Boot start" >> /tmp/zsh-startup-robyoung
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
-
-function check_bin {
-  hash $1 2>/dev/null
-}
 
 skip_global_compinit=1
 
@@ -21,17 +17,18 @@ DEFAULT_USER="robyoung"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # plugins=(ansible git vagrant golang ssh fabric pass colors docker docker-compose dash npm mvn kubectl history-search-multi-word)
 # plugins=(git golang ssh pass colors docker kubectl history-search-multi-word)
-echo "$(~/bin/stamp) Plugins set" >> /tmp/zsh-startup-robyoung
+plugins=(pass ssh)
+#echo "$(~/bin/stamp) Plugins set" >> /tmp/zsh-startup-robyoung
 
 source $ZSH/oh-my-zsh.sh
-echo "$(~/bin/stamp) oh-my-zsh" >> /tmp/zsh-startup-robyoung
+#echo "$(~/bin/stamp) oh-my-zsh" >> /tmp/zsh-startup-robyoung
 
 _has(){
-    command type "$1" > /dev/null 2>&1
+  hash $1 2>/dev/null
 }
 
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
-echo "$(~/bin/stamp) boxen" >> /tmp/zsh-startup-robyoung
+#echo "$(~/bin/stamp) boxen" >> /tmp/zsh-startup-robyoung
 
 function venv() {
   if [ -e "$(which virtualenvwrapper.sh)" ]; then
@@ -41,10 +38,12 @@ function venv() {
     source $(which virtualenvwrapper.sh)
   fi
 }
-echo "$(~/bin/stamp) Stage 2" >> /tmp/zsh-startup-robyoung
+#echo "$(~/bin/stamp) Stage 2" >> /tmp/zsh-startup-robyoung
 
 alias p='pass -c'
 
+export DOCKER_USER='docker'
+export DEV_DIR=Dev
 export GOPATH=$HOME/go
 [ -d /usr/sbin ] && export PATH="$PATH:/usr/sbin"
 [ -d ~/src/go_appengine ] && export PATH="$PATH:$(echo "$HOME/src/go_appengine")"
@@ -53,13 +52,14 @@ export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:
 export PATH=$HOME/bin:$HOME/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH:${GOPATH//://bin:}/bin
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=/usr/local/opt/curl/bin:$PATH
-export PATH=$PATH:$HOME/Projects/personal/bobnet/bobnet/bin
+export PATH=$PATH:${HOME}/${DEV_DIR}/personal/bobnet/bobnet/bin
+export PATH=${HOME}/${DEV_DIR}/personal/dotfiles/tools:$PATH
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
 
 # Navigation
 # Move forwards with Ctrl+o
 bindkey ^o forward-word
-echo "$(~/bin/stamp) Stage 3" >> /tmp/zsh-startup-robyoung
+#echo "$(~/bin/stamp) Stage 3" >> /tmp/zsh-startup-robyoung
 
 # Start gpg-agent
 gpgconf --launch gpg-agent
@@ -89,30 +89,36 @@ bindkey '^f' forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 
-echo "$(~/bin/stamp) Stage 6 (pre-rg-fzf)" >> /tmp/zsh-startup-robyoung
+#echo "$(~/bin/stamp) Stage 6 (pre-rg-fzf)" >> /tmp/zsh-startup-robyoung
 # Setting rg as the default source for fzf
 if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
-  source /usr/local/opt/fzf/shell/key-bindings.zsh
-  source /usr/local/opt/fzf/shell/completion.zsh
+  ZSH_ROOT=/usr/local/opt/fzf
+elif [ -e ${HOME}/${DEV_DIR}/github/junegunn/fzf/shell/completion.zsh ]; then
+  ZSH_ROOT=${HOME}/${DEV_DIR}/github/junegunn/fzf
 fi
+
+if [ -n "$ZSH_ROOT" ]; then
+  source $ZSH_ROOT/shell/key-bindings.zsh
+  source $ZSH_ROOT/shell/completion.zsh
+fi
+
 if _has fzf && _has rg; then
   export FZF_DEFAULT_COMMAND='rg -u --files'
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
   export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 alias it=git
 
-echo "$(~/bin/stamp) Stage 7 (pre-pyenv)" >> /tmp/zsh-startup-robyoung
-eval "$(pyenv init - --no-rehash)"
-echo "$(~/bin/stamp) Stage 7 (pre-pyenv-virtualenv)" >> /tmp/zsh-startup-robyoung
-eval "$(pyenv virtualenv-init -)"
+#echo "$(~/bin/stamp) Stage 7 (pre-pyenv)" >> /tmp/zsh-startup-robyoung
+#eval "$(pyenv init - --no-rehash)"
+#echo "$(~/bin/stamp) Stage 7 (pre-pyenv-virtualenv)" >> /tmp/zsh-startup-robyoung
+#eval "$(pyenv virtualenv-init -)"
 
-echo "$(~/bin/stamp) Stage 7 (pre-direnv)" >> /tmp/zsh-startup-robyoung
-eval "$(direnv hook zsh)"
+#echo "$(~/bin/stamp) Stage 7 (pre-direnv)" >> /tmp/zsh-startup-robyoung
+# eval "$(direnv hook zsh)"
 
-echo "$(~/bin/stamp) Stage 8 (pre-gvm)" >> /tmp/zsh-startup-robyoung
+#echo "$(~/bin/stamp) Stage 8 (pre-gvm)" >> /tmp/zsh-startup-robyoung
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "~/.gvm/bin/gvm-init.sh" ]] && source "~/.gvm/bin/gvm-init.sh"
 
@@ -130,4 +136,4 @@ export CLOUDSDK_PYTHON=/usr/local/bin/python2
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
 
-echo "$(~/bin/stamp) Stage 9 (end)" >> /tmp/zsh-startup-robyoung
+#echo "$(~/bin/stamp) Stage 9 (end)" >> /tmp/zsh-startup-robyoung
