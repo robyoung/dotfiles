@@ -105,7 +105,7 @@ set smartcase
 set nowrap   " do not wrap lines
 set ruler    " show cursor position all the time
 "set number   " show the line numbers
-set relativenumber " show line numbers relative to current position
+set number relativenumber " show line numbers relative to current position
 
 " Syntax handling and checking
 set t_Co=256
