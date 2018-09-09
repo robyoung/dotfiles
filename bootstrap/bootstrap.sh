@@ -71,6 +71,6 @@ check_bin virtualenvwrapper.sh || sudo pip install virtualenv virtualenvwrapper
 # Dotfiles
 # TODO: fixme, this is not right
 exit 1
-for name in $(ls ~/${DEVELOPMENT_DIR}/personal/dotfiles | grep -v bootstrap); do
+for name in $(ls ~/${DEVELOPMENT_DIR}/personal/dotfiles | grep -Ev '(bootstrap|tools)'); do
   ln -s ~/${DEVELOPMENT_DIR}/personal/dotfiles/$name ~/.$name
 done
