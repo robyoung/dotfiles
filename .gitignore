@@ -1,3 +1,4 @@
 *.pyc
 elpa/
 auto-save-list/
+/ssh_config
