@@ -2,7 +2,7 @@
 
 [ $# -eq 1 ] || { >&2 echo "Direction needed"; exit 1; }
 
-do_in() {
+do_log() {
   for path_name in $(find . -name '.git' 2> /dev/null); do
     path_name=$(echo $path_name | sed 's#/.git##g')
     pushd $path_name > /dev/null
@@ -12,7 +12,7 @@ do_in() {
   done
 }
 
-do_out() {
+do_clone() {
   current_path=''
   while read line; do
     case "$line" in
@@ -41,14 +41,14 @@ do_out() {
 }
 
 case "$1" in
-  in)
-    do_in
+  log)
+    do_log
     ;;
-  out)
-    do_out
+  clone)
+    do_clone
     ;;
   *)
-    >&2 echo "Invalid argument"
+    >&2 echo "usage: git-sync [log|clone]"
     exit 1
     ;;
 esac
