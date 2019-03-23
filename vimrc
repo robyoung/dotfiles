@@ -10,43 +10,48 @@ imap <ESC>oD <ESC>hi
 
 set encoding=utf-8
 set fileencoding=utf-8
+set signcolumn=yes
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 let g:plug_url_format = 'git@github.com:%s.git'
 
 " vim-plug https://github.com/junegunn/vim-plug
-if !empty($VIM_EXTRA_PLUGINS)
-  call plug#begin()
+if has("nvim")
+  call plug#begin('~/.local/share/nvim/plugged')
   " Provides :Files, :Buffers
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
 
+  " Used
   Plug 'airblade/vim-gitgutter'
-  Plug 'benmills/vimux'
-  Plug 'cespare/vim-toml'
-  Plug 'chr4/nginx.vim'
   Plug 'editorconfig/editorconfig-vim'
   Plug 'ekalinin/Dockerfile.vim'
-  Plug 'elzr/vim-json'
-  Plug 'flazz/vim-colorschemes'
-  Plug 'fatih/vim-go'
   Plug 'gcmt/taboo.vim'
-  Plug 'hashivim/vim-terraform'
-  Plug 'hashivim/vim-vagrant'
-  Plug 'hashivim/vim-packer'
-  Plug 'janko-m/vim-test'
-  Plug 'mileszs/ack.vim'  " maybe
-  Plug 'othree/html5.vim'
-  Plug 'pangloss/vim-javascript'
-  " Plug 'python-mode/python-mode'
+  Plug 'leafgarland/typescript-vim'
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-git'
-  Plug 'tpope/vim-rhubarb'
-  Plug 'tpope/vim-vinegar'
-  Plug 'jgdavey/tslime.vim'
+  "Plug 'tpope/vim-rhubarb'  " github stuff for fugitive
+  "Plug 'tpope/vim-vinegar'  " slightly improves netrw, meh
   Plug 'lepture/vim-jinja'
-  Plug 'leafgarland/typescript-vim'
+  Plug 'rust-lang/rust.vim'
+
+  " Maybe
+  Plug 'janko-m/vim-test'
+
+  " Trial
+  Plug 'ayu-theme/ayu-vim'
+  Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+  
+  " Contextual
+  "Plug 'cespare/vim-toml'
+  "Plug 'chr4/nginx.vim'
+  "Plug 'hashivim/vim-terraform'
+
   call plug#end()
 endif
 
@@ -64,13 +69,6 @@ set smarttab
 set expandtab
 filetype plugin indent on
 
-"  - Filetype specific settings
-autocmd FileType python setlocal shiftwidth=4 tabstop=4
-autocmd FileType go setlocal noexpandtab
-autocmd FileType java setlocal shiftwidth=4 tabstop=4
-let g:xml_syntax_folding=1
-autocmd FileType xml setlocal foldmethod=syntax
-
 " block help on F1
 nnoremap <F1> :echo "something useful"<CR>
 
@@ -83,19 +81,10 @@ let g:netrw_winsize = 15
 imap <C-[> <Esc>
 imap jj <Esc>
 
-" Ack
-imap <C-_> <ESC>:Ack 
-nmap <C-_> :Ack 
-
-if executable('rg')
-  let g:ackprg = 'rg --vimgrep'
-endif
-
 " Searching and navigating
 set wildignore+=*.pyc
 nmap ; :Buffers<CR>
-nmap <C-?> :Files<CR>
-nmap <A-?> :Files<CR>
+nmap <BS> :Files<CR>
 
 " Smartcase search
 set ignorecase
@@ -113,23 +102,50 @@ syntax enable
 syntax on
 au BufRead,BufNewFile *.md set filetype=markdown  " set .md files as markdown
 au BufRead,BufNewFile Jenkinsfile set filetype=groovy
-if has('gui_running')
-  colorscheme solarized
+
+
+if has("nvim")
+  set termguicolors
+  let ayucolor="dark"
+  colorscheme ayu
 endif
+
 set background=dark
-set colorcolumn=80
+set colorcolumn=120
 highlight ColorColumn ctermbg=7
 
-" Set up vim-test
-let test#strategy = "tslime"
-let test#python#runner = 'pytest'
-let test#python#pytest#options = '-s'
+" LanguageClient-neovim
+set hidden
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ 'python': ['pyls'],
+    \ }
+
+let g:deoplete#enable_at_startup = 1
+
 
 " Set up mapleader
 let mapleader=","
 map <Leader>t :Vexplore<CR>
-let g:pep8_map='<leader>8'
 map <Leader>s :w<CR>
+map <Leader>x :bd<CR>
+
+" Language Client
+nmap <Leader>g :call LanguageClient#textDocument_definition()<CR>
+nmap <Leader>h :call LanguageClient#textDocument_hover()<CR>
+
+" copy and paste to system clipboard
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
+
+" Set up vim-test
+if has('nvim')
+  let test#strategy = "neovim"
+else
+  let test#strategy = "dispatch"
+endif
 
 " run tests
 " nearest
@@ -153,12 +169,6 @@ noremap <Leader>L :execute 'silent! tabmove ' . (tabpagenr() + 1)<CR>
 " move tab left
 noremap <Leader>K :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 
-" go to definition
-nmap <silent> <leader>g :call pymode#rope#goto_definition()<CR>
-" show docstring
-nmap <silent> <leader>d :call pymode#rope#show_doc()<CR>
-
-
 " Useful key mappings
 " <C-w>c close window
 " <C-w>_ maximise window
@@ -172,19 +182,6 @@ set diffopt+=vertical
 
 " Fix broken backspace
 set backspace=indent,eol,start
-
-" python-mode
-let g:pymode_python = 'python3'
-let g:pymode_lint = 1
-let g:pymode_rope = 1
-let g:pymode_rope_lookup_project = 1
-let g:pymode_rope_goto_definition_cmd = 'e'
-let g:pymode_rope_complete_on_dot = 0
-set completeopt=menu
-let g:pymode_rope_show_doc_bind = 'K'
-
-" > disable pymode folding because it's really slow
-let g:pymode_folding = 0
 
 " vim-json
 let g:vim_json_syntax_conceal = 0
