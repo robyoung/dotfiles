@@ -34,22 +34,27 @@ if has("nvim")
   "Plug 'tpope/vim-vinegar'  " slightly improves netrw, meh
   Plug 'lepture/vim-jinja'
   Plug 'rust-lang/rust.vim'
-
-  " Maybe
-  Plug 'janko-m/vim-test'
-
-  " Trial
-  Plug 'ayu-theme/ayu-vim'
   Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
+  " Maybe
+  Plug 'janko-m/vim-test'
+
+  " Trial
+  Plug 'morhetz/gruvbox'
+  Plug 'vim-airline/vim-airline'
+  Plug 'Shougo/neosnippet.vim'
+  Plug 'Shougo/neosnippet-snippets'
+  Plug 'mustache/vim-mustache-handlebars'
+  Plug 'tmhedberg/SimpylFold'
+
   
   " Contextual
   "Plug 'cespare/vim-toml'
-  "Plug 'chr4/nginx.vim'
+  Plug 'chr4/nginx.vim'
   "Plug 'hashivim/vim-terraform'
 
   call plug#end()
@@ -106,22 +111,15 @@ au BufRead,BufNewFile Jenkinsfile set filetype=groovy
 
 if has("nvim")
   set termguicolors
-  let ayucolor="dark"
-  colorscheme ayu
+  let g:gruvbox_italic=1
+  let g:gruvbox_contrast_dark="hard"
+  colorscheme gruvbox
 endif
 
 set background=dark
 set colorcolumn=120
 highlight ColorColumn ctermbg=7
 
-" LanguageClient-neovim
-set hidden
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-    \ 'python': ['pyls'],
-    \ }
-
-let g:deoplete#enable_at_startup = 1
 
 
 " Set up mapleader
@@ -129,16 +127,12 @@ let mapleader=","
 map <Leader>t :Vexplore<CR>
 map <Leader>s :w<CR>
 map <Leader>x :bd<CR>
+map <Leader>u :set hlsearch!<CR>
 
-" Language Client
-nmap <Leader>g :call LanguageClient#textDocument_definition()<CR>
-nmap <Leader>h :call LanguageClient#textDocument_hover()<CR>
 
 " copy and paste to system clipboard
-noremap <Leader>y "*y
-noremap <Leader>p "*p
-noremap <Leader>Y "+y
-noremap <Leader>P "+p
+noremap <Leader>y "+y
+noremap <Leader>p "+p
 
 " Set up vim-test
 if has('nvim')
