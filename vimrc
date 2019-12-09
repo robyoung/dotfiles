@@ -90,6 +90,7 @@ imap jj <Esc>
 set wildignore+=*.pyc
 nmap ; :Buffers<CR>
 nmap <BS> :Files<CR>
+nmap = :Rg<CR>
 
 " Smartcase search
 set ignorecase
