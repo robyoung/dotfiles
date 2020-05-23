@@ -46,11 +46,9 @@ if has("nvim")
   " Trial
   Plug 'morhetz/gruvbox'
   Plug 'vim-airline/vim-airline'
-  Plug 'Shougo/neosnippet.vim'
-  Plug 'Shougo/neosnippet-snippets'
   Plug 'mustache/vim-mustache-handlebars'
   Plug 'tmhedberg/SimpylFold'
-
+  Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
   
   " Contextual
   "Plug 'cespare/vim-toml'
@@ -164,6 +162,11 @@ noremap <Leader>L :execute 'silent! tabmove ' . (tabpagenr() + 1)<CR>
 " move tab left
 noremap <Leader>K :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 
+tnoremap <C-w>h <C-\><C-n><C-w>h
+tnoremap <C-w>j <C-\><C-n><C-w>j
+tnoremap <C-w>k <C-\><C-n><C-w>k
+tnoremap <C-w>l <C-\><C-n><C-w>l
+
 " Useful key mappings
 " <C-w>c close window
 " <C-w>_ maximise window
@@ -184,7 +187,3 @@ let g:vim_json_syntax_conceal = 0
 " vim-terraform
 let g:terraform_align=1
 let g:terraform_fmt_on_save=1
-
-" Project specific .vimrc
-set exrc  " allow project specific .vimrc
-set secure  " disable unsafe commands

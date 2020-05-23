@@ -1,4 +1,9 @@
 # local overrides
+
+if [ -z "$TMUX" ]; then
+  tmux attach -t default || tmux new -s default
+fi
+
 #echo "--------------------------------" >> /tmp/zsh-startup-robyoung
 #echo "$(~/bin/stamp ) Boot start" >> /tmp/zsh-startup-robyoung
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -17,8 +22,10 @@ DEFAULT_USER="robyoung"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # plugins=(ansible git vagrant golang ssh fabric pass colors docker docker-compose dash npm mvn kubectl history-search-multi-word)
 # plugins=(git golang ssh pass colors docker kubectl history-search-multi-word)
-plugins=(pass ssh)
+plugins=(pass git)
 #echo "$(~/bin/stamp) Plugins set" >> /tmp/zsh-startup-robyoung
+
+fpath=(~/.zsh $fpath)
 
 source $ZSH/oh-my-zsh.sh
 #echo "$(~/bin/stamp) oh-my-zsh" >> /tmp/zsh-startup-robyoung
@@ -30,15 +37,6 @@ _has(){
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
 #echo "$(~/bin/stamp) boxen" >> /tmp/zsh-startup-robyoung
 
-function venv() {
-  if [ -e "$(which virtualenvwrapper.sh)" ]; then
-    VIRTUALENVWRAPPER_PYTHON="$(which python2)"
-
-    export WORKON_HOME=$HOME/.virtualenvs
-    source $(which virtualenvwrapper.sh)
-  fi
-}
-#echo "$(~/bin/stamp) Stage 2" >> /tmp/zsh-startup-robyoung
 
 alias p='pass -c'
 
@@ -49,11 +47,12 @@ export GOPATH=$HOME/go
 [ -d ~/src/go_appengine ] && export PATH="$PATH:$(echo "$HOME/src/go_appengine")"
 [ -d /usr/local/go/bin ] && export PATH="/usr/local/go/bin:$PATH"
 export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:$PATH
-export PATH=$HOME/bin:$HOME/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH:${GOPATH//://bin:}/bin
+export PATH=$HOME/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH:${GOPATH//://bin:}/bin
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=/usr/local/opt/curl/bin:$PATH
 export PATH=$PATH:${HOME}/${DEV_DIR}/personal/bobnet/bobnet/bin
 export PATH=${HOME}/${DEV_DIR}/personal/dotfiles/tools:$PATH
+export PATH=$HOME/bin:${PATH}
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
 
 # Navigation
@@ -109,6 +108,53 @@ if _has fzf && _has rg; then
 fi
 
 alias it=git
+alias k=kubectl
+alias ipy=ipython
+alias cy='bat -l yaml'
+alias cj='bat -l javascript'
+alias shot='shotgun $(slop -l -c 200,0,1,0.4 -f "-i %i -g %g")'
+alias open='xdg-open'
+
+# git log show with fzf
+gli() {
+
+  # param validation
+  if [[ ! `git log -n 1 $@ | head -n 1` ]] ;then
+    return
+  fi
+
+  # filter by file string
+  local filter
+  # param existed, git log for file if existed
+  if [ -n $@ ] && [ -f $@ ]; then
+    filter="-- $@"
+  fi
+
+  # git command
+  local gitlog=(
+    git log
+    --graph --color=always
+    --abbrev=7
+    --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr'
+    $@
+  )
+
+  # fzf command
+  local fzf=(
+    fzf
+    --ansi --no-sort --reverse --tiebreak=index
+    --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 $filter; }; f {}"
+    --bind "ctrl-q:abort,ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % $filter | less -R') << 'FZF-EOF'
+                {}
+                FZF-EOF"
+   --preview-window=right:60%
+  )
+
+  # piping them
+  $gitlog | $fzf
+}
 
 #echo "$(~/bin/stamp) Stage 7 (pre-pyenv)" >> /tmp/zsh-startup-robyoung
 #eval "$(pyenv init - --no-rehash)"
@@ -131,9 +177,23 @@ fi
 if [ -f ~/usr/src/google-cloud-sdk/completion.zsh.inc ]; then
   source ~/usr/src/google-cloud-sdk/completion.zsh.inc;
 fi
-export CLOUDSDK_PYTHON=/usr/local/bin/python2
+export CLOUDSDK_PYTHON=/usr/bin/python2.7
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
 
 #echo "$(~/bin/stamp) Stage 9 (end)" >> /tmp/zsh-startup-robyoung
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export DIRENV_LOG_FORMAT=
+which direnv > /dev/null && eval "$(direnv hook zsh)"
+
+source /home/robyoung/.config/broot/launcher/bash/br
+
+venv() {
+  if [ -d ./venv ]; then
+    . ./venv/bin/activate
+  else
+    . ~/Dev/venv/bin/activate
+  fi
+}
