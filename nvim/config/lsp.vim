@@ -1,6 +1,6 @@
 set hidden
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ 'rust': ['rust-analyzer'],
     \ 'python': ['pyls'],
     \ 'go': ['go-langserver'],
     \ 'typescript': ['docker', 'run', '-i', 'typescript-language-server'],
@@ -12,6 +12,7 @@ let g:LanguageClient_selectionUI = "fzf"
 let g:LanguageClient_loggingFile = "/tmp/LanguageClient.log"
 let g:LanguageClient_serverStderr = "/tmp/LanguageServer.log"
 let g:LanguageClient_loggingLevel = "DEBUG"
+let g:LanguageClient_hoverPreview = "Never"
 
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
