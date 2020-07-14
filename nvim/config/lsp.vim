@@ -1,36 +1,63 @@
 set hidden
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rust-analyzer'],
-    \ 'python': ['pyls'],
-    \ 'go': ['go-langserver'],
-    \ 'typescript': ['docker', 'run', '-i', 'typescript-language-server'],
-    \ }
 
-let g:deoplete#enable_at_startup = 1
-let g:LanguageClient_changeThrottle = 0.5
-let g:LanguageClient_selectionUI = "fzf"
-let g:LanguageClient_loggingFile = "/tmp/LanguageClient.log"
-let g:LanguageClient_serverStderr = "/tmp/LanguageServer.log"
-let g:LanguageClient_loggingLevel = "DEBUG"
-let g:LanguageClient_hoverPreview = "Never"
+" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" Allow tab completion from deoplete
-imap <expr><TAB>
- \ pumvisible() ? "\<C-n>" :
- \ neosnippet#expandable_or_jumpable() ?
- \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Formatting
+nmap <Leader>f :call CocAction('format')<CR>
 
 " Go to definition
-nmap <Leader>g :call LanguageClient#textDocument_definition()<CR>
-nmap <Leader>f :call LanguageClient#textDocument_formatting()<CR>
-nmap <Leader>r :call LanguageClient#textDocument_references()<CR>
-nmap <Leader>R :call LanguageClient#textDocument_rename()<CR>
+nmap <silent> <Leader>g <Plug>(coc-definition)
+nmap <silent> <Leader>gi <Plug>(coc-implementation)
+nmap <silent> <Leader>gt <Plug>(coc-type-definition)
+nmap <silent> <Leader>r <Plug>(coc-references)
+nmap <Leader>R <Plug>(coc-rename)
+" Apply code action
+nmap <Leader>a <Plug>(coc-codeaction-selected)
 " Show hover info
 nmap <Leader>h :call LanguageClient#textDocument_hover()<CR>
 

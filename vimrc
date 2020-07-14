@@ -34,11 +34,7 @@ if has("nvim")
   "Plug 'tpope/vim-vinegar'  " slightly improves netrw, meh
   Plug 'lepture/vim-jinja'
   Plug 'rust-lang/rust.vim'
-  Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
   " Maybe
   Plug 'janko-m/vim-test'
@@ -145,8 +141,6 @@ endif
 nmap <silent> <leader>n :TestNearest<CR>
 " file
 nmap <silent> <leader>N :TestFile<CR>
-" suite
-nmap <silent> <leader>a :TestSuite<CR>
 " runs the last test
 nmap <silent> <leader>m :TestLast<CR>
 " go back to last test file
