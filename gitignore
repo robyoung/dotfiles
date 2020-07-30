@@ -3,6 +3,7 @@
 *.iml
 .DS_Store
 .vimrc
+.vim
 .ropeproject
 .python-version
 pylama.ini

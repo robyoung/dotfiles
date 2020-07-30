@@ -38,6 +38,7 @@ if has("nvim")
 
   " Maybe
   Plug 'janko-m/vim-test'
+  Plug 'cespare/vim-toml'
 
   " Trial
   Plug 'morhetz/gruvbox'

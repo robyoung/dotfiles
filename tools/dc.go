@@ -18,7 +18,7 @@ func main() {
 	if len(os.Args) > 1 {
 		command = os.Args[1]
 	}
-	setGroups()
+	// setGroups()
 
 	switch command {
 	case "test":

@@ -4,8 +4,6 @@ if [ -z "$TMUX" ]; then
   tmux attach -t default || tmux new -s default
 fi
 
-#echo "--------------------------------" >> /tmp/zsh-startup-robyoung
-#echo "$(~/bin/stamp ) Boot start" >> /tmp/zsh-startup-robyoung
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 skip_global_compinit=1
@@ -20,40 +18,34 @@ DEFAULT_USER="robyoung"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-# plugins=(ansible git vagrant golang ssh fabric pass colors docker docker-compose dash npm mvn kubectl history-search-multi-word)
-# plugins=(git golang ssh pass colors docker kubectl history-search-multi-word)
 plugins=(pass git)
-#echo "$(~/bin/stamp) Plugins set" >> /tmp/zsh-startup-robyoung
 
 fpath=(~/.zsh $fpath)
 
 source $ZSH/oh-my-zsh.sh
-#echo "$(~/bin/stamp) oh-my-zsh" >> /tmp/zsh-startup-robyoung
 
 _has(){
   type $1 >/dev/null 2>&1
 }
 
-[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
-#echo "$(~/bin/stamp) boxen" >> /tmp/zsh-startup-robyoung
-
-
 alias p='pass -c'
 
 export DOCKER_USER='docker'
-export DEV_DIR=Dev
+export DEV_DIR=dev
 export GOPATH=$HOME/go
-[ -d /usr/sbin ] && export PATH="$PATH:/usr/sbin"
-[ -d ~/src/go_appengine ] && export PATH="$PATH:$(echo "$HOME/src/go_appengine")"
-[ -d /usr/local/go/bin ] && export PATH="/usr/local/go/bin:$PATH"
-export PATH=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:$PATH
-export PATH=$HOME/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH:${GOPATH//://bin:}/bin
-export PATH=$HOME/.cargo/bin:$PATH
-export PATH=/usr/local/opt/curl/bin:$PATH
-export PATH=$PATH:${HOME}/${DEV_DIR}/personal/bobnet/bobnet/bin
-export PATH=${HOME}/${DEV_DIR}/personal/dotfiles/tools:$PATH
-export PATH=$HOME/bin:${PATH}
-export GROOVY_HOME=/usr/local/opt/groovy/libexec
+export PATH=$PATH:${GOPATH//://bin:}/bin
+export PATH=~/.cargo/bin:$PATH
+export PATH=~/dev/github/robyoung/dotfiles/tools:$PATH
+export PATH=~/.local/bin:${PATH}
+export PATH=${PATH}:~/.local/npm/bin
+
+# pyenv
+export PYENV_ROOT="$HOME/.local/pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
 
 # Navigation
 # Move forwards with Ctrl+o
@@ -63,44 +55,18 @@ bindkey ^o forward-word
 # Start gpg-agent
 gpgconf --launch gpg-agent
 
-# Set homebrew github token if available
-[ -e ~/.config/homebrew/token ] && export HOMEBREW_GITHUB_API_TOKEN="$(cat ~/.config/homebrew/token)"
-
-# added by travis gem
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
-
-# Restart virtualbox network interfaces
-restart_vboxnets() {
-  for net in $(ifconfig | grep '^vboxnet' | cut -f 1 -d :); do
-    sudo ifconfig "$net" down && sudo ifconfig "$net" up
-  done
-}
-
-# AWS
-export AWS_VAULT_BACKEND=file
-export AWS_DEFAULT_REGION=eu-west-1
-
-# AAM
-export EP_EXEC_USER_ID=$(id -u)
-
 bindkey '^b' backward-word
 bindkey '^f' forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 
-#echo "$(~/bin/stamp) Stage 6 (pre-rg-fzf)" >> /tmp/zsh-startup-robyoung
+if [ -d ~/.fzf ]; then
+  export PATH=~/.fzf/bin:${PATH}
+  source ~/.fzf/shell/key-bindings.zsh
+  source ~/.fzf/shell/completion.zsh
+fi
+
 # Setting rg as the default source for fzf
-if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
-  ZSH_ROOT=/usr/local/opt/fzf
-elif [ -e ${HOME}/${DEV_DIR}/github/junegunn/fzf/shell/completion.zsh ]; then
-  ZSH_ROOT=${HOME}/${DEV_DIR}/github/junegunn/fzf
-fi
-
-if [ -n "$ZSH_ROOT" ]; then
-  source $ZSH_ROOT/shell/key-bindings.zsh
-  source $ZSH_ROOT/shell/completion.zsh
-fi
-
 if _has fzf && _has rg; then
   export FZF_DEFAULT_COMMAND='rg --files'
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -115,80 +81,11 @@ alias cj='bat -l javascript'
 alias shot='shotgun $(slop -l -c 200,0,1,0.4 -f "-i %i -g %g")'
 alias open='xdg-open'
 
-# git log show with fzf
-gli() {
-
-  # param validation
-  if [[ ! `git log -n 1 $@ | head -n 1` ]] ;then
-    return
-  fi
-
-  # filter by file string
-  local filter
-  # param existed, git log for file if existed
-  if [ -n $@ ] && [ -f $@ ]; then
-    filter="-- $@"
-  fi
-
-  # git command
-  local gitlog=(
-    git log
-    --graph --color=always
-    --abbrev=7
-    --format='%C(auto)%h %an %C(blue)%s %C(yellow)%cr'
-    $@
-  )
-
-  # fzf command
-  local fzf=(
-    fzf
-    --ansi --no-sort --reverse --tiebreak=index
-    --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 $filter; }; f {}"
-    --bind "ctrl-q:abort,ctrl-m:execute:
-                (grep -o '[a-f0-9]\{7\}' | head -1 |
-                xargs -I % sh -c 'git show --color=always % $filter | less -R') << 'FZF-EOF'
-                {}
-                FZF-EOF"
-   --preview-window=right:60%
-  )
-
-  # piping them
-  $gitlog | $fzf
-}
-
-#echo "$(~/bin/stamp) Stage 7 (pre-pyenv)" >> /tmp/zsh-startup-robyoung
-#eval "$(pyenv init - --no-rehash)"
-#echo "$(~/bin/stamp) Stage 7 (pre-pyenv-virtualenv)" >> /tmp/zsh-startup-robyoung
-#eval "$(pyenv virtualenv-init -)"
-
-#echo "$(~/bin/stamp) Stage 7 (pre-direnv)" >> /tmp/zsh-startup-robyoung
-# eval "$(direnv hook zsh)"
-
-#echo "$(~/bin/stamp) Stage 8 (pre-gvm)" >> /tmp/zsh-startup-robyoung
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "~/.gvm/bin/gvm-init.sh" ]] && source "~/.gvm/bin/gvm-init.sh"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f ~/usr/src/google-cloud-sdk/path.zsh.inc ]; then
-  source ~/usr/src/google-cloud-sdk/path.zsh.inc;
-fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f ~/usr/src/google-cloud-sdk/completion.zsh.inc ]; then
-  source ~/usr/src/google-cloud-sdk/completion.zsh.inc;
-fi
-export CLOUDSDK_PYTHON=/usr/bin/python2.7
-
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
 
-#echo "$(~/bin/stamp) Stage 9 (end)" >> /tmp/zsh-startup-robyoung
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export DIRENV_LOG_FORMAT=
 which direnv > /dev/null && eval "$(direnv hook zsh)"
-
-source /home/robyoung/.config/broot/launcher/bash/br
 
 venv() {
   if [ -d ./venv ]; then
@@ -197,3 +94,5 @@ venv() {
     . ~/Dev/venv/bin/activate
   fi
 }
+
+eval "$(starship init zsh)"

@@ -1,6 +1,9 @@
 {
   "rust-analyzer": {
-    "serverPath": "~/.local/bin/rust-analyzer"
+    "serverPath": "~/.local/bin/rust-analyzer",
+    "updates.channel": "nightly"
   },
-  "python.jediEnabled": false
+  "python": {
+    "jediEnabled": false
+  }
 }
