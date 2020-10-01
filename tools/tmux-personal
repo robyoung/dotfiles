@@ -1,0 +1,31 @@
+#!/bin/bash
+
+new-session() {
+  tmux new-session -d -c ~/dev/github/robyoung/${1} -s personal -n ${1} nvim
+}
+
+new-window() {
+  tmux new-window -c ~/dev/github/robyoung/${1} -n ${1} ${2}
+}
+
+
+if [ $# -lt 1 ]; then
+  >&2 echo "requires at least one name"
+  exit 1
+fi
+
+new-session ${1}
+new-window ${1}
+
+for name in "${@:2}"; do
+  new-window ${name} nvim
+  new-window ${name}
+done
+
+tmux attach-session
+exit 0
+
+tmux new-session -d -c ~/dev/github/robyoung/hermit -s personal -n hermit nvim
+tmux new-window -c ~/dev/github/robyoung/hermit -n hermit
+
+tmux attach-session -t "personal:0"

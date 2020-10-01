@@ -1,0 +1,9 @@
+#!/bin/bash
+
+tmux new-session -d -c ~/dev/turntown/data-rest-api -s turntown -n api nvim
+tmux new-window -c ~/dev/turntown/data-rest-api -n api
+tmux new-window -c ~/dev/turntown/data-pipeline -n pipeline nvim
+tmux new-window -c ~/dev/turntown/data-pipeline -n pipeline
+tmux new-window -c ~/dev/turntown/front-end -n frontend
+
+tmux attach-session -t "turntown:0"
