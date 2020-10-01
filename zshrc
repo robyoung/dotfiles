@@ -1,9 +1,5 @@
 # local overrides
 
-if [ -z "$TMUX" ]; then
-  tmux attach -t default || tmux new -s default
-fi
-
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 skip_global_compinit=1
@@ -20,15 +16,13 @@ DEFAULT_USER="robyoung"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(pass git)
 
-fpath=(~/.zsh $fpath)
+fpath=(~/.zsh $fpath ~/.zfunc)
 
 source $ZSH/oh-my-zsh.sh
 
 _has(){
   type $1 >/dev/null 2>&1
 }
-
-alias p='pass -c'
 
 export DOCKER_USER='docker'
 export DEV_DIR=dev
@@ -38,6 +32,7 @@ export PATH=~/.cargo/bin:$PATH
 export PATH=~/dev/github/robyoung/dotfiles/tools:$PATH
 export PATH=~/.local/bin:${PATH}
 export PATH=${PATH}:~/.local/npm/bin
+export PYTHONBREAKPOINT=ipdb.set_trace
 
 # pyenv
 export PYENV_ROOT="$HOME/.local/pyenv"
@@ -73,6 +68,11 @@ if _has fzf && _has rg; then
   export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
+if _has exa; then
+  alias l='exa -l'
+  alias ls='exa'
+fi
+alias gph="git push origin HEAD"
 alias it=git
 alias k=kubectl
 alias ipy=ipython
@@ -80,6 +80,8 @@ alias cy='bat -l yaml'
 alias cj='bat -l javascript'
 alias shot='shotgun $(slop -l -c 200,0,1,0.4 -f "-i %i -g %g")'
 alias open='xdg-open'
+alias p='pass -c'
+alias clip='xclip -selection clipboard'
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
@@ -91,7 +93,7 @@ venv() {
   if [ -d ./venv ]; then
     . ./venv/bin/activate
   else
-    . ~/Dev/venv/bin/activate
+    . ~/${DEV_DIR}/venv/bin/activate
   fi
 }
 
