@@ -6,10 +6,15 @@ if echo "$1" | grep -qE '^(git|https)'; then
   url="$1"
   username=$(echo "$1" | sed -E 's#.*:(.*)/.*#\1#g')
   reponame=$(echo "$1" | sed -E 's#.*:.*/(.*)#\1#g')
-elif echo "$1" | grep -qE '^[[:alnum:]]*/[[:alnum:]]*$'; then
+elif echo "$1" | grep -qE '^[[:alnum:]\-]*/[[:alnum:]\-]*$'; then
   url="git@github.com:$@"
   username=$(echo "$1" | sed -E 's#(.*)/.*#\1#g')
   reponame=$(echo "$1" | sed -E 's#.*/(.*)#\1#g')
+elif echo "$1" | grep -qE '^[[:alnum:]\-]*$'; then
+  username=$(basename $(pwd))
+  reponame=$1
+  url="git@github.com:${username}/${reponame}"
+  cd ..
 else
   >&2 echo "invalid repo url: $@"
   exit 1
