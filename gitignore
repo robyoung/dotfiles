@@ -6,5 +6,6 @@
 .vim
 .ropeproject
 .python-version
+.envrc
 pylama.ini
 /SCRATCH.md

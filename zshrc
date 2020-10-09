@@ -82,6 +82,7 @@ alias shot='shotgun $(slop -l -c 200,0,1,0.4 -f "-i %i -g %g")'
 alias open='xdg-open'
 alias p='pass -c'
 alias clip='xclip -selection clipboard'
+alias my-repos='exa ~/dev/github/robyoung'
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
