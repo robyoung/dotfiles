@@ -14,6 +14,7 @@
   pl = pull --rebase
   lg = log --graph --abbrev-commit --oneline
   lf = log --decorate --graph --all
+  saveall = "!f() { git add -u; git commit -m \"${1-No message}\"; git push origin HEAD; } ; f"
 [user]
   name = Rob Young
   email = rob@robyoung.digital
@@ -21,7 +22,7 @@
   tool = vimdiff
   conflictstyle = diff3
 [push]
-  default = simple
+  default = upstream
 [url "git@github.com:"]
   pushInsteadOf = https://github.com/
   pushInsteadOf = git://github.com/
