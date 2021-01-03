@@ -11,4 +11,5 @@ tnoremap <C-k> <C-\><C-N><C-w>k
 tnoremap <C-l> <C-\><C-N><C-w>l
 source ~/.config/nvim/config/lsp.vim
 source ~/.config/nvim/config/gdb.vim
+source ~/.config/nvim/config/indentLine.vim
 set foldlevel=99

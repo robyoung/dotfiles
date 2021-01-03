@@ -35,18 +35,18 @@ if has("nvim")
   Plug 'lepture/vim-jinja'
   Plug 'rust-lang/rust.vim'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'morhetz/gruvbox'
+  Plug 'vim-airline/vim-airline'
 
   " Maybe
   Plug 'janko-m/vim-test'
   Plug 'cespare/vim-toml'
 
   " Trial
-  Plug 'morhetz/gruvbox'
-  Plug 'vim-airline/vim-airline'
-  Plug 'mustache/vim-mustache-handlebars'
-  Plug 'tmhedberg/SimpylFold'
   Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
-  
+  Plug 'towolf/vim-helm'
+  Plug 'Yggdroot/indentLine'
+
   " Contextual
   "Plug 'cespare/vim-toml'
   Plug 'chr4/nginx.vim'
