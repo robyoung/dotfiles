@@ -14,7 +14,7 @@ DEFAULT_USER="robyoung"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(pass git)
+plugins=(pass git kubectl helm)
 
 fpath=(~/.zsh $fpath ~/.zfunc)
 
@@ -74,7 +74,6 @@ if _has exa; then
 fi
 alias gph="git push origin HEAD"
 alias it=git
-alias k=kubectl
 alias ipy=ipython
 alias cy='bat -l yaml'
 alias cj='bat -l javascript'
@@ -99,3 +98,5 @@ venv() {
 }
 
 eval "$(starship init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
