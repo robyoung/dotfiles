@@ -14,9 +14,9 @@ DEFAULT_USER="robyoung"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(pass git kubectl helm)
+plugins=(pass git kubectl helm gcloud)
 
-fpath=(~/.zsh $fpath ~/.zfunc)
+fpath=(~/.config/zsh ~/.zsh $fpath ~/.zfunc)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -32,6 +32,7 @@ export PATH=~/.cargo/bin:$PATH
 export PATH=~/dev/github/robyoung/dotfiles/tools:$PATH
 export PATH=~/.local/bin:${PATH}
 export PATH=${PATH}:~/.local/npm/bin
+export PATH=${PATH}:~/.local/thonny/bin
 export PYTHONBREAKPOINT=ipdb.set_trace
 
 # pyenv
