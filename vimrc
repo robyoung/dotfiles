@@ -50,7 +50,7 @@ if has("nvim")
   " Contextual
   "Plug 'cespare/vim-toml'
   Plug 'chr4/nginx.vim'
-  "Plug 'hashivim/vim-terraform'
+  Plug 'hashivim/vim-terraform'
 
   call plug#end()
 endif

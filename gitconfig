@@ -18,6 +18,8 @@
 [user]
   name = Rob Young
   email = rob@robyoung.digital
+[includeIf "gitdir:~/dev/turntown/"]
+  path = .gitconfig-turntown
 [merge]
   tool = vimdiff
   conflictstyle = diff3

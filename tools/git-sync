@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Record a list of repositories from one machine and
+# then clone that list on another machine.
 
 [ $# -eq 1 ] || { >&2 echo "Direction needed"; exit 1; }
 

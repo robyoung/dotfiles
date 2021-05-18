@@ -3,6 +3,10 @@
     "serverPath": "~/.local/bin/rust-analyzer",
     "updates.channel": "nightly"
   },
+  "pyright": {
+    "enable": true,
+    "verboseOutput": true
+  },
   "python": {
     "jediEnabled": false
   }
