@@ -12,6 +12,7 @@ while true; do
     git pull
     git stash pop
     git saveall
+    popd
   done
   sleep 30
 done
