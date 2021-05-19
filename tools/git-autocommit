@@ -4,15 +4,12 @@
 
 [[ $# > 0 ]] || { >&2 echo "At least one path is required"; exit 1; }
 
-while true; do
-  for directory in "$@"; do
-    echo "auto committing $directory"
-    pushd $directory
-    git stash
-    git pull
-    git stash pop
-    git saveall
-    popd
-  done
-  sleep 30
+for directory in "$@"; do
+  echo "auto committing $directory"
+  pushd $directory
+  git stash
+  git pull
+  git stash pop
+  git saveall
+  popd
 done

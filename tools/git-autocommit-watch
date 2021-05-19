@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#
+# Continuously auto-commit any changes to a git repository
+set -eo pipefail
+
+[[ $# > 0 ]] || { >&2 echo "At least one path is required"; exit 1; }
+
+while true; do
+  git-autocommit "$@" 
+  sleep 30
+done
