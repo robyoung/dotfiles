@@ -124,6 +124,14 @@ map <Leader>t :Vexplore<CR>
 map <Leader>s :w<CR>
 map <Leader>x :bd<CR>
 map <Leader>u :set hlsearch!<CR>
+map <leader>1 :tabn 1<CR>
+map <leader>2 :tabn 2<CR>
+map <leader>3 :tabn 3<CR>
+map <leader>4 :tabn 4<CR>
+map <leader>5 :tabn 5<CR>
+map <leader>6 :tabn 6<CR>
+map <leader>7 :tabn 7<CR>
+map <leader>8 :tabn 8<CR>
 
 
 " copy and paste to system clipboard

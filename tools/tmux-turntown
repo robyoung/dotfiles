@@ -1,6 +1,7 @@
 #!/bin/bash
 
 tmux new-session -d -c ~/dev/turntown/data-rest-api -s turntown -n api
+tmux new-window -c ~/dev/turntown/data-rest-api -n api
 tmux new-window -c ~/dev/turntown/deployment -n deployment
 tmux new-window -c ~/dev/turntown/devops -n devops
 
