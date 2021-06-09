@@ -179,7 +179,10 @@ tnoremap <C-w>l <C-\><C-n><C-w>l
 " :help index  - index of key mappings
 
 " Diff
-set diffopt+=vertical
+if &diff
+  set diffopt-=internal
+  set diffopt+=vertical
+endif 
 
 " Fix broken backspace
 set backspace=indent,eol,start

@@ -1,7 +1,7 @@
 [init]
   templatedir = ~/.git_template
 [core]
-  editor = vim
+  editor = nvim
   excludesfile = ~/.gitignore
   pager = delta
 [color]
@@ -21,7 +21,7 @@
 [includeIf "gitdir:~/dev/turntown/"]
   path = .gitconfig-turntown
 [merge]
-  tool = vimdiff
+  tool = nvim -d
   conflictstyle = diff3
 [push]
   default = upstream
