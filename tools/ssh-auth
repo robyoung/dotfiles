@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+eval $(op signin my)
+
+op get item ssh/turntown | jq -r .details.password | xclip -selection clipboard
+ssh-add ~/.ssh/turntown
+
+op get item ssh/robyoung-xps-2020 | jq -r .details.password | xclip -selection clipboard
+ssh-add ~/.ssh/id_ed25519
