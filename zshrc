@@ -40,6 +40,10 @@ if [[ -d /opt/homebrew/Caskroom/google-cloud-sdk ]]; then
   source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
 
+if [[ -d /opt/homebrew/opt/llvm ]]; then
+  export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+fi
+
 # pyenv
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
@@ -81,9 +85,15 @@ alias ipy=ipython
 alias cy='bat -l yaml'
 alias cj='bat -l javascript'
 alias shot='shotgun $(slop -l -c 200,0,1,0.4 -f "-i %i -g %g")'
-alias open='xdg-open'
+if [[ $(uname -s) == "Linux" ]]; then
+  alias open='xdg-open'
+fi
 alias p='pass -c'
-alias clip='xclip -selection clipboard'
+if [[ $(uname -s) == "Darwin" ]]; then
+  alias clip='pbcopy'
+else
+  alias clip='xclip -selection clipboard'
+fi
 alias my-repos='exa ~/dev/github/robyoung'
 
 autoload -U +X bashcompinit && bashcompinit
@@ -97,6 +107,19 @@ venv() {
     . ./venv/bin/activate
   else
     . ~/${DEV_DIR}/venv/bin/activate
+  fi
+}
+
+envup() {
+  local file=$1
+
+  if [ -f $file ]; then
+    set -a
+    source $file
+    set +a
+  else
+    echo "No $file file found" 1>&2
+    return 1
   fi
 }
 

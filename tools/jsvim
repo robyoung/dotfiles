@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-cat /dev/stdin | jq . | nvim -c 'set filetype=json' -c 'set foldmethod=syntax' -
+INPATH=$([[ "$1" ]] && echo "$1" || echo /dev/stdin)
+
+nvim -c 'set filetype=json' -c 'set foldmethod=syntax' <(cat $INPATH | jq .)

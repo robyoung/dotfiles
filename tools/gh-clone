@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#
+
 # Clone a github repository
 
 if echo "$1" | grep -qE '^(git|https)'; then

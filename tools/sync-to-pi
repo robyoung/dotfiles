@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+DIR_NAME=$(basename $(pwd))
+
+fswatch -l1 -o . | while read _; do
+  rsync -avz --exclude 'target/*' --exclude '.git/*' -e "ssh" . pi@microbit-tester.local:/home/pi/code/$DIR_NAME
+done

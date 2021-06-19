@@ -8,6 +8,9 @@
     "verboseOutput": true
   },
   "python": {
-    "jediEnabled": false
+    "jediEnabled": false,
+    "formatting": {
+      "provider": "black"
+    }
   }
 }
