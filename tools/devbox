@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+[[ $# < 1 ]] && { >&2 echo "requires command"; exit 1; }
+
+command=$1
+shift
+
+case "$command" in
+  create)
+    gcloud compute instances create dev1 --image-family=ubuntu-2104 --image-project=ubuntu-os-cloud --machine-type=n2-standard-16
+    ;;
+  up)
+    gcloud beta compute instances resume dev1
+    ;;
+  down)
+    gcloud beta compute instances suspend dev1
+    ;;
+  ssh)
+    if [[ $# > 0 ]]; then
+      gcloud compute ssh dev1 -- "$@"
+    else
+      gcloud compute ssh dev1 -- tmux attach
+    fi
+    ;;
+  scp)
+    gcloud compute scp $1 dev1:${2:-}
+    ;;
+  *)
+    >&2 echo "Unknown command $command"
+    exit 1
+    ;;
+esac
