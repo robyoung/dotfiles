@@ -104,6 +104,7 @@ syntax on
 au BufRead,BufNewFile *.md set filetype=markdown  " set .md files as markdown
 au BufRead,BufNewFile Jenkinsfile set filetype=groovy
 
+let g:markdown_folding = 1
 
 if has("nvim")
   set termguicolors

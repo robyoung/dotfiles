@@ -2,8 +2,28 @@
 
 [[ $# < 1 ]] && { >&2 echo "requires command"; exit 1; }
 
+function gcloud_active_configuration() {
+  gcloud config configurations list --filter=is_active=true --format=json | jq -r '.[0].name'
+}
+
+
+
 command=$1
 shift
+
+case "$command" in
+  create|up|down|ssh|scp|list)
+    ;;
+  *)
+    >&2 echo "Unknown command $command"
+    exit 1
+    ;;
+esac
+
+active=$(gcloud_active_configuration)
+if [[ $active != "personal" ]]; then
+  gcloud config configurations activate personal
+fi
 
 case "$command" in
   create)
@@ -25,8 +45,11 @@ case "$command" in
   scp)
     gcloud compute scp $1 dev1:${2:-}
     ;;
-  *)
-    >&2 echo "Unknown command $command"
-    exit 1
+  list)
+    gcloud compute instances list
     ;;
 esac
+
+if [[ $active != "personal" ]]; then
+  gcloud config configurations activate $active
+fi
