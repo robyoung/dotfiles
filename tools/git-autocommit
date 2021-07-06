@@ -2,9 +2,8 @@
 #
 # Auto-commit any changes to a git repository
 
-[[ $# > 0 ]] || { >&2 echo "At least one path is required"; exit 1; }
-
-for directory in "$@"; do
+git-autocommit-directory() {
+  local directory=$1
   echo "auto committing $directory"
   pushd $directory
   git stash
@@ -12,4 +11,13 @@ for directory in "$@"; do
   git stash pop
   git saveall
   popd
-done
+}
+
+if [[ $# > 0 ]]
+then
+  for directory in "$@"; do
+    git-autocommit-directory $directory
+  done
+else
+  git-autocommit-directory .
+fi
