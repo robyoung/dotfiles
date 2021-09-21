@@ -25,6 +25,8 @@
   conflictstyle = diff3
 [push]
   default = upstream
+[pull]
+  ff = only
 [url "git@github.com:"]
   pushInsteadOf = https://github.com/
   pushInsteadOf = git://github.com/
