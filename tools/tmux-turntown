@@ -3,6 +3,6 @@
 tmux new-session -d -c ~/dev/turntown/data-rest-api -s turntown -n api
 tmux new-window -c ~/dev/turntown/data-rest-api -n api
 tmux new-window -c ~/dev/turntown/deployment -n deployment
-tmux new-window -c ~/dev/turntown/devops -n front-end
+tmux new-window -c ~/dev/turntown/front-end -n front-end
 
 tmux attach-session -t "turntown:0"
