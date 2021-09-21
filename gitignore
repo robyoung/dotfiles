@@ -11,3 +11,4 @@ pylama.ini
 /SCRATCH.md
 /.vscode
 /robyoung-scratch
+!/.github
