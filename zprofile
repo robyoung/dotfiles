@@ -8,10 +8,6 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-if _has setxkbmap; then
-  setxkbmap -option caps:swapescape
-fi
-
 # pyenv
 if _has pyenv; then
   export PYENV_ROOT="$HOME/.local/pyenv"
