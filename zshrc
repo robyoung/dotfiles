@@ -35,6 +35,10 @@ export PATH=${PATH}:~/.local/npm/bin
 export PATH=${PATH}:~/.local/thonny/bin
 export PYTHONBREAKPOINT=ipdb.set_trace
 
+if [[ -x ~/.pyenv/bin/pyenv ]]; then
+  export PATH=${PATH}:~/.pyenv/bin
+fi
+
 if [[ -d /opt/homebrew/Caskroom/google-cloud-sdk ]]; then
   source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
   source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
@@ -135,7 +139,17 @@ envup() {
   fi
 }
 
+if uname -r | grep -q WSL2; then
+  # For Loading the SSH key
+  keychain -q --nogui $HOME/.ssh/id_ed25519
+  source $HOME/.keychain/$HOST-sh  
+else
+  echo "Check out keychain"
+fi
 
 eval "$(starship init zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
