@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function log() {
-  echo "$(date --utc +%Y-%m-%dT%H:%M:%S) $@"
+  echo "$(date --utc +%Y-%m-%dT%H:%M:%S) $@" >> /var/log/robyoung-startup.log
 }
 
 log "start of profile"
