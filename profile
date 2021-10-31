@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
+function log() {
+  echo "$(date --utc +%Y-%m-%dT%H:%M:%S) $@"
+}
+
+log "start of profile"
+
 if [ $(uname -s) = "Linux" ]; then
+  log "cap swap"
   setxkbmap -option caps:swapescape
 fi
 
