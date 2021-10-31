@@ -34,6 +34,7 @@ export PATH=~/.local/bin:${PATH}
 export PATH=${PATH}:~/.local/npm/bin
 export PATH=${PATH}:~/.local/thonny/bin
 export PYTHONBREAKPOINT=ipdb.set_trace
+export EDITOR=lvim
 
 if [[ -x ~/.pyenv/bin/pyenv ]]; then
   export PATH=${PATH}:~/.pyenv/bin
@@ -100,6 +101,7 @@ else
 fi
 alias my-repos='exa ~/dev/github/robyoung'
 alias prl='gh pr list --search "-author:@me is:open is:pr -reviewed-by:@me"  --web'
+alias nvim=lvim
 
 pr() {
   body_filename=/tmp/github-pr-body.$$
