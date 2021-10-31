@@ -17,10 +17,21 @@ lvim.colorscheme = "gruvbox"
 vim.o.background = "dark"
 vim.g.gruvbox_contrast_dark = "hard"
 
+vim.cmd("set timeoutlen=150")
+vim.opt.relativenumber = true
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldlevel = 99
+
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["<BS>"] = ":Telescope find_files<CR>"
+lvim.keys.normal_mode[";"] = ":Telescope buffers<CR>"
+lvim.keys.normal_mode[";;"] = ":Telescope treesitter<CR>"
+lvim.keys.normal_mode["="] = ":Telescope live_grep<CR>"
+lvim.keys.normal_mode["=="] = ":Telescope current_buffer_fuzzy_find<CR>"
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = ""
 -- edit a default keymapping
@@ -145,10 +156,12 @@ lvim.builtin.treesitter.highlight.enabled = true
 --     filetypes = { "javascript", "javascriptreact" },
 --   },
 -- }
+lvim.lang.python.formatters = {{ exe = "black" }}
 
 -- Additional Plugins
 lvim.plugins = {
   {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}},
+  {"glepnir/indent-guides.nvim"},
 --     {"folke/tokyonight.nvim"},
 --     {
 --       "folke/trouble.nvim",
