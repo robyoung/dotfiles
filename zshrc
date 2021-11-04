@@ -100,7 +100,7 @@ else
   alias clip='xclip -selection clipboard'
 fi
 alias my-repos='exa ~/dev/github/robyoung'
-alias prl='gh pr list --search "-author:@me is:open is:pr -reviewed-by:@me"  --web'
+alias prl='gh pr list --search "-author:@me is:open is:pr -reviewed-by:@me -is:draft"  --web'
 alias nvim=lvim
 
 pr() {

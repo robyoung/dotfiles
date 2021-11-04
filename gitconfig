@@ -15,6 +15,8 @@
   lg = log --graph --abbrev-commit --oneline
   lf = log --decorate --graph --all
   saveall = "!f() { git add -u; git commit -m \"${1-No message}\"; git push origin HEAD; } ; f"
+  ammend = commit --amend --no-edit
+  am = ammend
 [user]
   name = Rob Young
   email = rob@robyoung.digital

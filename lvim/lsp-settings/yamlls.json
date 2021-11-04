@@ -1,0 +1,4 @@
+{
+  "yaml.schemas": {"kubernetes": "globPattern"},
+  "yaml.schemas.kubernetes": "globPattern"
+}

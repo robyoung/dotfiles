@@ -22,6 +22,7 @@ vim.opt.relativenumber = true
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
+vim.opt.scrolloff = 3
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -156,12 +157,13 @@ lvim.builtin.treesitter.highlight.enabled = true
 --     filetypes = { "javascript", "javascriptreact" },
 --   },
 -- }
-lvim.lang.python.formatters = {{ exe = "black" }}
+lvim.lang.python.formatters = {{ exe = "isort" }, { exe = "black" }}
 
 -- Additional Plugins
 lvim.plugins = {
   {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}},
   {"glepnir/indent-guides.nvim"},
+  {"andrewstuart/vim-kubernetes"},
 --     {"folke/tokyonight.nvim"},
 --     {
 --       "folke/trouble.nvim",
