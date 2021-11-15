@@ -6,6 +6,10 @@ function gcloud_active_configuration() {
   gcloud config configurations list --filter=is_active=true --format=json | jq -r '.[0].name'
 }
 
+DEVBOX_NAME=${DEVBOX_NAME:-robyoung-dev1}
+DEVBOX_GCLOUD=${DEVBOX_GCLOUD:-personal}
+DEVBOX_PROJECT=$([ -n "$DEVBOX_PROJECT" ] && echo "--project=$DEVBOX_PROJECT" || echo "")
+DEVBOX_ZONE=${DEVBOX_ZONE:-europe-west2-c}
 
 
 command=$1
@@ -21,35 +25,40 @@ case "$command" in
 esac
 
 active=$(gcloud_active_configuration)
-if [[ $active != "personal" ]]; then
-  gcloud config configurations activate personal
+if [[ $active != $DEVBOX_GCLOUD ]]; then
+  gcloud config configurations activate $DEVBOX_GCLOUD
 fi
 
 case "$command" in
   create)
-    gcloud compute instances create dev1 --image-family=ubuntu-2104 --image-project=ubuntu-os-cloud --machine-type=n2-standard-16
+    gcloud compute instances create $DEVBOX_NAME \
+      --zone=$DEVBOX_ZONE \
+      $DEVBOX_PROJECT \
+      --image-family=ubuntu-2104 \
+      --image-project=ubuntu-os-cloud \
+      --machine-type=n2-standard-16
     ;;
   up)
-    gcloud beta compute instances resume dev1
+    gcloud beta compute instances resume --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME
     ;;
   down)
-    gcloud beta compute instances suspend dev1
+    gcloud beta compute instances suspend --zone=$DEVBOX_ZONE $DEVBOX_PROJECT  $DEVBOX_NAME
     ;;
   ssh)
     if [[ $# > 0 ]]; then
-      gcloud compute ssh dev1 -- "$@"
+      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- "$@"
     else
-      gcloud compute ssh dev1 -- tmux attach
+      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- tmux attach
     fi
     ;;
   scp)
-    gcloud compute scp $1 dev1:${2:-}
+    gcloud compute scp $1 $DEVBOX_NAME:${2:-}
     ;;
   list)
     gcloud compute instances list
     ;;
 esac
 
-if [[ $active != "personal" ]]; then
-  gcloud config configurations activate $active
+if [[ $active != $DEVBOX_GCLOUD ]]; then
+  gcloud config configurations activate $DEVBOX_GCLOUD
 fi
