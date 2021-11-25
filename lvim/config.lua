@@ -164,6 +164,7 @@ lvim.plugins = {
   {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}},
   {"glepnir/indent-guides.nvim"},
   {"andrewstuart/vim-kubernetes"},
+  {"cespare/vim-toml"},
 --     {"folke/tokyonight.nvim"},
 --     {
 --       "folke/trouble.nvim",
