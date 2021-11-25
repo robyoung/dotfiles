@@ -102,6 +102,9 @@ fi
 alias my-repos='exa ~/dev/github/robyoung'
 alias prl='gh pr list --search "-author:@me is:open is:pr -reviewed-by:@me -is:draft"  --web'
 alias nvim=lvim
+alias k=kubectl
+alias k-contexts='kubectl config get-contexts'
+alias k-use-context='kubectl config use-context'
 
 pr() {
   body_filename=/tmp/github-pr-body.$$
