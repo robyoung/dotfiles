@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-[[ $# < 1 ]] && { >&2 echo "requires command"; exit 1; }
+help() {
+  >&2 echo "devbox create|up|down|ssh|list|status"
+}
+
+[[ $# < 1 ]] && { >&2 echo "requires command"; help; exit 1; }
 
 function gcloud_active_configuration() {
   gcloud config configurations list --filter=is_active=true --format=json | jq -r '.[0].name'
@@ -16,10 +20,11 @@ command=$1
 shift
 
 case "$command" in
-  create|up|down|ssh|scp|list)
+  create|up|down|ssh|scp|list|status|stat)
     ;;
   *)
     >&2 echo "Unknown command $command"
+    help
     exit 1
     ;;
 esac
@@ -46,9 +51,9 @@ case "$command" in
     ;;
   ssh)
     if [[ $# > 0 ]]; then
-      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- "$@"
+      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- -A "$@"
     else
-      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- tmux attach
+      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- -A tmux new-session -A -s main
     fi
     ;;
   scp)
@@ -56,6 +61,9 @@ case "$command" in
     ;;
   list)
     gcloud compute instances list
+    ;;
+  status|stat)
+    gcloud compute instances list | grep $DEVBOX_NAME
     ;;
 esac
 
