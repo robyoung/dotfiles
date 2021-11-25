@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 INPATH=$([[ "$1" ]] && echo "$1" || echo /dev/stdin)
 
-nvim -c 'set filetype=json' -c 'set foldmethod=syntax' <(cat $INPATH | jq .)
+lvim -c 'set filetype=json' -c 'set foldmethod=syntax' <(cat $INPATH | jq .)
