@@ -105,6 +105,7 @@ alias nvim=lvim
 alias k=kubectl
 alias k-contexts='kubectl config get-contexts'
 alias k-use-context='kubectl config use-context'
+alias capswap='setxkbmap -option caps:swapescape'
 
 pr() {
   body_filename=/tmp/github-pr-body.$$
@@ -144,7 +145,7 @@ envup() {
   fi
 }
 
-if uname -r | grep -q WSL2; then
+if _has keychain; then
   # For Loading the SSH key
   keychain -q --nogui $HOME/.ssh/id_ed25519
   source $HOME/.keychain/$HOST-sh  
