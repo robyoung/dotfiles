@@ -14,25 +14,24 @@ DEVBOX_NAME=${DEVBOX_NAME:-robyoung-dev1}
 DEVBOX_GCLOUD=${DEVBOX_GCLOUD:-personal}
 DEVBOX_PROJECT=$([ -n "$DEVBOX_PROJECT" ] && echo "--project=$DEVBOX_PROJECT" || echo "")
 DEVBOX_ZONE=${DEVBOX_ZONE:-europe-west2-c}
-
+DEVBOX_SSH_OPTS=${DEVBOX_SSH_OPTS:--A}
 
 command=$1
 shift
 
-case "$command" in
-  create|up|down|ssh|scp|list|status|stat)
-    ;;
-  *)
-    >&2 echo "Unknown command $command"
-    help
-    exit 1
-    ;;
-esac
-
+# Ensure we're on the correct configuration
 active=$(gcloud_active_configuration)
 if [[ $active != $DEVBOX_GCLOUD ]]; then
   gcloud config configurations activate $DEVBOX_GCLOUD
 fi
+
+# Ensure we leave the user on their previous configuration
+function cleanup() {
+  if [[ $active != $DEVBOX_GCLOUD ]]; then
+    gcloud config configurations activate $DEVBOX_GCLOUD
+  fi
+}
+trap cleanup EXIT
 
 case "$command" in
   create)
@@ -41,7 +40,8 @@ case "$command" in
       $DEVBOX_PROJECT \
       --image-family=ubuntu-2104 \
       --image-project=ubuntu-os-cloud \
-      --machine-type=n2-standard-16
+      --machine-type=n2-standard-16 \
+      --boot-disk-size=100GB
     ;;
   up)
     gcloud beta compute instances resume --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME
@@ -49,15 +49,21 @@ case "$command" in
   down)
     gcloud beta compute instances suspend --zone=$DEVBOX_ZONE $DEVBOX_PROJECT  $DEVBOX_NAME
     ;;
+  rm|delete)
+    gcloud beta compute instances delete --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME
+    ;;
   ssh)
     if [[ $# > 0 ]]; then
-      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- -A "$@"
+      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- $DEVBOX_SSH_OPTS "$@"
     else
-      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- -A tmux new-session -A -s main
+      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- $DEVBOX_SSH_OPTS bash -c "tmux new-session -A -s main"
     fi
     ;;
-  scp)
-    gcloud compute scp $1 $DEVBOX_NAME:${2:-}
+  scp-in)
+    gcloud compute scp --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $1 $DEVBOX_NAME:${2:-}
+    ;;
+  scp-out)
+    gcloud compute scp --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME:${1} ${2:-.}
     ;;
   list)
     gcloud compute instances list
@@ -65,8 +71,8 @@ case "$command" in
   status|stat)
     gcloud compute instances list | grep $DEVBOX_NAME
     ;;
+  *)
+    >&2 echo "Unknown command $command"
+    help
+    ;;
 esac
-
-if [[ $active != $DEVBOX_GCLOUD ]]; then
-  gcloud config configurations activate $DEVBOX_GCLOUD
-fi
