@@ -37,9 +37,10 @@ lvim.keys.normal_mode["=="] = ":Telescope current_buffer_fuzzy_find<CR>"
 -- lvim.keys.normal_mode["<C-Up>"] = ""
 -- edit a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
-
+lvim.autocommands._formatoptions = {}
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
+
 -- local _, actions = pcall(require, "telescope.actions")
 -- lvim.builtin.telescope.defaults.mappings = {
 --   -- for input mode
@@ -157,7 +158,11 @@ lvim.builtin.treesitter.highlight.enabled = true
 --     filetypes = { "javascript", "javascriptreact" },
 --   },
 -- }
-lvim.lang.python.formatters = {{ exe = "isort" }, { exe = "black" }}
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+  { exe = "isort", filetypes = {"python"} },
+  { exe = "black", filetypes = {"python"} },
+}
 
 -- Additional Plugins
 lvim.plugins = {
