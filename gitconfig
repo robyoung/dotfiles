@@ -1,7 +1,7 @@
 [init]
   templatedir = ~/.git_template
 [core]
-  editor = nvim
+  editor = lvim
   excludesfile = ~/.gitignore
   pager = delta
 [color]
@@ -37,9 +37,7 @@
   smudge = git lfs smudge %f
   required = true
 [delta]
-  plus-color = "#012800"
-  minus-color = "#340001"
-  syntax-theme = Monokai Extended
+  dark = true
   line-numbers = true
   side-by-side = false
 [interactive]
