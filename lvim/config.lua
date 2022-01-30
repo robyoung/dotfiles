@@ -73,6 +73,11 @@ lvim.builtin.which_key.mappings["t"] = {
   n = { "<cmd>tabnext<cr>", "next" },
   p = { "<cmd>tabprevious<cr>", "previous" },
 }
+lvim.builtin.which_key.mappings["o"] = {
+  name = "+org mode",
+  a = { "agenda" },
+  c = { "capture" },
+}
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -82,6 +87,15 @@ lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.org = {
+  install_info = {
+    url = 'https://github.com/milisims/tree-sitter-org',
+    revision = 'f110024d539e676f25b72b7c80b0fd43c34264ef',
+    files = {'src/parser.c', 'src/scanner.cc'},
+  },
+  filetype = 'org',
+}
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "c",
@@ -94,10 +108,14 @@ lvim.builtin.treesitter.ensure_installed = {
   "rust",
   "java",
   "yaml",
+  "org",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.highlight.disable = { "org" }
+lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "org" }
+
 
 -- generic LSP settings
 
@@ -170,12 +188,20 @@ lvim.plugins = {
   {"glepnir/indent-guides.nvim"},
   {"andrewstuart/vim-kubernetes"},
   {"cespare/vim-toml"},
+  {"nvim-orgmode/orgmode", config = function()
+        require('orgmode').setup{}
+  end},
 --     {"folke/tokyonight.nvim"},
 --     {
 --       "folke/trouble.nvim",
 --       cmd = "TroubleToggle",
 --     },
 }
+
+require("orgmode").setup({
+  org_agenda_files = {"~/dev/github/robyoung/notes/**/*"},
+  org_default_notes_file = "~/dev/github/robyoung/notes/refile.org",
+})
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
