@@ -21,7 +21,7 @@ vim.cmd("set timeoutlen=150")
 vim.opt.relativenumber = true
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldlevel = 99
+vim.opt.foldlevel = 20
 vim.opt.scrolloff = 3
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -75,9 +75,69 @@ lvim.builtin.which_key.mappings["t"] = {
 }
 lvim.builtin.which_key.mappings["o"] = {
   name = "+org mode",
+  ["*"] = { "toggle heading" },
+  ["'"] = { "edit special" },
+  ["$"] = { "archive" },
   a = { "agenda" },
+  A = { "archive" },
   c = { "capture" },
+  r = { "refile" },
+  o = { "open" },
+  e = { "export" },
+  t = { "set tags" },
+  K = { "move headline up" },
+  J = { "move headline down" },
+  x = { 
+    name = "clock",
+    i = { "in" },
+    o = { "out" },
+    q = { "cancel" },
+    j = { "goto" },
+    e = { "effort estimate" },
+  },
+  i = {
+    name = "insert",
+    d = { "deadline" },
+    s = { "schedule" },
+    h = { "headline" },
+    t = { "TODO" },
+    T = { "TODO here" },
+    ["."] = { "date under cursor" },
+    ["!"] = { "inactive date under cursor" },
+  }
 }
+
+require("which-key").register({
+  c = {
+    name = "org change",
+    i = { 
+      name = "change",
+      d = { "change date" },
+      R = { "priority up" },
+      r = { "priority down" },
+      t = { "TODO next" },
+      T = { "TODO previous" },
+    }
+  },
+  g = {
+    ["?"] = { "org mode help" },
+    ["{"] = { "org parent" },
+  }
+}, {mode = "n", prefix = "", preset = true})
+
+-- Additional Plugins
+lvim.plugins = {
+  {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}},
+  {"glepnir/indent-guides.nvim"},
+  {"andrewstuart/vim-kubernetes"},
+  {"cespare/vim-toml"},
+  {"plasticboy/vim-markdown", requires={"godlygeek/tabular"}},
+  {"nvim-orgmode/orgmode", config = function()
+        require('orgmode').setup{}
+  end},
+}
+
+require("orgmode").setup_ts_grammar()
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -88,14 +148,6 @@ lvim.builtin.nvimtree.show_icons.git = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.org = {
-  install_info = {
-    url = 'https://github.com/milisims/tree-sitter-org',
-    revision = 'f110024d539e676f25b72b7c80b0fd43c34264ef',
-    files = {'src/parser.c', 'src/scanner.cc'},
-  },
-  filetype = 'org',
-}
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "c",
@@ -109,12 +161,19 @@ lvim.builtin.treesitter.ensure_installed = {
   "java",
   "yaml",
   "org",
+  "markdown",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.highlight.disable = { "org" }
 lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "org" }
+
+require("orgmode").setup({
+  org_agenda_files = {"~/dev/github/robyoung/notes/**/*"},
+  org_default_notes_file = "~/dev/github/robyoung/notes/refile.org",
+  org_todo_keywords = {"TODO", "DOING", "BLOCKED", "|", "DONE", "ABANDONED"},
+})
 
 
 -- generic LSP settings
@@ -182,26 +241,6 @@ formatters.setup {
   { exe = "prettier", filetypes = {"typescript"} },
 }
 
--- Additional Plugins
-lvim.plugins = {
-  {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}},
-  {"glepnir/indent-guides.nvim"},
-  {"andrewstuart/vim-kubernetes"},
-  {"cespare/vim-toml"},
-  {"nvim-orgmode/orgmode", config = function()
-        require('orgmode').setup{}
-  end},
---     {"folke/tokyonight.nvim"},
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
-}
-
-require("orgmode").setup({
-  org_agenda_files = {"~/dev/github/robyoung/notes/**/*"},
-  org_default_notes_file = "~/dev/github/robyoung/notes/refile.org",
-})
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
