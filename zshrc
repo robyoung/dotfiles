@@ -149,8 +149,6 @@ if _has keychain; then
   # For Loading the SSH key
   keychain -q --nogui $HOME/.ssh/id_ed25519
   source $HOME/.keychain/$HOST-sh  
-else
-  echo "Check out keychain"
 fi
 
 eval "$(starship init zsh)"
