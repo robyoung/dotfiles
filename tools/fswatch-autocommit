@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+fswatch --exclude "\.git" -o $1 | xargs -n1 -I{} git-autocommit $1 &
+
+FSWATCH_PID=$!
+
+trap "kill %1" EXIT
+
+git-autocommit-watch $1
