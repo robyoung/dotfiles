@@ -38,8 +38,8 @@ case "$command" in
     gcloud compute instances create $DEVBOX_NAME \
       --zone=$DEVBOX_ZONE \
       $DEVBOX_PROJECT \
-      --image-family=ubuntu-2104 \
-      --image-project=ubuntu-os-cloud \
+      --image-family=debian-11 \
+      --image-project=debian-cloud \
       --machine-type=n2-standard-16 \
       --boot-disk-size=100GB
     ;;
@@ -47,7 +47,7 @@ case "$command" in
     gcloud beta compute instances resume --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME
     ;;
   down)
-    gcloud beta compute instances suspend --zone=$DEVBOX_ZONE $DEVBOX_PROJECT  $DEVBOX_NAME
+    gcloud beta compute instances suspend --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME
     ;;
   rm|delete)
     gcloud beta compute instances delete --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME
@@ -58,6 +58,9 @@ case "$command" in
     else
       gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- $DEVBOX_SSH_OPTS bash -c "tmux new-session -A -s main"
     fi
+    ;;
+  attach)
+    gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- $DEVBOX_SSH_OPTS tmux attach-session
     ;;
   scp-in)
     gcloud compute scp --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $1 $DEVBOX_NAME:${2:-}
