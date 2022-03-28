@@ -170,8 +170,8 @@ lvim.builtin.treesitter.highlight.disable = { "org" }
 lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "org" }
 
 require("orgmode").setup({
-  org_agenda_files = {"~/dev/github/robyoung/notes/**/*"},
-  org_default_notes_file = "~/dev/github/robyoung/notes/refile.org",
+  org_agenda_files = {"~/Notes/**/*"},
+  org_default_notes_file = "~/Notes/Inbox.org",
   org_todo_keywords = {"TODO", "DOING", "BLOCKED", "|", "DONE", "ABANDONED"},
 })
 
