@@ -132,7 +132,7 @@ lvim.plugins = {
   {"andrewstuart/vim-kubernetes"},
   {"cespare/vim-toml"},
   {"plasticboy/vim-markdown", requires={"godlygeek/tabular"}},
-  {"nvim-orgmode/orgmode", config = function()
+  {"robyoung/orgmode", branch = "ignore-past-non-todo", config = function()
         require('orgmode').setup{}
   end},
 }
