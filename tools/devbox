@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 help() {
-  >&2 echo "devbox create|up|down|ssh|list|status"
+  >&2 echo "devbox create|up|down|ssh|attach|scp-in|scp-out|list|status"
 }
 
 [[ $# < 1 ]] && { >&2 echo "requires command"; help; exit 1; }
@@ -63,7 +63,7 @@ case "$command" in
     gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- $DEVBOX_SSH_OPTS tmux attach-session
     ;;
   scp-in)
-    gcloud compute scp --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $1 $DEVBOX_NAME:${2:-}
+    gcloud compute scp --recurse --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $1 $DEVBOX_NAME:${2:-}
     ;;
   scp-out)
     gcloud compute scp --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME:${1} ${2:-.}
