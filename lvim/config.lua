@@ -1,21 +1,8 @@
---[[
-lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
+lvim.colorscheme = "onedarker"
 
--- colour scheme
-lvim.colorscheme = "gruvbox"
-vim.o.background = "dark"
-vim.g.gruvbox_contrast_dark = "hard"
 
 vim.cmd("set timeoutlen=150")
 vim.opt.relativenumber = true
@@ -33,10 +20,6 @@ lvim.keys.normal_mode[";"] = ":Telescope buffers<CR>"
 lvim.keys.normal_mode[";;"] = ":Telescope treesitter<CR>"
 lvim.keys.normal_mode["="] = ":Telescope live_grep<CR>"
 lvim.keys.normal_mode["=="] = ":Telescope current_buffer_fuzzy_find<CR>"
--- unmap a default keymapping
--- lvim.keys.normal_mode["<C-Up>"] = ""
--- edit a default keymapping
--- lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 lvim.autocommands._formatoptions = {}
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
@@ -87,7 +70,7 @@ lvim.builtin.which_key.mappings["o"] = {
   t = { "set tags" },
   K = { "move headline up" },
   J = { "move headline down" },
-  x = { 
+  x = {
     name = "clock",
     i = { "in" },
     o = { "out" },
@@ -110,7 +93,7 @@ lvim.builtin.which_key.mappings["o"] = {
 require("which-key").register({
   c = {
     name = "org change",
-    i = { 
+    i = {
       name = "change",
       d = { "change date" },
       R = { "priority up" },
@@ -139,15 +122,15 @@ lvim.plugins = {
 
 require("orgmode").setup_ts_grammar()
 
--- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.dashboard.active = true
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
+lvim.builtin.nvimtree.show_icons.git = 1
 
 -- if you don't want all the parsers change this to a table of the ones you want
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "c",
