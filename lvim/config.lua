@@ -54,6 +54,8 @@ lvim.autocommands._formatoptions = {}
 
 require("robyoung.which-key")
 require("robyoung.orgmode")
+require("robyoung.snippets")
+
 
 -- Additional Plugins
 lvim.plugins = {
@@ -65,6 +67,15 @@ lvim.plugins = {
   {"robyoung/orgmode", branch = "combined-tweaks", config = function()
         require('orgmode').setup{}
   end},
+  {
+    "f-person/git-blame.nvim",
+    event = "BufRead",
+    config = function()
+      vim.cmd "highlight default link gitblame SpecialComment"
+      vim.g.gitblame_enabled = 0
+    end,
+  },
+
 }
 
 
