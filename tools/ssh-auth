@@ -1,9 +1,12 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
-eval $(op signin my)
+op user list > /dev/null 2>&1 || eval $(op signin)
 
-op get item ssh/turntown | jq -r .details.password | xclip -selection clipboard
-ssh-add ~/.ssh/turntown
+op item get ssh/robyoung-xps-2020 --format=json --fields=label=password | jq -r .value | clip
 
-op get item ssh/robyoung-xps-2020 | jq -r .details.password | xclip -selection clipboard
-ssh-add ~/.ssh/id_ed25519
+if type keychain >/dev/null 2>&1 ; then
+  keychain -q --nogui $HOME/.ssh/id_ed25519
+  source $HOME/.keychain/$HOST-sh  
+else
+  ssh-add ~/.ssh/id_ed25519
+fi
