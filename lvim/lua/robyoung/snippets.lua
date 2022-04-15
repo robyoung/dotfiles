@@ -21,7 +21,7 @@ local fmta = require("luasnip.extras.fmt").fmta
 local types = require("luasnip.util.types")
 local conds = require("luasnip.extras.expand_conditions")
 
-ls.snippets.python = {
+ls.add_snippets("python", {
     s("def", {
       t("def "),
       i(1),
@@ -38,4 +38,4 @@ ls.snippets.python = {
     t(" import "),
     i(0),
   })
-  }
+})
