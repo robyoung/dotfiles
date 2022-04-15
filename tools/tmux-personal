@@ -1,22 +1,14 @@
 #!/bin/bash
 
-new-session() {
-  tmux new-session -d -c ~/dev/github/robyoung/${1} -s personal -n ${1}
-}
-
 new-window() {
   tmux new-window -c ~/dev/github/robyoung/${1} -n ${1} ${2}
 }
 
 
-if [ $# -lt 1 ]; then
-  >&2 echo "requires at least one name"
-  exit 1
-fi
+tmux new-session -d -c ~/Notes -s personal -n notes
 
-new-session ${1}
 
-for name in "${@:2}"; do
+for name in "${@}"; do
   new-window ${name}
 done
 
