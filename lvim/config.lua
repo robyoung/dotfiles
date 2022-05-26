@@ -75,7 +75,7 @@ lvim.plugins = {
       vim.g.gitblame_enabled = 0
     end,
   },
-
+  {"nathangrigg/vim-beancount"},
 }
 
 
@@ -157,6 +157,14 @@ lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "org" }
 --     filetypes = { "typescript", "typescriptreact" },
 --   },
 -- }
+--
+require("lspconfig").beancount.setup{
+    cmd = { 'beancount-language-server', '--stdio' },
+    init_options = {
+      journal_file = '/home/robyoung/Accounts/personal.beancount',
+      python_path = 'python3',
+    },
+}
 
 -- -- set additional linters
 -- local linters = require "lvim.lsp.null-ls.linters"

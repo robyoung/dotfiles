@@ -1,4 +1,8 @@
 
+lvim.builtin.which_key.mappings["B"] = {
+  name = "+beancount",
+  c = { ":make<cr>", "check" },
+}
 lvim.builtin.which_key.mappings["t"] = {
   name = "+tabs",
   n = { "<cmd>tabnext<cr>", "next" },
