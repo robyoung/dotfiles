@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
+. ~/.bashrc
+
 function log() {
   echo "$(date --utc +%Y-%m-%dT%H:%M:%S) $@" >> /var/log/robyoung-startup.log
 }
 
 log "start of profile"
 
-if [ $(uname -s) = "Linux" ]; then
+if [ $(uname -s) = "Linux" -a which setxkbmap > /dev/null 2>&1 ]; then
   log "cap swap"
   setxkbmap -option caps:swapescape
 fi
