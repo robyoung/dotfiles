@@ -37,5 +37,8 @@ ls.add_snippets("python", {
     i(1),
     t(" import "),
     i(0),
+  }),
+  s("tyi", {
+    t("  # type: ignore")
   })
 })
