@@ -69,10 +69,10 @@ case "$command" in
     gcloud compute scp --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME:${1} ${2:-.}
     ;;
   list)
-    gcloud compute instances list
+    gcloud compute instances list $DEVBOX_PROJECT
     ;;
   status|stat)
-    gcloud compute instances list | grep $DEVBOX_NAME
+    gcloud compute instances list $DEVBOX_PROJECT | grep $DEVBOX_NAME
     ;;
   *)
     >&2 echo "Unknown command $command"

@@ -9,6 +9,7 @@
 .envrc
 pylama.ini
 /SCRATCH.md
+/SCRATCH.sql
 /.vscode
 /robyoung-scratch
 !/.github
