@@ -76,6 +76,9 @@ lvim.plugins = {
     end,
   },
   {"nathangrigg/vim-beancount"},
+  {"https://git.sr.ht/~whynothugo/lsp_lines.nvim", config = function()
+    require("lsp_lines").setup()
+  end},
 }
 
 
@@ -85,7 +88,6 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 1
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -177,6 +179,7 @@ require("lspconfig").beancount.setup{
 --     filetypes = { "javascript", "javascriptreact" },
 --   },
 -- }
+lvim.lsp.diagnostics.virtual_text = false
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { exe = "isort", filetypes = {"python"} },
