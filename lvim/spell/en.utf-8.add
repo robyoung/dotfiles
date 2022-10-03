@@ -24,3 +24,5 @@ Neovim
 config
 D365
 resumable
+backend
+entrypoint

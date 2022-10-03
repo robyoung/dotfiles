@@ -63,6 +63,7 @@ lvim.plugins = {
   {"glepnir/indent-guides.nvim"},
   {"andrewstuart/vim-kubernetes"},
   {"cespare/vim-toml"},
+  {"mechatroner/rainbow_csv"},
   {"plasticboy/vim-markdown", requires={"godlygeek/tabular"}},
   {"robyoung/orgmode", branch = "combined-tweaks", config = function()
         require('orgmode').setup{}
