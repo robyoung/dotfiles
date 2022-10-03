@@ -6,6 +6,7 @@ new-window() {
 
 
 tmux new-session -d -c ~/Notes -s personal -n notes
+new-window dotfiles
 
 
 for name in "${@}"; do
