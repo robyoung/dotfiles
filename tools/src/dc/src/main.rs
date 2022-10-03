@@ -15,7 +15,7 @@ fn main() {
         Some("psql") => command_psql(&args[2..]).expect("fail"),
         Some("flask") => command_flask(&args[2..]).expect("fail"),
         Some("make") => command_make(&args[2..]).expect("fail"),
-        _ => command_docker_compose(&args).expect("fail"),
+        _ => command_docker_compose(&args[1..]).expect("fail"),
     }
 }
 
@@ -108,6 +108,7 @@ fn command_test(args: &[String]) -> Result<()> {
 }
 
 fn command_docker_compose(args: &[String]) -> Result<()> {
+    println!("{:?}", args);
     let mut child = Command::new("docker-compose")
         .args(args)
         .spawn()
