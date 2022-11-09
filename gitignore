@@ -13,3 +13,4 @@ pylama.ini
 /.vscode
 /robyoung-scratch
 !/.github
+.git
