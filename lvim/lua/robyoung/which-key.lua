@@ -1,4 +1,6 @@
-
+lvim.builtin.which_key.setup.plugins.presets.windows = true
+lvim.builtin.which_key.setup.plugins.presets.z = true
+lvim.builtin.which_key.setup.plugins.presets.g = true
 lvim.builtin.which_key.mappings["B"] = {
   name = "+beancount",
   c = { ":make<cr>", "check" },
@@ -7,6 +9,7 @@ lvim.builtin.which_key.mappings["t"] = {
   name = "+tabs",
   n = { "<cmd>tabnext<cr>", "next" },
   p = { "<cmd>tabprevious<cr>", "previous" },
+  t = { ":terminal<cr>", "terminal" },
 }
 lvim.builtin.which_key.mappings["o"] = {
   name = "+org mode",
@@ -58,4 +61,4 @@ require("which-key").register({
     ["?"] = { "org mode help" },
     ["{"] = { "org parent" },
   }
-}, {mode = "n", prefix = "", preset = true})
+}, { mode = "n", prefix = "", preset = true })

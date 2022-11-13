@@ -1,8 +1,7 @@
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "onedarker"
-
+lvim.colorscheme = "slate"
 
 vim.cmd("set timeoutlen=150")
 vim.opt.relativenumber = true
@@ -56,18 +55,16 @@ require("robyoung.which-key")
 require("robyoung.orgmode")
 require("robyoung.snippets")
 
-
 -- Additional Plugins
 lvim.plugins = {
-  {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}},
-  {"glepnir/indent-guides.nvim"},
-  {"andrewstuart/vim-kubernetes"},
-  {"cespare/vim-toml"},
-  {"mechatroner/rainbow_csv"},
-  {"plasticboy/vim-markdown", requires={"godlygeek/tabular"}},
-  {"robyoung/orgmode", branch = "combined-tweaks", config = function()
-        require('orgmode').setup{}
-  end},
+  { "glepnir/indent-guides.nvim" },
+  { "andrewstuart/vim-kubernetes" },
+  { "cespare/vim-toml" },
+  { "mechatroner/rainbow_csv" },
+  { "plasticboy/vim-markdown", requires = { "godlygeek/tabular" } },
+  { "robyoung/orgmode", branch = "combined-tweaks", config = function()
+    require('orgmode').setup {}
+  end },
   {
     "f-person/git-blame.nvim",
     event = "BufRead",
@@ -76,17 +73,25 @@ lvim.plugins = {
       vim.g.gitblame_enabled = 0
     end,
   },
-  {"nathangrigg/vim-beancount"},
-  {"https://git.sr.ht/~whynothugo/lsp_lines.nvim", config = function()
+  { "nathangrigg/vim-beancount" },
+  { "https://git.sr.ht/~whynothugo/lsp_lines.nvim", config = function()
     require("lsp_lines").setup()
-  end},
+  end },
+  -- colorschemes
+  { "lunarvim/colorschemes" },
+  { "folke/tokyonight.nvim" },
+  { "ellisonleao/gruvbox.nvim", requires = { "rktjmp/lush.nvim" } },
 }
+
+require("tokyonight").setup({
+  style = "night",
+  sidebars = { "qf", "vista_kind", "terminal", "packer" },
+})
 
 
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 
@@ -162,12 +167,12 @@ lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "org" }
 --   },
 -- }
 --
-require("lspconfig").beancount.setup{
-    cmd = { 'beancount-language-server', '--stdio' },
-    init_options = {
-      journal_file = '/home/robyoung/Accounts/personal.beancount',
-      python_path = 'python3',
-    },
+require("lspconfig").beancount.setup {
+  cmd = { 'beancount-language-server', '--stdio' },
+  init_options = {
+    journal_file = '/home/robyoung/Accounts/personal.beancount',
+    python_path = 'python3',
+  },
 }
 
 -- -- set additional linters
@@ -183,10 +188,11 @@ require("lspconfig").beancount.setup{
 lvim.lsp.diagnostics.virtual_text = false
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { exe = "isort", filetypes = {"python"} },
-  { exe = "black", filetypes = {"python"} },
-  { exe = "prettier", filetypes = {"typescript"} },
+  { exe = "isort", filetypes = { "python" } },
+  { exe = "black", filetypes = { "python" } },
+  { exe = "prettier", filetypes = { "typescript" } },
 }
+-- lvim.format_on_save = false
 
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
