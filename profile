@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ~/.bashrc
+[ -f ~/.bashrc ] && . ~/.bashrc
 
 function log() {
   echo "$(date --utc +%Y-%m-%dT%H:%M:%S) $@" >> /var/log/robyoung-startup.log
