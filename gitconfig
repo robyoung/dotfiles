@@ -28,6 +28,7 @@
   conflictstyle = diff3
 [push]
   default = upstream
+  autoSetupRemote = true
 [pull]
   ff = only
 [url "git@github.com:"]
