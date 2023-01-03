@@ -199,6 +199,11 @@ formatters.setup {
   { exe = "black", filetypes = { "python" } },
   { exe = "prettier", filetypes = { "typescript" } },
 }
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+  { name = "flake8" },
+  { name = "shellcheck" },
+}
 -- lvim.format_on_save = false
 
 
