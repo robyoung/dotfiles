@@ -35,6 +35,7 @@ export PATH=${PATH}:~/.local/npm/bin
 export PATH=${PATH}:~/.local/thonny/bin
 export PYTHONBREAKPOINT=ipdb.set_trace
 export EDITOR=lvim
+export TEALDEER_CONFIG_DIR=~/.config/tealdeer
 
 if [[ -x ~/.pyenv/bin/pyenv ]]; then
   export PATH=${PATH}:~/.pyenv/bin
