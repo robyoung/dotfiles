@@ -3,13 +3,13 @@ lvim.builtin.which_key.setup.plugins.presets.z = true
 lvim.builtin.which_key.setup.plugins.presets.g = true
 lvim.builtin.which_key.mappings["B"] = {
   name = "+beancount",
-  c = { ":make<cr>", "check" },
+  c = { ":!bean-check %<cr>", "check" },
 }
 lvim.builtin.which_key.mappings["t"] = {
   name = "+tabs",
   n = { "<cmd>tabnext<cr>", "next" },
   p = { "<cmd>tabprevious<cr>", "previous" },
-  t = { ":terminal<cr>", "terminal" },
+  t = { ":split | terminal<cr>", "terminal" },
 }
 lvim.builtin.which_key.mappings["o"] = {
   name = "+org mode",

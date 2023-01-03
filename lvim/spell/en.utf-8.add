@@ -27,3 +27,5 @@ resumable
 backend
 entrypoint
 CostX
+mealie
+auth

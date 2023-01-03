@@ -1,7 +1,10 @@
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "slate"
+
+-- Colourscheme
+lvim.colorscheme = "material"
+vim.g.material_style = "deep ocean"
 
 vim.cmd("set timeoutlen=150")
 vim.opt.relativenumber = true
@@ -73,19 +76,22 @@ lvim.plugins = {
       vim.g.gitblame_enabled = 0
     end,
   },
-  { "nathangrigg/vim-beancount" },
   { "https://git.sr.ht/~whynothugo/lsp_lines.nvim", config = function()
     require("lsp_lines").setup()
   end },
   -- colorschemes
   { "lunarvim/colorschemes" },
-  { "folke/tokyonight.nvim" },
   { "ellisonleao/gruvbox.nvim", requires = { "rktjmp/lush.nvim" } },
+  { "marko-cerovac/material.nvim" },
 }
 
-require("tokyonight").setup({
-  style = "night",
-  sidebars = { "qf", "vista_kind", "terminal", "packer" },
+require("material").setup({
+  high_visibility = {
+    darker = true,
+  },
+  custom_colors = function(colors)
+    colors.editor.bg = "#000000"
+  end
 })
 
 
@@ -188,6 +194,7 @@ require("lspconfig").beancount.setup {
 lvim.lsp.diagnostics.virtual_text = false
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
+  -- { command = "ruff", filetypes = { "python" } },
   { exe = "isort", filetypes = { "python" } },
   { exe = "black", filetypes = { "python" } },
   { exe = "prettier", filetypes = { "typescript" } },
