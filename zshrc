@@ -145,6 +145,10 @@ envup() {
   fi
 }
 
+gtrack() {
+  git branch --set-upstream-to=origin/$(git branch --show-current) $(git branch --show-current)
+}
+
 if _has keychain; then
   # For Loading the SSH key
   keychain -q --nogui $HOME/.ssh/id_ed25519
