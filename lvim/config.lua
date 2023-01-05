@@ -86,11 +86,18 @@ lvim.plugins = {
 }
 
 require("material").setup({
+  contrast = {
+    sidebars = true,
+    cursor_line = true,
+  },
   high_visibility = {
     darker = true,
   },
+  lualine_style = "stealth",
   custom_colors = function(colors)
     colors.editor.bg = "#000000"
+    colors.editor.line_numbers = "#777777"
+    colors.syntax.comments = "#999999"
   end
 })
 
