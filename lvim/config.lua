@@ -98,6 +98,7 @@ require("material").setup({
     colors.editor.bg = "#000000"
     colors.editor.line_numbers = "#777777"
     colors.syntax.comments = "#999999"
+    colors.editor.selection = "#404040"
   end
 })
 
