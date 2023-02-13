@@ -4,7 +4,7 @@ help() {
   >&2 echo "devbox create|up|down|ssh|attach|scp-in|scp-out|list|status"
 }
 
-[[ $# < 1 ]] && { >&2 echo "requires command"; help; exit 1; }
+[[ $# -lt 1 ]] && { >&2 echo "requires command"; help; exit 1; }
 
 function gcloud_active_configuration() {
   gcloud config configurations list --filter=is_active=true --format=json | jq -r '.[0].name'
@@ -21,58 +21,58 @@ shift
 
 # Ensure we're on the correct configuration
 active=$(gcloud_active_configuration)
-if [[ $active != $DEVBOX_GCLOUD ]]; then
-  gcloud config configurations activate $DEVBOX_GCLOUD
+if [[ $active != "$DEVBOX_GCLOUD" ]]; then
+  gcloud config configurations activate "$DEVBOX_GCLOUD"
 fi
 
 # Ensure we leave the user on their previous configuration
 function cleanup() {
-  if [[ $active != $DEVBOX_GCLOUD ]]; then
-    gcloud config configurations activate $DEVBOX_GCLOUD
+  if [[ $active != "$DEVBOX_GCLOUD" ]]; then
+    gcloud config configurations activate "$DEVBOX_GCLOUD"
   fi
 }
 trap cleanup EXIT
 
 case "$command" in
   create)
-    gcloud compute instances create $DEVBOX_NAME \
-      --zone=$DEVBOX_ZONE \
-      $DEVBOX_PROJECT \
+    gcloud compute instances create "$DEVBOX_NAME" \
+      --zone="$DEVBOX_ZONE" \
+      "$DEVBOX_PROJECT" \
       --image-family=debian-11 \
       --image-project=debian-cloud \
       --machine-type=n2-standard-16 \
       --boot-disk-size=100GB
     ;;
   up)
-    gcloud beta compute instances resume --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME
+    gcloud beta compute instances resume "--zone=$DEVBOX_ZONE" "$DEVBOX_PROJECT" "$DEVBOX_NAME"
     ;;
   down)
-    gcloud beta compute instances suspend --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME
+    gcloud beta compute instances suspend "--zone=$DEVBOX_ZONE" "$DEVBOX_PROJECT" "$DEVBOX_NAME"
     ;;
   rm|delete)
-    gcloud beta compute instances delete --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME
+    gcloud beta compute instances delete "--zone=$DEVBOX_ZONE" "$DEVBOX_PROJECT" "$DEVBOX_NAME"
     ;;
   ssh)
-    if [[ $# > 0 ]]; then
-      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- $DEVBOX_SSH_OPTS "$@"
+    if [[ $# -gt 0 ]]; then
+      gcloud beta compute ssh "--zone=$DEVBOX_ZONE" "$DEVBOX_PROJECT" "$DEVBOX_NAME" -- $DEVBOX_SSH_OPTS "$@"
     else
-      gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- $DEVBOX_SSH_OPTS bash -c "tmux new-session -A -s main"
+      gcloud beta compute ssh "--zone=$DEVBOX_ZONE" "$DEVBOX_PROJECT" "$DEVBOX_NAME" -- $DEVBOX_SSH_OPTS bash -c "tmux new-session -A -s main"
     fi
     ;;
   attach)
-    gcloud beta compute ssh --zone=$DEVBOX_ZONE $DEVBOX_NAME $DEVBOX_PROJECT -- $DEVBOX_SSH_OPTS tmux attach-session
+    gcloud beta compute ssh "--zone=$DEVBOX_ZONE" "$DEVBOX_PROJECT" "$DEVBOX_NAME" -- $DEVBOX_SSH_OPTS tmux attach-session
     ;;
   scp-in)
-    gcloud compute scp --recurse --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $1 $DEVBOX_NAME:${2:-}
+    gcloud compute scp --recurse "--zone=$DEVBOX_ZONE" "$DEVBOX_PROJECT" "$1" "$DEVBOX_NAME:${2:-}"
     ;;
   scp-out)
-    gcloud compute scp --zone=$DEVBOX_ZONE $DEVBOX_PROJECT $DEVBOX_NAME:${1} ${2:-.}
+    gcloud compute scp "--zone=$DEVBOX_ZONE" "$DEVBOX_PROJECT" "$DEVBOX_NAME:${1} ${2:-.}"
     ;;
   list)
-    gcloud compute instances list $DEVBOX_PROJECT
+    gcloud compute instances list "$DEVBOX_PROJECT"
     ;;
   status|stat)
-    gcloud compute instances list $DEVBOX_PROJECT | grep $DEVBOX_NAME
+    gcloud compute instances list "$DEVBOX_PROJECT" | grep "$DEVBOX_NAME"
     ;;
   *)
     >&2 echo "Unknown command $command"
