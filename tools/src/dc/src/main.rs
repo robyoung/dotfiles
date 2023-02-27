@@ -26,10 +26,10 @@ fn command_psql(args: &[String]) -> Result<()> {
     }
     let container_id = get_container_id(&container_name)
         .map_err(|_| anyhow!("No postgres container, is it started?"))?;
-    let tcols = format!("COLUMNS={}", exec_out(&["tput", "cols"])?);
-    let tlines = format!("LINES={}", exec_out(&["tput", "lines"])?);
 
-    let mut all_args = vec!["docker", "exec", "-ti", "--env", &tcols, "--env", &tlines];
+    let mut all_args = vec!["docker", "exec", "-ti"];
+    let dimensions = get_terminal_dimensions()?;
+    all_args.extend(dimensions.iter().map(|s| &**s));
 
     let unix_user = get_from_git("dc-postgres-user");
     if unix_user != "" {
@@ -48,7 +48,7 @@ fn command_psql(args: &[String]) -> Result<()> {
         all_args.push(&pg_database);
     }
 
-    all_args.extend_from_slice(&args.iter().map(String::as_str).collect::<Vec<&str>>());
+    all_args.extend(args.iter().map(String::as_str));
 
     // println!("{:?}", all_args);
     let mut child = Command::new(all_args[0])
@@ -77,7 +77,9 @@ fn command_flask(args: &[String]) -> Result<()> {
     if container_name == "" {
         bail!("No make container name, set with git config --add robyoung.dc-flask ...")
     }
-    let mut all_args = vec![String::from("exec"), container_name, String::from("flask")];
+    let mut all_args = vec![String::from("exec")];
+    all_args.extend(get_terminal_dimensions()?);
+    all_args.extend_from_slice(&[container_name, String::from("flask")]);
     all_args.extend_from_slice(&args);
 
     command_docker_compose(&all_args)
@@ -108,7 +110,7 @@ fn command_test(args: &[String]) -> Result<()> {
 }
 
 fn command_docker_compose(args: &[String]) -> Result<()> {
-    println!("{:?}", args);
+    // println!("{:?}", args);
     let mut child = Command::new("docker-compose")
         .args(args)
         .spawn()
@@ -135,6 +137,19 @@ fn get_container_id(name: &str) -> Result<String> {
         thread::sleep(Duration::from_millis(10));
     }
     bail!("could not find container id")
+}
+
+fn get_terminal_dimensions() -> Result<Vec<String>> {
+    let tcols = format!("COLUMNS={}", exec_out(&["tput", "cols"])?);
+    let tlines = format!("LINES={}", exec_out(&["tput", "lines"])?);
+    // println!("{:?}x{:?}", tcols, tlines);
+
+    Ok(vec![
+        String::from("--env"),
+        tcols,
+        String::from("--env"),
+        tlines,
+    ])
 }
 
 fn exec_out(args: &[&str]) -> Result<String> {
