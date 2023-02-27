@@ -29,3 +29,5 @@ entrypoint
 CostX
 mealie
 auth
+stderr
+stdout

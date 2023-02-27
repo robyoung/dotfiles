@@ -65,7 +65,7 @@ lvim.plugins = {
   { "cespare/vim-toml" },
   { "mechatroner/rainbow_csv" },
   { "plasticboy/vim-markdown", requires = { "godlygeek/tabular" } },
-  { "robyoung/orgmode", branch = "combined-tweaks", config = function()
+  { "nvim-orgmode/orgmode", config = function()
     require('orgmode').setup {}
   end },
   {
