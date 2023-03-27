@@ -64,10 +64,14 @@ lvim.plugins = {
   { "andrewstuart/vim-kubernetes" },
   { "cespare/vim-toml" },
   { "mechatroner/rainbow_csv" },
-  { "plasticboy/vim-markdown", requires = { "godlygeek/tabular" } },
-  { "nvim-orgmode/orgmode", config = function()
-    require('orgmode').setup {}
-  end },
+  { "plasticboy/vim-markdown",    requires = { "godlygeek/tabular" } },
+  { "ggandor/leap.nvim" },
+  {
+    "nvim-orgmode/orgmode",
+    config = function()
+      require('orgmode').setup {}
+    end
+  },
   {
     "f-person/git-blame.nvim",
     event = "BufRead",
@@ -76,14 +80,18 @@ lvim.plugins = {
       vim.g.gitblame_enabled = 0
     end,
   },
-  { "https://git.sr.ht/~whynothugo/lsp_lines.nvim", config = function()
-    require("lsp_lines").setup()
-  end },
+  {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+    end
+  },
   -- colorschemes
   { "lunarvim/colorschemes" },
-  { "ellisonleao/gruvbox.nvim", requires = { "rktjmp/lush.nvim" } },
+  { "ellisonleao/gruvbox.nvim",   requires = { "rktjmp/lush.nvim" } },
   { "marko-cerovac/material.nvim" },
 }
+require('leap').add_default_mappings()
 
 require("material").setup({
   contrast = {
@@ -100,6 +108,10 @@ require("material").setup({
     colors.syntax.comments = "#999999"
     colors.editor.selection = "#404040"
   end
+})
+
+require("cmp").setup({
+  sources = { { name = "orgmode" } }
 })
 
 
@@ -203,8 +215,8 @@ lvim.lsp.diagnostics.virtual_text = false
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   -- { command = "ruff", filetypes = { "python" } },
-  { exe = "isort", filetypes = { "python" } },
-  { exe = "black", filetypes = { "python" } },
+  { exe = "isort",    filetypes = { "python" } },
+  { exe = "black",    filetypes = { "python" } },
   { exe = "prettier", filetypes = { "typescript" } },
 }
 local linters = require "lvim.lsp.null-ls.linters"
