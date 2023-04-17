@@ -110,11 +110,11 @@ fn command_test(args: &[String]) -> Result<()> {
 }
 
 fn command_docker_compose(args: &[String]) -> Result<()> {
-    // println!("{:?}", args);
-    let mut child = Command::new("docker-compose")
-        .args(args)
+    println!("{:?}", args);
+    let mut child = Command::new("docker")
+        .args([&[String::from("compose")], args].concat())
         .spawn()
-        .expect("failed to run docker-compose");
+        .expect("failed to run docker compose");
 
     child.wait().expect("failed to wait for child");
 
@@ -131,7 +131,7 @@ fn get_from_git(name: &str) -> String {
 
 fn get_container_id(name: &str) -> Result<String> {
     for _ in 0..5 {
-        if let Ok(out) = exec_out(&["docker-compose", "ps", "-q", name]) {
+        if let Ok(out) = exec_out(&["docker", "compose", "ps", "-q", name]) {
             return Ok(out);
         }
         thread::sleep(Duration::from_millis(10));
