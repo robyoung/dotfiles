@@ -1,7 +1,5 @@
 add_newline = false
 
-[python]
-enabled = true
 
 [kubernetes]
 disabled = false
