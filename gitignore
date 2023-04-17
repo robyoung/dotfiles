@@ -8,8 +8,7 @@
 .python-version
 .envrc
 pylama.ini
-/SCRATCH.md
-/SCRATCH.sql
+/SCRATCH.*
 /.vscode
 /robyoung-scratch
 !/.github
