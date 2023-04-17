@@ -36,6 +36,8 @@ export PATH=${PATH}:~/.local/thonny/bin
 export PYTHONBREAKPOINT=ipdb.set_trace
 export EDITOR=lvim
 export TEALDEER_CONFIG_DIR=~/.config/tealdeer
+export PSQL_PAGER="pspg"
+export AICHAT_CONFIG_DIR=~/.config/aichat
 
 if [[ -x ~/.pyenv/bin/pyenv ]]; then
   export PATH=${PATH}:~/.pyenv/bin
