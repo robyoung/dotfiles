@@ -1,0 +1,10 @@
+Host microbit-tester.local
+  ForwardAgent yes
+
+# Host 192.168.30 bob1.local
+Host bob1.local
+  ForwardAgent yes
+  User ubuntu
+
+Host xps-2020.local
+  User robyoung
