@@ -213,7 +213,7 @@ require("lspconfig").beancount.setup {
 --   },
 -- }
 vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pylyzer" })
-lvim.lsp.diagnostics.virtual_text = false
+vim.diagnostic.config({ virtual_text = false })
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { command = "ruff", filetypes = { "python" } },
