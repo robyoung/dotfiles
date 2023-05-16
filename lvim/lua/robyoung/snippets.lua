@@ -22,16 +22,16 @@ local types = require("luasnip.util.types")
 local conds = require("luasnip.extras.expand_conditions")
 
 ls.add_snippets("python", {
-    s("def", {
-      t("def "),
-      i(1),
-      t("("),
-      i(2, "arg"),
-      t(") -> "),
-      i(3, "None"),
-      t({":", "\t"}),
-      i(0),
-    }),
+  s("def", {
+    t("def "),
+    i(1),
+    t("("),
+    i(2, "arg"),
+    t(") -> "),
+    i(3, "None"),
+    t({ ":", "\t" }),
+    i(0),
+  }),
   s("from", {
     t("from "),
     i(1),
@@ -40,5 +40,8 @@ ls.add_snippets("python", {
   }),
   s("tyi", {
     t("  # type: ignore")
+  }),
+  s("todo", {
+    t("# TODO @robyoung ")
   })
 })

@@ -1,4 +1,5 @@
 -- general
+--
 lvim.log.level = "warn"
 lvim.format_on_save = true
 
@@ -60,11 +61,10 @@ require("robyoung.snippets")
 
 -- Additional Plugins
 lvim.plugins = {
-  { "glepnir/indent-guides.nvim" },
   { "andrewstuart/vim-kubernetes" },
   { "cespare/vim-toml" },
   { "mechatroner/rainbow_csv" },
-  { "plasticboy/vim-markdown",    requires = { "godlygeek/tabular" } },
+  { "plasticboy/vim-markdown",    dependencies = { "godlygeek/tabular" } },
   { "ggandor/leap.nvim" },
   {
     "nvim-orgmode/orgmode",
@@ -81,14 +81,14 @@ lvim.plugins = {
     end,
   },
   {
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    "Maan2003/lsp_lines.nvim",
     config = function()
       require("lsp_lines").setup()
     end
   },
   -- colorschemes
   { "lunarvim/colorschemes" },
-  { "ellisonleao/gruvbox.nvim",   requires = { "rktjmp/lush.nvim" } },
+  { "ellisonleao/gruvbox.nvim",   dependencies = { "rktjmp/lush.nvim" } },
   { "marko-cerovac/material.nvim" },
 }
 require('leap').add_default_mappings()
@@ -111,7 +111,8 @@ require("material").setup({
 })
 
 require("cmp").setup({
-  sources = { { name = "orgmode" } }
+  sources = { { name = "orgmode" } },
+  preselect = require("cmp").PreselectMode.None
 })
 
 
@@ -211,17 +212,18 @@ require("lspconfig").beancount.setup {
 --     filetypes = { "javascript", "javascriptreact" },
 --   },
 -- }
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pylyzer" })
 lvim.lsp.diagnostics.virtual_text = false
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  -- { command = "ruff", filetypes = { "python" } },
-  { exe = "isort",    filetypes = { "python" } },
+  { command = "ruff", filetypes = { "python" } },
+  -- { exe = "isort",    filetypes = { "python" } },
   { exe = "black",    filetypes = { "python" } },
   { exe = "prettier", filetypes = { "typescript" } },
 }
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
-  { name = "flake8" },
+  { name = "ruff" },
   { name = "shellcheck" },
 }
 -- lvim.format_on_save = false
