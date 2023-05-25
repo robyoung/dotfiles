@@ -129,8 +129,12 @@ which direnv > /dev/null && eval "$(direnv hook zsh)"
 venv() {
   if [ -d ./venv ]; then
     . ./venv/bin/activate
+  elif [ $PWD = $HOME ]; then
+    >&2 echo "Could not find virtualenv to load"
   else
-    . ~/${DEV_DIR}/venv/bin/activate
+    pushd .. > /dev/null
+    venv 
+    popd > /dev/null
   fi
 }
 

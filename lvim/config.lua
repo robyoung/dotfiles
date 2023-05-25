@@ -216,10 +216,13 @@ vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pylyzer" })
 vim.diagnostic.config({ virtual_text = false })
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "ruff", filetypes = { "python" } },
-  -- { exe = "isort",    filetypes = { "python" } },
-  { exe = "black",    filetypes = { "python" } },
-  { exe = "prettier", filetypes = { "typescript" } },
+  {
+    name = "ruff",
+    args = { "--unfixable=F841" },
+    filetypes = { "python" }
+  },
+  { name = "black",    filetypes = { "python" } },
+  { name = "prettier", filetypes = { "typescript" } },
 }
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
