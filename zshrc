@@ -86,6 +86,7 @@ fi
 if _has exa; then
   alias l='exa -l'
   alias ls='exa'
+  alias tree='exa -T'
 fi
 alias gph="git push origin HEAD"
 alias it=git
