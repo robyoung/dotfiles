@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+zellij attach turntown || zellij --session turntown --layout turntown
