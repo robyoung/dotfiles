@@ -1,3 +1,7 @@
+function log() {
+  echo "$(date --utc +%Y-%m-%dT%H:%M:%S) $@" >> /var/log/robyoung-startup.log
+}
+
 # local overrides
 
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -14,11 +18,11 @@ DEFAULT_USER="robyoung"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(pass git kubectl helm gcloud)
+plugins=(git)
 
 fpath=(~/.config/zsh ~/.zsh $fpath ~/.zfunc)
 
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 _has(){
   type $1 >/dev/null 2>&1
