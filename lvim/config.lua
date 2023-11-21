@@ -25,6 +25,7 @@ lvim.plugins = {
   { "mechatroner/rainbow_csv" },
   { "plasticboy/vim-markdown",    dependencies = { "godlygeek/tabular" } },
   { "ggandor/leap.nvim" },
+  { "towolf/vim-helm" },
   {
     "nvim-orgmode/orgmode",
     config = function()
