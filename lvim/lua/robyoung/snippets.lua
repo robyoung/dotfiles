@@ -45,3 +45,9 @@ ls.add_snippets("python", {
     t("# TODO @robyoung ")
   })
 })
+
+ls.add_snippets("rust", {
+  s("todo", {
+    t("// TODO @robyoung ")
+  })
+})
