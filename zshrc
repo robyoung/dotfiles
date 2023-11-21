@@ -162,7 +162,8 @@ if _has keychain; then
   source $HOME/.keychain/$HOST-sh  
 fi
 
-eval "$(starship init zsh)"
+_has starship && eval "$(starship init zsh)"
+_has zoxide && eval "$(zoxide init zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
