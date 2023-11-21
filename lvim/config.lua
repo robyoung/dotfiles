@@ -17,6 +17,7 @@ lvim.keys.normal_mode[";;"] = ":Telescope treesitter<CR>"
 lvim.keys.normal_mode["="] = ":Telescope live_grep<CR>"
 lvim.keys.normal_mode["=="] = ":Telescope current_buffer_fuzzy_find<CR>"
 
+
 -- Additional Plugins
 lvim.plugins = {
   { "andrewstuart/vim-kubernetes" },
@@ -36,10 +37,28 @@ lvim.plugins = {
       require("lsp_lines").setup()
     end
   },
+  { "github/copilot.vim" },
   -- colorschemes
   { "marko-cerovac/material.nvim" },
 }
 require('leap').add_default_mappings()
+
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_assume_mapped = true
+vim.g.copilot_tab_fallback = ""
+
+local cmp = require("cmp")
+local copilot_callback = function(fallback)
+  cmp.mapping.abort()
+  local copilot_keys = vim.fn["copilot#Accept"]()
+  if copilot_keys ~= "" then
+    vim.api.nvim_feedkeys(copilot_keys, "i", true)
+  else
+    fallback()
+  end
+end
+lvim.builtin.cmp.mapping["<C-e>"] = copilot_callback
+lvim.builtin.cmp.mapping["<C-y>"] = copilot_callback
 
 -- Custom settings
 require("robyoung.which-key")
