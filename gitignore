@@ -13,3 +13,4 @@ pylama.ini
 /robyoung-scratch
 !/.github
 .git
+/scripts/perf

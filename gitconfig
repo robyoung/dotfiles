@@ -19,6 +19,8 @@
   ammend = commit --amend --no-edit
   am = ammend
   todos = "!f() { git diff main HEAD | rg -C2 '^\\+.*TODO' ; } ; f"
+  dft = difftool
+  dlog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
 [user]
   name = Rob Young
   email = rob@robyoung.digital
@@ -43,5 +45,13 @@
   dark = true
   line-numbers = true
   side-by-side = false
+[diff]
+  tool = difftastic
+[difftool]
+  prompt = false
+[difftool "difftastic"]
+  cmd = difft --mode "$LOCAL" "$REMOTE"
+[pager]
+  difftool = true
 [interactive]
   diffFilter = delta --color-only

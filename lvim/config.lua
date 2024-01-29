@@ -22,8 +22,16 @@ lvim.keys.normal_mode["=="] = ":Telescope current_buffer_fuzzy_find<CR>"
 lvim.plugins = {
   { "andrewstuart/vim-kubernetes" },
   { "cespare/vim-toml" },
+  {
+    "f-person/git-blame.nvim",
+    event = "BufRead",
+    config = function()
+      vim.cmd "highlight default link gitblame SpecialComment"
+      require("gitblame").setup { enabled = false }
+    end
+  },
   { "mechatroner/rainbow_csv" },
-  { "plasticboy/vim-markdown",    dependencies = { "godlygeek/tabular" } },
+  { "plasticboy/vim-markdown", dependencies = { "godlygeek/tabular" } },
   { "ggandor/leap.nvim" },
   { "towolf/vim-helm" },
   {
