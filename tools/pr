@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+body_filename=/tmp/github-pr-body.$$
+diff_filename=/tmp/github-pr-diff.$$
+trap 'rm $body_filename $diff_filename' EXIT
+
+if [ -f .github/pull_request_template.md ]; then
+  cat .github/pull_request_template.md > $body_filename
+  printf "\n------\n\n" >> $body_filename
+fi
+git log --pretty=%B origin/main..HEAD > $diff_filename
+if rg -q '^[A-Z]+-[0-9]+:' $diff_filename; then
+  ticket_id=$(rg -o '^[A-Z]+-[0-9]+' $diff_filename | head -n 1 | tr -d '\n')
+  sd "TT-1234" "$ticket_id" $body_filename
+fi
+cat $diff_filename >> $body_filename
+
+gh pr create --draft --body-file $body_filename

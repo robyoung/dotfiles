@@ -107,17 +107,6 @@ alias my-repos='exa ~/dev/github/robyoung'
 alias prl='gh pr list --search "-author:@me is:open is:pr -reviewed-by:@me -is:draft"  --web'
 alias capswap='setxkbmap -option caps:swapescape'
 
-pr() {
-  body_filename=/tmp/github-pr-body.$$
-  if [ -f .github/pull_request_template.md ]; then
-    cat .github/pull_request_template.md <(echo "\n------\n") <(git log --pretty=%B origin/main..HEAD) > $body_filename
-  else
-    git log --pretty=%B origin/main..HEAD > $body_filename
-  fi
-  gh pr create --draft --body-file $body_filename
-}
-
-
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
 
