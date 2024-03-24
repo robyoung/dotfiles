@@ -3,3 +3,8 @@ add_newline = false
 
 [kubernetes]
 disabled = false
+
+[battery]
+charging_symbol='󰂄 '
+unknown_symbol='󰁽 '
+empty_symbol='󰂎 '
