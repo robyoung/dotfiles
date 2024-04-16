@@ -116,6 +116,8 @@ which direnv > /dev/null && eval "$(direnv hook zsh)"
 venv() {
   if [ -d ./venv ]; then
     . ./venv/bin/activate
+  elif [ -d ./.venv ]; then
+    . ./.venv/bin/activate
   elif [ $PWD = $HOME ]; then
     >&2 echo "Could not find virtualenv to load"
   else
@@ -162,22 +164,4 @@ export NVM_DIR="$HOME/.nvm"
   export VOLTA_HOME="$HOME/.volta"
   export PATH="$VOLTA_HOME/bin:$PATH"
 }
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if [ -d "$HOME/.local/miniconda3" ]
-then
-  __conda_setup="$('/home/robyoung/.local/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-  if [ $? -eq 0 ]; then
-      eval "$__conda_setup"
-  else
-      if [ -f "/home/robyoung/.local/miniconda3/etc/profile.d/conda.sh" ]; then
-          . "/home/robyoung/.local/miniconda3/etc/profile.d/conda.sh"
-      else
-          export PATH="/home/robyoung/.local/miniconda3/bin:$PATH"
-      fi
-  fi
-  unset __conda_setup
-fi
-# <<< conda initialize <<<
 
