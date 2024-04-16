@@ -94,15 +94,17 @@ alias ipy=ipython
 alias cy='bat -l yaml'
 alias cj='bat -l javascript'
 alias shot='shotgun $(slop -l -c 200,0,1,0.4 -f "-i %i -g %g")'
-if [[ $(uname -s) == "Linux" ]]; then
-  alias open='xdg-open'
-fi
-alias p='pass -c'
-if [[ $(uname -s) == "Darwin" ]]; then
-  alias clip='pbcopy'
-else
-  alias clip='xclip -selection clipboard'
-fi
+
+case $(uname -s) in
+  Linux)
+    alias clip='xclip -selection clipboard'
+    alias open='xdg-open'
+    ;;
+  Darwin)
+    alias clip='pbcopy'
+    ;;
+esac
+
 alias my-repos='exa ~/dev/github/robyoung'
 alias prl='gh pr list --search "-author:@me is:open is:pr -reviewed-by:@me -is:draft"  --web'
 alias capswap='setxkbmap -option caps:swapescape'
@@ -165,3 +167,5 @@ export NVM_DIR="$HOME/.nvm"
   export PATH="$VOLTA_HOME/bin:$PATH"
 }
 
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+eval "$(atuin init zsh)"
