@@ -13,6 +13,7 @@ fn main() {
     match command {
         Some("test") => command_test(&args[2..]).expect("fail"),
         Some("psql") => command_psql(&args[2..]).expect("fail"),
+        Some("pgload") => command_pgload(&args[2..]).expect("fail"),
         Some("flask") => command_flask(&args[2..]).expect("fail"),
         Some("make") => command_make(&args[2..]).expect("fail"),
         _ => command_docker_compose(&args[1..]).expect("fail"),
@@ -20,37 +21,16 @@ fn main() {
 }
 
 fn command_psql(args: &[String]) -> Result<()> {
-    let container_name = get_from_git("dc-postgres");
-    if container_name == "" {
-        bail!("No postgres container name, set with git config --add robyoung.dc-postgres ...")
-    }
-    let container_id = get_container_id(&container_name)
-        .map_err(|_| anyhow!("No postgres container, is it started?"))?;
-
     let mut all_args = vec!["docker", "exec", "-ti"];
+
     let dimensions = get_terminal_dimensions()?;
+    let psql_args = add_psql_connection_args(args)?;
+
     all_args.extend(dimensions.iter().map(|s| &**s));
-
-    let unix_user = get_from_git("dc-postgres-user");
-    if unix_user != "" {
-        all_args.extend_from_slice(&["--user", &unix_user]);
-    }
-
-    all_args.extend_from_slice(&[&container_id, "psql"]);
-
-    let pg_user = get_from_git("dc-postgres-pguser");
-    if pg_user != "" {
-        all_args.extend_from_slice(&["--user", &pg_user]);
-    }
-
-    let pg_database = get_from_git("dc-postgres-database");
-    if pg_database != "" && (args.len() == 0 || args[0].starts_with("-")) {
-        all_args.push(&pg_database);
-    }
-
+    all_args.extend(psql_args.iter().map(String::as_str));
     all_args.extend(args.iter().map(String::as_str));
 
-    // println!("{:?}", all_args);
+    println!("# {:?}", all_args);
     let mut child = Command::new(all_args[0])
         .args(&all_args[1..])
         .spawn()
@@ -59,6 +39,53 @@ fn command_psql(args: &[String]) -> Result<()> {
     child.wait().expect("failed to wait for child");
 
     Ok(())
+}
+
+fn command_pgload(args: &[String]) -> Result<()> {
+    let mut all_args = vec!["docker", "exec", "-i"];
+
+    let psql_args = add_psql_connection_args(args)?;
+
+    all_args.extend(psql_args.iter().map(String::as_str));
+    all_args.extend(args.iter().map(String::as_str));
+
+    let mut child = Command::new(all_args[0])
+        .args(&all_args[1..])
+        .stdin(std::process::Stdio::inherit())
+        .spawn()
+        .expect("failed to run pgload");
+
+    child.wait().expect("failed to wait for child");
+
+    Ok(())
+}
+
+fn add_psql_connection_args(args: &[String]) -> Result<Vec<String>> {
+    let mut all_args = Vec::new();
+    let unix_user = get_from_git("dc-postgres-user");
+    if unix_user != "" {
+        all_args.extend_from_slice(&["--user".to_owned(), unix_user]);
+    }
+
+    let container_name = get_from_git("dc-postgres");
+    if container_name == "" {
+        bail!("No postgres container name, set with git config --add robyoung.dc-postgres ...")
+    }
+    let container_id = get_container_id(&container_name)
+        .map_err(|_| anyhow!("No postgres container, is it started?"))?;
+    all_args.extend_from_slice(&[container_id, "psql".to_owned()]);
+
+    let pg_user = get_from_git("dc-postgres-pguser");
+    if pg_user != "" {
+        all_args.extend_from_slice(&["--user".to_owned(), pg_user]);
+    }
+
+    let pg_database = get_from_git("dc-postgres-database");
+    if pg_database != "" && (args.len() == 0 || args[0].starts_with("-")) {
+        all_args.push(pg_database);
+    }
+
+    Ok(all_args)
 }
 
 fn command_make(args: &[String]) -> Result<()> {
