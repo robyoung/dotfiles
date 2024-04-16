@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+git for-each-ref --sort=committerdate refs/heads --format='%(refname:short) %(committerdate:relative)' | grep -v '^main '

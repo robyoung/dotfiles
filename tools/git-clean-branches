@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# clean up merged branches
+>&2 echo "Cleaning up merged branches..."
+git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
+
+# clean up remote branches
+>&2 echo "Cleaning up remote branches..."
+git remote prune origin
+
+# clean up old branches
+>&2 echo "Cleaning up old branches..."
+for branch_name in $(git for-each-ref --sort=committerdate refs/heads --format='%(refname:short) %(committerdate:relative)' | grep 'months ago' | cut -d' ' -f1 | grep -v '^main '); do
+  >&2 echo " > $branch_name"
+  git push origin "$branch_name"
+  git branch -D "$branch_name"
+done
