@@ -20,6 +20,8 @@ else
   exit 1
 fi
 
+BASE_DIR=${2:-~/dev/github}
+pushd $BASE_DIR
 mkdir -p $username
 pushd $username
 git clone $url
