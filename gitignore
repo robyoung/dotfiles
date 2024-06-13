@@ -8,9 +8,11 @@
 .python-version
 .envrc
 pylama.ini
-/SCRATCH.*
+SCRATCH.*
+/scratch/
 /.vscode
 /robyoung-scratch
 !/.github
 .git
 /scripts/perf
+/.zed
