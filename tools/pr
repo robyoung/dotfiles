@@ -5,6 +5,12 @@
 # The PR template is used if it exists.
 # Commit messages are appended so that they can easily be included in the PR description.
 # If any of the commit messages contain the JIRA ticket ID it is substituted in the template.
+#
+
+# Check for required tools
+type rg >/dev/null 2>&1 || { echo >&2 "rg is required. Install it with 'brew install ripgrep'"; exit 1; }
+type sd >/dev/null 2>&1 || { echo >&2 "sd is required. Install it with 'brew install sd'"; exit 1; }
+type gh >/dev/null 2>&1 || { echo >&2 "gh is required. Install it with 'brew install gh'"; exit 1; }
 
 # Set up files
 body_filename=/tmp/github-pr-body.$$
