@@ -68,6 +68,7 @@ local copilot_callback = function(fallback)
 end
 lvim.builtin.cmp.mapping["<C-e>"] = copilot_callback
 lvim.builtin.cmp.mapping["<C-y>"] = copilot_callback
+lvim.builtin.cmp.mapping["<C-J>"] = copilot_callback
 
 -- Custom settings
 require("robyoung.which-key")
@@ -79,11 +80,7 @@ require("robyoung.colourscheme")
 -- vim.diagnostic.config({ virtual_text = false })
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  {
-    name = "ruff",
-    args = { "--unfixable=F841" },
-    filetypes = { "python" }
-  },
+  { name = "ruff",     filetypes = { "python" } },
   { name = "black",    filetypes = { "python" } },
   { name = "prettier", filetypes = { "typescript" } },
 }

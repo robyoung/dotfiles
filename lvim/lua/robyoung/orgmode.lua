@@ -1,4 +1,3 @@
-require("orgmode").setup_ts_grammar()
 local task_properties = "\n:PROPERTIES:\n:CREATED:  %u\n:END:"
 require("orgmode").setup({
   org_agenda_files = { "~/Notes/*" },
