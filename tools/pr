@@ -1,18 +1,34 @@
 #!/usr/bin/env bash
+#
+# Open a GitHub pull request from the current branch to main.
+#
+# The PR template is used if it exists.
+# Commit messages are appended so that they can easily be included in the PR description.
+# If any of the commit messages contain the JIRA ticket ID it is substituted in the template.
 
+# Set up files
 body_filename=/tmp/github-pr-body.$$
-diff_filename=/tmp/github-pr-diff.$$
-trap 'rm $body_filename $diff_filename' EXIT
+commits_filename=/tmp/github-pr-commits.$$
+trap 'rm $body_filename $commits_filename' EXIT
 
+# Copy the template
 if [ -f .github/pull_request_template.md ]; then
   cat .github/pull_request_template.md > $body_filename
   printf "\n------\n\n" >> $body_filename
 fi
-git log --pretty=%B origin/main..HEAD > $diff_filename
-if rg -q '^[A-Z]+-[0-9]+:' $diff_filename; then
-  ticket_id=$(rg -o '^[A-Z]+-[0-9]+' $diff_filename | head -n 1 | tr -d '\n')
+
+# Get the commit messages
+git log --pretty=%B --reverse origin/main..HEAD > $commits_filename
+
+# Check for JIRA ticket ID in commit messages
+if rg -q '^[A-Z]+-[0-9]+:' $commits_filename; then
+  ticket_id=$(rg -o '^[A-Z]+-[0-9]+' $commits_filename | head -n 1 | tr -d '\n')
+  # Replace the ticket ID in the template
   sd "TT-1234" "$ticket_id" $body_filename
 fi
-cat $diff_filename >> $body_filename
 
+# Append the commit messages to the template
+cat $commits_filename >> $body_filename
+
+# Open the PR
 gh pr create --draft --body-file $body_filename
