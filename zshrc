@@ -109,6 +109,8 @@ alias my-repos='exa ~/dev/github/robyoung'
 alias prl='gh pr list --search "-author:@me is:open is:pr -reviewed-by:@me -is:draft"  --web'
 alias capswap='setxkbmap -option caps:swapescape'
 
+unsetopt autocd
+
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/vault vault
 
@@ -169,3 +171,7 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 eval "$(atuin init zsh)"
+
+if [[ -f "$HOME/.rye/env" ]]; then
+  source "$HOME/.rye/env"
+fi
