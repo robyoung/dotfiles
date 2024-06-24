@@ -1,0 +1,14 @@
+[
+  {
+    "context": "Editor && vim_mode == normal && !menu",
+    "bindings": {
+      "down": ["workspace::SendKeystrokes", "4 j"],
+      "space l r": "editor::FindAllReferences",
+      "g r": "editor::FindAllReferences",
+      "space s": "workspace::Save",
+      "shift-y": ["workspace::SendKeystrokes", "y $"],
+      // leader tasks
+      "space t l": ["task::Spawn", { "task_name": "Lint" }]
+    }
+  }
+]
