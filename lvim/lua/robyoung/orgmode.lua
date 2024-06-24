@@ -8,4 +8,8 @@ require("orgmode").setup({
     h = { description = 'Headline', template = '* %?' .. task_properties },
   },
   org_archive_location = 'Archive/%s',
+  org_capture_templates = {
+    t = { description = 'Task', template = '* TODO %?\n:PROPERTIES:\n:CREATED:  %U\n:END:\n\n' },
+    h = { description = 'Heading', template = '* %?\n:PROPERTIES:\n:CREATED:  %U\n:END:\n\n' },
+  }
 })
