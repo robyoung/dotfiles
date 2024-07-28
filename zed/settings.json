@@ -25,5 +25,15 @@
   "tabs": {
     "git_status": true
   },
-  "format_on_save": "on"
+  "format_on_save": "on",
+  "assistant": {
+    "version": "1",
+    "provider": {
+      "default_model": "claude-3-5-sonnet-20240620",
+      "name": "anthropic"
+    }
+  },
+  "jupyter": {
+    "enabled": true
+  }
 }
