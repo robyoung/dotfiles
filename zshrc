@@ -34,18 +34,13 @@ export PATH=~/.local/bin:${PATH}
 export PATH=${PATH}:~/.local/npm/bin
 export PATH=${PATH}:~/.local/thonny/bin
 export PYTHONBREAKPOINT=ipdb.set_trace
-export EDITOR=lvim
+export EDITOR="zed --wait"
 export TEALDEER_CONFIG_DIR=~/.config/tealdeer
 export PSQL_PAGER="pspg"
 export AICHAT_CONFIG_DIR=~/.config/aichat
 
 if [[ -x ~/.pyenv/bin/pyenv ]]; then
   export PATH=${PATH}:~/.pyenv/bin
-fi
-
-if [[ -d /opt/homebrew/Caskroom/google-cloud-sdk ]]; then
-  source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-  source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
 
 if [[ -d /opt/homebrew/opt/llvm ]]; then
