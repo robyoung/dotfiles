@@ -16,3 +16,4 @@ SCRATCH.*
 .git
 /scripts/perf
 /.zed
+/boblib.py
