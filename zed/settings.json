@@ -7,8 +7,14 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "language_models": {
+    "anthropic": {
+            "version": "1"
+        }
+  },
   "terminal": {
-    "dock": "bottom"
+    "dock": "bottom",
+    "font_family": "FiraCode Nerd Font"
   },
   "confirm_quit": true,
   "preferred_line_length": 120,
@@ -27,11 +33,12 @@
   },
   "format_on_save": "on",
   "assistant": {
-    "version": "1",
-    "provider": {
-      "default_model": "claude-3-5-sonnet-20240620",
-      "name": "anthropic"
-    }
+    "default_model": {
+      "provider": "anthropic",
+      "model": "claude-3-5-sonnet-20240620"
+    },
+    "version": "2",
+    "provider": null
   },
   "jupyter": {
     "enabled": true
