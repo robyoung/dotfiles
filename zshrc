@@ -5,7 +5,7 @@
 skip_global_compinit=1
 
 # Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 CASE_SENSITIVE="true"
@@ -14,7 +14,7 @@ DEFAULT_USER="robyoung"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(pass git kubectl helm gcloud)
+plugins=(git kubectl helm gcloud)
 
 fpath=(~/.config/zsh ~/.zsh $fpath ~/.zfunc)
 
@@ -29,7 +29,7 @@ export DEV_DIR=dev
 export GOPATH=$HOME/go
 export PATH=$PATH:${GOPATH//://bin:}/bin
 export PATH=~/.cargo/bin:$PATH
-export PATH=~/dev/github/robyoung/dotfiles/tools:$PATH
+export PATH=~/dev/github/robyoung/dotfiles/tools:~/dev/dotfiles/tools:$PATH
 export PATH=~/.local/bin:${PATH}
 export PATH=${PATH}:~/.local/npm/bin
 export PATH=${PATH}:~/.local/thonny/bin
@@ -55,10 +55,6 @@ fi
 # Navigation
 # Move forwards with Ctrl+o
 bindkey ^o forward-word
-#echo "$(~/bin/stamp) Stage 3" >> /tmp/zsh-startup-robyoung
-
-# Start gpg-agent
-gpgconf --launch gpg-agent
 
 bindkey '^b' backward-word
 bindkey '^f' forward-word
@@ -78,17 +74,15 @@ if _has fzf && _has rg; then
   export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
 
-if _has exa; then
-  alias l='exa -l'
-  alias ls='exa'
-  alias tree='exa -T'
+if _has eza; then
+  alias l='eza -l'
+  alias ls='eza'
+  alias lt='eza -T'
 fi
-alias gph="git push origin HEAD"
-alias it=git
+alias bat=batcat
 alias ipy=ipython
 alias cy='bat -l yaml'
 alias cj='bat -l javascript'
-alias shot='shotgun $(slop -l -c 200,0,1,0.4 -f "-i %i -g %g")'
 
 case $(uname -s) in
   Linux)
@@ -100,9 +94,8 @@ case $(uname -s) in
     ;;
 esac
 
-alias my-repos='exa ~/dev/github/robyoung'
+alias my-repos='ls ~/dev/github/robyoung'
 alias prl='gh pr list --search "-author:@me is:open is:pr -reviewed-by:@me -is:draft"  --web'
-alias capswap='setxkbmap -option caps:swapescape'
 
 unsetopt autocd
 
@@ -165,6 +158,7 @@ export NVM_DIR="$HOME/.nvm"
 }
 
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+. "$HOME/.atuin/bin/env"
 eval "$(atuin init zsh)"
 
 if [[ -f "$HOME/.rye/env" ]]; then
