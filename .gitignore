@@ -4,3 +4,4 @@ auto-save-list/
 /ssh_config
 /lvim/plugin/packer_compiled.lua
 /lvim/spell/*.spl
+/zed/.*
