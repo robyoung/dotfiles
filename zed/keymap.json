@@ -2,17 +2,10 @@
   {
     "context": "Editor && vim_mode == normal && !menu",
     "bindings": {
-      "down": [
-        "workspace::SendKeystrokes",
-        "4 j"
-      ],
-      "space l r": "editor::FindAllReferences",
+      "down": ["workspace::SendKeystrokes", "4 j"],
       "g r": "editor::FindAllReferences",
       "space s": "workspace::Save",
-      "shift-y": [
-        "workspace::SendKeystrokes",
-        "y $"
-      ],
+      "shift-y": ["workspace::SendKeystrokes", "y $"],
       // leader tasks
       "space t l": [
         "task::Spawn",
@@ -22,7 +15,14 @@
       ]
     }
   },
-  { // restoring defaults on Linux https://zed.dev/docs/vim#restoring-some-sense-of-normality
+  {
+    "contex": "Editor && vim_mode == insert && !menu",
+    "bindings": {
+      "space r": "editor::Rename"
+    }
+  },
+  {
+    // restoring defaults on Linux https://zed.dev/docs/vim#restoring-some-sense-of-normality
     "context": "Editor && !menu",
     "bindings": {
       "ctrl-c": "editor::Copy", // vim default: return to normal mode
@@ -32,7 +32,7 @@
       "ctrl-f": "buffer_search::Deploy", // vim default: page down
       // "ctrl-o": "workspace::Open", // vim default: go back
       "ctrl-a": "editor::SelectAll", // vim default: increment
-      "ctrl-j": "workspace::ToggleBottomDock", // vim default: join lines
+      "ctrl-j": "workspace::ToggleBottomDock" // vim default: join lines
     }
-  },
+  }
 ]
