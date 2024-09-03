@@ -23,3 +23,7 @@ vim.opt.incsearch = true
 vim.opt.hlsearch = false
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+
+-- Leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"

@@ -6,3 +6,4 @@ vim.keymap.set('n', ";;", ":Telescope treesitter<CR>")
 vim.keymap.set('n', "=", ":Telescope live_grep<CR>")
 vim.keymap.set('n', "==", ":Telescope current_buffer_fuzzy_find<CR>")
 
+vim.keymap.set('n', '<leader>w', ':w<CR>')
