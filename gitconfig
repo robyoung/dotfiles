@@ -2,11 +2,12 @@
   templatedir = ~/.git_template
   defaultBranch = main
 [core]
-  editor = zed --wait
+  editor = nvim
   excludesfile = ~/.gitignore
-  pager = delta
+  pager = nvim -R
 [color]
   ui = true
+  pager = no
 [alias]
   ctags = !.git/hooks/ctags
   st = status
@@ -41,10 +42,6 @@
   clean = git lfs clean %f
   smudge = git lfs smudge %f
   required = true
-[delta]
-  dark = true
-  line-numbers = true
-  side-by-side = false
 [diff]
   tool = difftastic
 [difftool]
@@ -53,5 +50,3 @@
   cmd = difft --mode "$LOCAL" "$REMOTE"
 [pager]
   difftool = true
-[interactive]
-  diffFilter = delta --color-only
