@@ -79,7 +79,9 @@ if _has eza; then
   alias ls='eza'
   alias lt='eza -T'
 fi
-alias bat=batcat
+if _hat batcat; then
+    alias bat=batcat
+fi
 alias ipy=ipython
 alias cy='bat -l yaml'
 alias cj='bat -l javascript'
