@@ -158,7 +158,8 @@ export NVM_DIR="$HOME/.nvm"
 }
 
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
-. "$HOME/.atuin/bin/env"
+
+[ -f ~/.atuin/bin/env ] source "$HOME/.atuin/bin/env"
 eval "$(atuin init zsh)"
 
 if [[ -f "$HOME/.rye/env" ]]; then
