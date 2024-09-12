@@ -4,10 +4,9 @@
 [core]
   editor = nvim
   excludesfile = ~/.gitignore
-  pager = nvim -R
 [color]
   ui = true
-  pager = no
+  pager = yes
 [alias]
   ctags = !.git/hooks/ctags
   st = status
@@ -20,8 +19,9 @@
   ammend = commit --amend --no-edit
   am = ammend
   todos = "!f() { git diff main HEAD | rg -C2 '^\\+.*TODO' ; } ; f"
-  dft = difftool
-  dlog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
+  dft = difftool --tool=difftastic
+  dfn = difftool --tool=nvim
+  dlog = -c diff.external=difft log -p --ext-diff
 [user]
   name = Rob Young
   email = rob@robyoung.digital
@@ -47,6 +47,8 @@
 [difftool]
   prompt = false
 [difftool "difftastic"]
-  cmd = difft --mode "$LOCAL" "$REMOTE"
+  cmd = difft "$LOCAL" "$REMOTE"
+[difftool "nvim"]
+  cmd = nvim -d "$LOCAL" "$REMOTE"
 [pager]
   difftool = true
