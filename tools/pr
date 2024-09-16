@@ -27,7 +27,7 @@ fi
 git log --pretty=%B --reverse origin/main..HEAD > $commits_filename
 
 # Check for JIRA ticket ID in commit messages
-if rg -q '^[A-Z]+-[0-9]+:' $commits_filename; then
+if rg -q '^[A-Z]+-[0-9]+(:| )' $commits_filename; then
   ticket_id=$(rg -o '^[A-Z]+-[0-9]+' $commits_filename | head -n 1 | tr -d '\n')
   # Replace the ticket ID in the template
   sd "TT-1234" "$ticket_id" $body_filename
