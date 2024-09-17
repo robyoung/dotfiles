@@ -79,7 +79,7 @@ if _has eza; then
   alias ls='eza'
   alias lt='eza -T'
 fi
-if _hat batcat; then
+if _has batcat; then
     alias bat=batcat
 fi
 alias ipy=ipython
@@ -161,7 +161,7 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
-[ -f ~/.atuin/bin/env ] source "$HOME/.atuin/bin/env"
+[ -f ~/.atuin/bin/env ] && source "$HOME/.atuin/bin/env"
 eval "$(atuin init zsh)"
 
 if [[ -f "$HOME/.rye/env" ]]; then
