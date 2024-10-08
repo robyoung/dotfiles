@@ -1,0 +1,7 @@
+{
+    "Insert a breakpoint": {
+        "prefix": "brp",
+        "body": "breakpoint()\n",
+        "description": "Insert a breakpoint"
+    }
+}
