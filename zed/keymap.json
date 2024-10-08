@@ -12,13 +12,19 @@
         {
           "task_name": "Lint"
         }
+      ],
+      "space t s": [
+        "task::Spawn",
+        {
+          "task_name": "Test single"
+        }
+      ],
+      "space t f": [
+        "task::Spawn",
+        {
+          "task_name": "Test file"
+        }
       ]
-    }
-  },
-  {
-    "contex": "Editor && vim_mode == insert && !menu",
-    "bindings": {
-      "space r": "editor::Rename"
     }
   },
   {
