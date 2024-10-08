@@ -1,5 +1,5 @@
 use anyhow::{anyhow, bail, Result};
-use std::{env, process::Command, str, thread, time::Duration};
+use std::{env, process::{Command, ExitStatus}, str, thread, time::Duration};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -10,17 +10,20 @@ fn main() {
         None
     };
 
-    match command {
+    let ecode = match command {
         Some("test") => command_test(&args[2..]).expect("fail"),
         Some("psql") => command_psql(&args[2..]).expect("fail"),
         Some("pgload") => command_pgload(&args[2..]).expect("fail"),
         Some("flask") => command_flask(&args[2..]).expect("fail"),
         Some("make") => command_make(&args[2..]).expect("fail"),
         _ => command_docker_compose(&args[1..]).expect("fail"),
-    }
+    };
+
+    std::process::exit(ecode.code().unwrap_or(1));
+
 }
 
-fn command_psql(args: &[String]) -> Result<()> {
+fn command_psql(args: &[String]) -> Result<ExitStatus> {
     let mut all_args = vec!["docker", "exec", "-ti"];
 
     let dimensions = get_terminal_dimensions()?;
@@ -36,12 +39,12 @@ fn command_psql(args: &[String]) -> Result<()> {
         .spawn()
         .expect("failed to run psql");
 
-    child.wait().expect("failed to wait for child");
+    let ecode = child.wait().expect("failed to wait for child");
 
-    Ok(())
+    Ok(ecode)
 }
 
-fn command_pgload(args: &[String]) -> Result<()> {
+fn command_pgload(args: &[String]) -> Result<ExitStatus> {
     let mut all_args = vec!["docker", "exec", "-i"];
 
     let psql_args = add_psql_connection_args(args)?;
@@ -55,9 +58,9 @@ fn command_pgload(args: &[String]) -> Result<()> {
         .spawn()
         .expect("failed to run pgload");
 
-    child.wait().expect("failed to wait for child");
+    let ecode = child.wait().expect("failed to wait for child");
 
-    Ok(())
+    Ok(ecode)
 }
 
 fn add_psql_connection_args(args: &[String]) -> Result<Vec<String>> {
@@ -88,7 +91,7 @@ fn add_psql_connection_args(args: &[String]) -> Result<Vec<String>> {
     Ok(all_args)
 }
 
-fn command_make(args: &[String]) -> Result<()> {
+fn command_make(args: &[String]) -> Result<ExitStatus> {
     let container_name = get_from_git("dc-make");
     if container_name == "" {
         bail!("No make container name, set with git config --add robyoung.dc-make ...")
@@ -99,7 +102,7 @@ fn command_make(args: &[String]) -> Result<()> {
     command_docker_compose(&all_args)
 }
 
-fn command_flask(args: &[String]) -> Result<()> {
+fn command_flask(args: &[String]) -> Result<ExitStatus> {
     let container_name = get_from_git("dc-flask");
     if container_name == "" {
         bail!("No make container name, set with git config --add robyoung.dc-flask ...")
@@ -112,7 +115,7 @@ fn command_flask(args: &[String]) -> Result<()> {
     command_docker_compose(&all_args)
 }
 
-fn command_test(args: &[String]) -> Result<()> {
+fn command_test(args: &[String]) -> Result<ExitStatus> {
     let container_name = get_from_git("dc-test");
     if container_name == "" {
         bail!("No make container name, set with git config --add robyoung.dc-test ...")
@@ -136,16 +139,16 @@ fn command_test(args: &[String]) -> Result<()> {
     )
 }
 
-fn command_docker_compose(args: &[String]) -> Result<()> {
+fn command_docker_compose(args: &[String]) -> Result<ExitStatus> {
     println!("{:?}", args);
     let mut child = Command::new("docker")
         .args([&[String::from("compose")], args].concat())
         .spawn()
         .expect("failed to run docker compose");
 
-    child.wait().expect("failed to wait for child");
+    let ecode = child.wait().expect("failed to wait for child");
 
-    Ok(())
+    Ok(ecode)
 }
 
 fn get_from_git(name: &str) -> String {
