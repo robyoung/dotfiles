@@ -1,0 +1,23 @@
+// Static tasks configuration.
+//
+// Example:
+[
+  {
+    "label": "Lint",
+    "command": "make lint",
+    "use_new_terminal": false,
+    "reveal": "never"
+  },
+  {
+    "label": "Test single",
+    "command": "dc test -vv $ZED_RELATIVE_FILE::$ZED_SYMBOL",
+    "tags": ["python-test"],
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Test file",
+    "command": "dc test $ZED_RELATIVE_FILE",
+    "tags": ["python-test"],
+    "allow_concurrent_runs": false
+  }
+]
