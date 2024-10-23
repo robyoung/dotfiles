@@ -36,7 +36,6 @@ export PATH=${PATH}:~/.local/thonny/bin
 export PYTHONBREAKPOINT=ipdb.set_trace
 export EDITOR="nvim"
 export TEALDEER_CONFIG_DIR=~/.config/tealdeer
-export PSQL_PAGER="pspg"
 export AICHAT_CONFIG_DIR=~/.config/aichat
 
 if [[ -x ~/.pyenv/bin/pyenv ]]; then
@@ -164,6 +163,3 @@ export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 [ -f ~/.atuin/bin/env ] && source "$HOME/.atuin/bin/env"
 eval "$(atuin init zsh)"
 
-if [[ -f "$HOME/.rye/env" ]]; then
-  source "$HOME/.rye/env"
-fi
