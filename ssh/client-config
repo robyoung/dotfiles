@@ -5,10 +5,16 @@ Host microbit-tester.local
   ForwardAgent yes
 
 # Host 192.168.30 bob1.local
-Host bob1.local bob1
-  HostName bob1.local
-  ForwardAgent yes
-  User ubuntu
+Host bob1.local bob1 
+    HostName bob1.local
+    ProxyJump bob3
+    ForwardAgent yes
+    User ubuntu
 
 Host xps-2020.local
-  User robyoung
+    User robyoung
+
+Host bob3.local bob3
+    HostName bob3.local
+    ForwardAgent yes
+    User rob
