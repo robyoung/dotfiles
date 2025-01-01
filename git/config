@@ -3,7 +3,6 @@
   defaultBranch = main
 [core]
   editor = nvim
-  excludesfile = ~/.gitignore
 [color]
   ui = true
   pager = yes

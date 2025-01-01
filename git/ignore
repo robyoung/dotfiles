@@ -17,3 +17,4 @@ SCRATCH.*
 /scripts/perf
 /.zed
 /boblib.py
+.aider*
