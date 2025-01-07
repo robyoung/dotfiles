@@ -1,0 +1,62 @@
+#!/usr/bin/env -S uv run -s
+# vim: set filetype=python :
+
+import yaml
+import sys
+import argparse
+from pathlib import Path
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Merge multiple YAML files.")
+    parser.add_argument("--ignore-missing", action="store_true", default=False, help="Silently ignore any paths that do not exist.")
+    parser.add_argument("file_paths", nargs="+", help="The YAML files to merge.")
+
+    return parser.parse_args()
+
+
+def merge_yaml(data1, data2):
+    if isinstance(data1, dict) and isinstance(data2, dict):
+        return deep_merge(data1, data2)
+    elif isinstance(data1, list) and isinstance(data2, list):
+        return data1 + data2
+    elif data2 is None:
+        return data1
+    else:
+        return data2
+
+
+def deep_merge(data1, data2):
+    for key, value2 in data2.items():
+        if (value1 := data1.get(key)) and isinstance(value1, dict) and isinstance(value2, dict):
+            data1[key] = deep_merge(value1, value2)
+        else:
+            data1[key] = value2
+    return data1
+
+args = parse_args()
+
+output = None
+
+for file_path_name in args.file_paths:
+    file_path = Path(file_path_name)
+    if not file_path.exists():
+        if args.ignore_missing:
+            continue
+        else:
+            sys.stderr.write(f"File does not exist: {file_path_name}\n")
+            sys.exit(1)
+
+    with file_path.open() as fh:
+        in_data = yaml.safe_load(fh)
+
+    if output is None:
+        output = in_data
+    else:
+        output = merge_yaml(output, in_data)
+
+if output is None:
+    sys.stderr.write("No files found to merge\n")
+    sys.exit(1)
+
+yaml.dump(output, sys.stdout)

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# wrapper for aider
+
+tmp_file=$(mktemp) || {
+    echo "Failed to create temporary config file" >&2
+    exit 1
+}
+
+trap 'rm -f "$tmp_file"' EXIT
+
+yaml-merge --ignore-missing \
+    ~/.config/aider/api-keys.conf.yml \
+    ~/.config/aider/model.conf.yml \
+    ~/.config/aider/shared.conf.yml \
+    .aider.conf.yml > $tmp_file || {
+    echo "Failed to write out aider config" >&2
+    exit 1
+}
+
+exec aider --config $tmp_file
