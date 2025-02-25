@@ -12,9 +12,10 @@ SCRATCH.*
 /scratch/
 /.vscode
 /robyoung-scratch
+__pycache__
 !/.github
 .git
 /scripts/perf
 /.zed
-/boblib.py
+boblib.py
 .aider*

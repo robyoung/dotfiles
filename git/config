@@ -1,53 +1,59 @@
 [init]
-  templatedir = ~/.git_template
-  defaultBranch = main
-[core]
-  editor = nvim
+	templatedir = ~/.config/git/template
+	defaultBranch = main
+[branch]
+	sort = -committerdate
+[commit]
+	verbose = true
 [color]
-  ui = true
-  pager = yes
+	ui = true
+	pager = yes
+[column]
+	ui = auto
+[core]
+	editor = nvim
 [alias]
-  ctags = !.git/hooks/ctags
-  st = status
-  co = checkout
-  cm = commit -v
-  pl = pull --rebase
-  lg = log --graph --abbrev-commit --oneline
-  lf = log --decorate --graph --all
-  saveall = "!f() { git add -u; git commit -m \"${1-No message}\"; git push origin HEAD; } ; f"
-  ammend = commit --amend --no-edit
-  am = ammend
-  todos = "!f() { git diff main HEAD | rg -C2 '^\\+.*TODO' ; } ; f"
-  dft = difftool --tool=difftastic
-  dfn = difftool --tool=nvim
-  dlog = -c diff.external=difft log -p --ext-diff
+	ctags = !.git/hooks/ctags
+	st = status
+	co = checkout
+	cm = commit -v
+	pl = pull --rebase
+	lg = log --graph --abbrev-commit --oneline
+	lf = log --decorate --graph --all
+	saveall = "!f() { git add -u; git commit -m \"${1-No message}\"; git push origin HEAD; } ; f"
+	ammend = commit --amend --no-edit
+	am = ammend
+	todos = "!f() { git diff main HEAD | rg -C2 '^\\+.*TODO' ; } ; f"
 [user]
-  name = Rob Young
-  email = rob@robyoung.digital
+	name = Rob Young
+	email = rob@robyoung.digital
 [includeIf "gitdir:~/dev/turntown/"]
-  path = .gitconfig-turntown
+	path = ~/dev/turntown/.gitconfig-turntown
 [merge]
-  tool = nvim -d
-  conflictstyle = diff3
+	tool = nvim -d
+	conflictstyle = zdiff3
 [push]
 	default = current
 	autoSetupRemote = true
 [pull]
-  ff = only
-[url "git@github.com:"]
-  pushInsteadOf = https://github.com/
-  pushInsteadOf = git://github.com/
-[filter "lfs"]
-  clean = git lfs clean %f
-  smudge = git lfs smudge %f
-  required = true
+    rebase = true
+[fetch]
+    prune = true
+    pruneTags = true
+[rebase]
+    autoSquash = true
+    autoStash = true
+[help]
+    autocorrect = prompt
 [diff]
-  tool = difftastic
-[difftool]
-  prompt = false
-[difftool "difftastic"]
-  cmd = difft "$LOCAL" "$REMOTE"
-[difftool "nvim"]
-  cmd = nvim -d "$LOCAL" "$REMOTE"
-[pager]
-  difftool = true
+	algorithm = histogram
+	colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+[url "git@github.com:"]
+	pushInsteadOf = https://github.com/
+	pushInsteadOf = git://github.com/
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
+	required = true
