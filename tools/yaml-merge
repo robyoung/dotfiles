@@ -1,5 +1,10 @@
-#!/usr/bin/env -S uv run -s
+#!/usr/bin/env -S uv run -sq
 # vim: set filetype=python :
+# /// script
+# dependencies = [
+#   "PyYaml"
+# ]
+# ///
 
 import yaml
 import sys

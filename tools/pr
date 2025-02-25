@@ -24,14 +24,20 @@ if [ -f .github/pull_request_template.md ]; then
 fi
 
 # Get the commit messages
-git log --pretty=%B --reverse origin/main..HEAD > $commits_filename
+git log --format=%B --reverse origin/main..HEAD > $commits_filename
 
 # Check for JIRA ticket ID in commit messages
-if rg -q '^[A-Z]+-[0-9]+(:| )' $commits_filename; then
-  ticket_id=$(rg -o '^[A-Z]+-[0-9]+' $commits_filename | head -n 1 | tr -d '\n')
-  # Replace the ticket ID in the template
-  sd "TT-1234" "$ticket_id" $body_filename
+if git-jira > /dev/null; then
+    ticket_id=$(git-jira)
+elif rg -q '^[A-Z]+-[0-9]+(:| )' $commits_filename; then
+    ticket_id=$(rg -o '^[A-Z]+-[0-9]+' $commits_filename | head -n 1 | tr -d '\n')
 fi
+
+# Replace the ticket ID in the template
+if [ -n "$ticket_id" ]; then
+    sd "TT-1234" "$ticket_id" $body_filename
+fi
+
 
 # Append the commit messages to the template
 cat $commits_filename >> $body_filename

@@ -33,7 +33,7 @@ fn command_psql(args: &[String]) -> Result<ExitStatus> {
     all_args.extend(psql_args.iter().map(String::as_str));
     all_args.extend(args.iter().map(String::as_str));
 
-    println!("# {:?}", all_args);
+    // println!("# {:?}", all_args);
     let mut child = Command::new(all_args[0])
         .args(&all_args[1..])
         .spawn()
@@ -140,7 +140,7 @@ fn command_test(args: &[String]) -> Result<ExitStatus> {
 }
 
 fn command_docker_compose(args: &[String]) -> Result<ExitStatus> {
-    println!("{:?}", args);
+    // println!("{:?}", args);
     let mut child = Command::new("docker")
         .args([&[String::from("compose")], args].concat())
         .spawn()
