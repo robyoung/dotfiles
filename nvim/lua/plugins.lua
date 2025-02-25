@@ -97,6 +97,13 @@ require("lazy").setup({
               desc = "Buffer Local Keymaps (which-key)",
             },
           },
+        },
+        {
+            "nvim-treesitter/nvim-treesitter",
+            build = ":TSUpdate",
+            config = function ()
+                require("config.nvim-treesitter")
+            end
         }
     },
     install = { colorscheme = { "habamax" } },
