@@ -9,12 +9,21 @@
 {
   "language_models": {
     "anthropic": {
-            "version": "1"
-        }
+      "version": "1"
+    }
   },
   "terminal": {
     "dock": "bottom",
-    "font_family": "FiraCode Nerd Font"
+    "font_family": "FiraCode Nerd Font",
+    "env": {
+      "EDITOR": "zed --wait"
+    }
+  },
+  "project_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
   },
   "confirm_quit": true,
   "preferred_line_length": 120,
@@ -22,25 +31,42 @@
   "ui_font_size": 16,
   "cursor_blink": false,
   "vim_mode": true,
-  "buffer_font_size": 11,
+  "buffer_font_size": 11.0,
   "theme": {
     "dark": "Colorizer",
     "light": "One Light",
     "mode": "dark"
   },
   "tabs": {
-    "git_status": true
+    "git_status": true,
+    "file_icons": true
   },
   "format_on_save": "on",
   "assistant": {
     "default_model": {
-      "provider": "anthropic",
-      "model": "claude-3-5-sonnet-latest"
+      "provider": "google",
+      "model": "gemini-2.0-flash"
     },
     "version": "2",
     "provider": null
   },
   "jupyter": {
     "enabled": true
+  },
+  "lsp": {
+    "pylsp": {
+      "settings": {
+        "plugins": {
+          "pycodestyle": {
+            "enabled": false
+          }
+        }
+      }
+    },
+    "pyright": {
+      "binary": {
+        "ignore_system_version": true
+      }
+    }
   }
 }

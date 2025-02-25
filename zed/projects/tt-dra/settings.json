@@ -11,6 +11,20 @@
           "arguments": []
         }
       }
+    },
+    "TOML": {
+      "format_on_save": "off"
+    }
+  },
+  "lsp": {
+    "pylsp": {
+      "settings": {
+        "plugins": {
+          "pylsp_mypy": {
+            "overrides": ["--python-executable", ".venv/bin/python", true]
+          }
+        }
+      }
     }
   }
 }
