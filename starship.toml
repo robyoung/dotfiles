@@ -1,5 +1,17 @@
 add_newline = false
 
+[gcloud]
+disabled = true
+
+[git_branch]
+truncation_length = 15
+ignore_branches = ['main']
+
+[git_metrics]
+disabled = false
+
+[docker_context]
+disabled = true
 
 [kubernetes]
 disabled = false
