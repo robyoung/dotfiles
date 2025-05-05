@@ -1,10 +1,7 @@
 layout {
-  tab_template name="venv-tab" {
+  tab_template name="my-tab" {
     pane size=1 borderless=true {
         plugin location="zellij:tab-bar"
-    }
-    pane command="zsh" close_on_exit=true {
-      args "-c" "source ./venv/bin/activate && zsh"
     }
     pane size=2 borderless=true {
         plugin location="zellij:status-bar"
@@ -21,7 +18,7 @@ layout {
     }
   }
 
-  venv-tab name="#1 api" cwd="~/dev/turntown/data-rest-api"
-  venv-tab name="#2 api" cwd="~/dev/turntown/data-rest-api"
-  venv-tab name="#3 deployment" cwd="~/dev/turntown/deployment"
+  my-tab name="#1 api" cwd="~/dev/turntown/data-rest-api"
+  my-tab name="#2 api" cwd="~/dev/turntown/data-rest-api"
+  my-tab name="#3 deployment" cwd="~/dev/turntown/deployment"
 }
