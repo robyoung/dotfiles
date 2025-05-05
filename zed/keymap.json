@@ -3,10 +3,16 @@
     "context": "Editor && vim_mode == normal && !menu",
     "bindings": {
       "ctrl-shift-g": "go_to_line::Toggle",
-      "down": ["workspace::SendKeystrokes", "4 j"],
+      "down": [
+        "workspace::SendKeystrokes",
+        "4 j"
+      ],
       "g r": "editor::FindAllReferences",
       "space s": "workspace::Save",
-      "shift-y": ["workspace::SendKeystrokes", "y $"],
+      "shift-y": [
+        "workspace::SendKeystrokes",
+        "y $"
+      ],
       // leader tasks
       "space t l": [
         "task::Spawn",
@@ -25,7 +31,8 @@
         {
           "task_name": "Test file"
         }
-      ]
+      ],
+      "space g b": "git::Blame"
     }
   },
   {
@@ -46,8 +53,14 @@
   {
     "context": "vim_mode == normal || vim_mode == visual",
     "bindings": {
-      "s": ["vim::PushSneak", {}],
-      "S": ["vim::PushSneakBackward", {}]
+      "s": [
+        "vim::PushSneak",
+        {}
+      ],
+      "S": [
+        "vim::PushSneakBackward",
+        {}
+      ]
     }
   }
 ]
