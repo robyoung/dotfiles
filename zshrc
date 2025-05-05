@@ -14,7 +14,7 @@ DEFAULT_USER="robyoung"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git kubectl helm gcloud)
+plugins=(git kubectl gcloud)
 
 fpath=(~/.config/zsh ~/.zsh $fpath ~/.zfunc)
 
@@ -33,22 +33,15 @@ export PATH=~/dev/github/robyoung/dotfiles/tools:~/dev/dotfiles/tools:$PATH
 export PATH=~/.local/bin:${PATH}
 export PATH=${PATH}:~/.local/npm/bin
 export PATH=${PATH}:~/.local/thonny/bin
+export XDG_CONFIG_HOME=~/.config
 export PYTHONBREAKPOINT=ipdb.set_trace
-export EDITOR="nvim"
+export EDITOR=${EDITOR:-nvim}
 export TEALDEER_CONFIG_DIR=~/.config/tealdeer
 export AICHAT_CONFIG_DIR=~/.config/aichat
-
-if [[ -x ~/.pyenv/bin/pyenv ]]; then
-  export PATH=${PATH}:~/.pyenv/bin
-fi
+export MANPAGER='nvim +Man!'
 
 if [[ -d /opt/homebrew/opt/llvm ]]; then
   export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-fi
-
-# pyenv
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
 fi
 
 # Navigation
@@ -107,6 +100,10 @@ export DIRENV_LOG_FORMAT=
 which direnv > /dev/null && eval "$(direnv hook zsh)"
 
 venv() {
+  # ensure we are not in any virtualenv
+  deactivate 2> /dev/null || {}
+
+  # find a virtualenv to enter
   if [ -d ./venv ]; then
     . ./venv/bin/activate
   elif [ -d ./.venv ]; then
@@ -137,6 +134,10 @@ gtrack() {
   git branch --set-upstream-to=origin/$(git branch --show-current) $(git branch --show-current)
 }
 
+choose() {
+    awk '{ print $'$1' }' | tr -d '\n'
+}
+
 if _has keychain; then
   # For Loading the SSH key
   keychain -q --nogui $HOME/.ssh/id_ed25519
@@ -161,5 +162,17 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
 [ -f ~/.atuin/bin/env ] && source "$HOME/.atuin/bin/env"
-eval "$(atuin init zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f ~/.local/google-cloud-sdk/path.zsh.inc ]; then 
+    . ~/.local/google-cloud-sdk/path.zsh.inc;
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f ~/.local/google-cloud-sdk/completion.zsh.inc ]; then . ~/.local/google-cloud-sdk/completion.zsh.inc; fi
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+
+if [ -f ~/.config/zsh/pgpow.complete.zsh ]; then . ~/.config/zsh/pgpow.complete.zsh; fi
+if [ -f ~/.config/zsh/hive.complete.zsh ]; then . ~/.config/zsh/hive.complete.zsh; fi
+if [ -f ~/.config/zsh/cluck.complete.zsh ]; then . ~/.config/zsh/cluck.complete.zsh; fi
