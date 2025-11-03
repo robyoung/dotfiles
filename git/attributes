@@ -1,0 +1,12 @@
+*.rs merge=mergiraf
+*.go merge=mergiraf
+*.ini merge=mergiraf
+*.js merge=mergiraf
+*.json merge=mergiraf
+*.toml merge=mergiraf
+*.ts merge=mergiraf
+*.py merge=mergiraf
+*.hcl merge=mergiraf
+*.tf merge=mergiraf
+*.tfvars merge=mergiraf
+

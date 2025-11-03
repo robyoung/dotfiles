@@ -19,3 +19,6 @@ __pycache__
 /.zed
 boblib.py
 .aider*
+pyrightconfig.json
+
+**/.claude/settings.local.json

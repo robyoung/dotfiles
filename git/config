@@ -5,13 +5,15 @@
 	sort = -committerdate
 [commit]
 	verbose = true
+	template = ~/.config/git/message
+	gpgsign = true
 [color]
 	ui = true
 	pager = yes
 [column]
 	ui = auto
 [core]
-	editor = nvim
+	attributesfile = ~/.config/git/attributes
 [alias]
 	ctags = !.git/hooks/ctags
 	st = status
@@ -24,14 +26,26 @@
 	ammend = commit --amend --no-edit
 	am = ammend
 	todos = "!f() { git diff main HEAD | rg -C2 '^\\+.*TODO' ; } ; f"
+	# `git log` with patches shown with difftastic.
+	dl = -c diff.external=difft log -p --ext-diff
+
+	# Show the most recent commit with difftastic.
+	ds = -c diff.external=difft show --ext-diff
+
+	# `git diff` with difftastic.
+	dft = -c diff.external=difft diff
 [user]
 	name = Rob Young
 	email = rob@robyoung.digital
+	signingkey = 71FE652F9D11D3EE
 [includeIf "gitdir:~/dev/turntown/"]
 	path = ~/dev/turntown/.gitconfig-turntown
 [merge]
 	tool = nvim -d
-	conflictstyle = zdiff3
+	conflictstyle = diff3
+[merge "mergiraf"]
+	name = mergiraf
+	driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
 [push]
 	default = current
 	autoSetupRemote = true
