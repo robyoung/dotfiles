@@ -1,0 +1,4 @@
+background-opacity = 0.99
+background-blur = false
+keybind = shift+enter=text:\n
+theme = dark:catppuccin-mocha,light:catppuccin-latte
