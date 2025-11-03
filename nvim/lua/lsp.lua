@@ -1,19 +1,3 @@
-require('mason').setup({
-    ui = {
-        icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-        }
-    }
-})
-
-require('mason-lspconfig').setup({
-    -- a list of servers to automaically install if they're not already package_installed
-    ensure_installed = { 'pyright', 'lua_ls', 'rust_analyzer' },
-})
-
-local lspconfig = require('lspconfig')
 local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
@@ -47,11 +31,3 @@ local on_attach = function(client, bufnr)
     end, bufopts)
 end
 
--- Configure each language
--- How to add LSP for a specific language?
--- 1. use `:Mason` to install corresponding LSP
--- 2. add configuration below
-lspconfig.pyright.setup({
-	on_attach = on_attach,
-})
-lspconfig.lua_ls.setup({})

@@ -7,6 +7,8 @@ require('lsp')
 vim.cmd [[
   highlight Normal guibg=none
   highlight NonText guibg=none
+  highlight MsgArea guibg=none
   highlight Normal ctermbg=none
   highlight NonText ctermbg=none
+  highlight MsgArea ctermbg=none
 ]]
