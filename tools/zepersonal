@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-zellij attach personal || zellij --session personal --layout personal

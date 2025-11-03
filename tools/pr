@@ -27,7 +27,7 @@ fi
 git log --format=%B --reverse origin/main..HEAD > $commits_filename
 
 # Check for JIRA ticket ID in commit messages
-if git-jira > /dev/null; then
+if type git-jira > /dev/null 2>&1; then
     ticket_id=$(git-jira)
 elif rg -q '^[A-Z]+-[0-9]+(:| )' $commits_filename; then
     ticket_id=$(rg -o '^[A-Z]+-[0-9]+' $commits_filename | head -n 1 | tr -d '\n')

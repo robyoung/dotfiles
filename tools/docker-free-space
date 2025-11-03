@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# 1. Remove unused data
+docker system prune
+
+# 2. Remove unused volumes
+docker volume prune
+
+# 3. Remove unused images (should already be removed by 1)
+docker image prune -a
+
+# 4. Remove stopped containers
+docker container prune
+
+# 5. Remove build cache
+docker builder prune

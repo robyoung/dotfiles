@@ -10,8 +10,7 @@ git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
 
 # clean up old branches
 >&2 echo "Cleaning up old branches..."
-for branch_name in $(git-branch-with-stamp | grep 'months ago' | cut -d' ' -f1); do
+for branch_name in $(git-branch-with-stamp | grep 'weeks ago' | cut -d' ' -f1); do
   >&2 echo " > $branch_name"
-  git push origin "$branch_name"
   git branch -D "$branch_name"
 done
