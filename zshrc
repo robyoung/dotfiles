@@ -1,6 +1,6 @@
 # local overrides
 
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+[ -f ~/.config/zsh/zshrc.local ] && source ~/.config/zsh/zshrc.local
 
 skip_global_compinit=1
 
@@ -35,10 +35,13 @@ export PATH=${PATH}:~/.local/npm/bin
 export PATH=${PATH}:~/.local/thonny/bin
 export XDG_CONFIG_HOME=~/.config
 export PYTHONBREAKPOINT=ipdb.set_trace
-export EDITOR=${EDITOR:-nvim}
+export EDITOR=${EDITOR:-zed}
 export TEALDEER_CONFIG_DIR=~/.config/tealdeer
 export AICHAT_CONFIG_DIR=~/.config/aichat
 export MANPAGER='nvim +Man!'
+# difftastic colours
+export DFT_BACKGROUND=light
+export GPG_TTY=$(tty)
 
 if [[ -d /opt/homebrew/opt/llvm ]]; then
   export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
@@ -89,7 +92,6 @@ case $(uname -s) in
 esac
 
 alias my-repos='ls ~/dev/github/robyoung'
-alias prl='gh pr list --search "-author:@me is:open is:pr -reviewed-by:@me -is:draft"  --web'
 
 unsetopt autocd
 
@@ -112,7 +114,7 @@ venv() {
     >&2 echo "Could not find virtualenv to load"
   else
     pushd .. > /dev/null
-    venv 
+    venv
     popd > /dev/null
   fi
 }
@@ -134,6 +136,8 @@ gtrack() {
   git branch --set-upstream-to=origin/$(git branch --show-current) $(git branch --show-current)
 }
 
+alias gln='git lg --name-status'
+
 choose() {
     awk '{ print $'$1' }' | tr -d '\n'
 }
@@ -141,7 +145,7 @@ choose() {
 if _has keychain; then
   # For Loading the SSH key
   keychain -q --nogui $HOME/.ssh/id_ed25519
-  source $HOME/.keychain/$HOST-sh  
+  source $HOME/.keychain/$HOST-sh
 fi
 
 _has starship && eval "$(starship init zsh)"
@@ -165,7 +169,7 @@ export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 eval "$(atuin init zsh --disable-up-arrow)"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f ~/.local/google-cloud-sdk/path.zsh.inc ]; then 
+if [ -f ~/.local/google-cloud-sdk/path.zsh.inc ]; then
     . ~/.local/google-cloud-sdk/path.zsh.inc;
 fi
 
