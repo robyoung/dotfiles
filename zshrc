@@ -165,8 +165,10 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
-[ -f ~/.atuin/bin/env ] && source "$HOME/.atuin/bin/env"
-eval "$(atuin init zsh --disable-up-arrow)"
+[ -f ~/.atuin/bin/env ] && {
+  source "$HOME/.atuin/bin/env";
+  eval "$(atuin init zsh --disable-up-arrow)";
+}
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f ~/.local/google-cloud-sdk/path.zsh.inc ]; then
@@ -180,3 +182,20 @@ export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
 if [ -f ~/.config/zsh/pgpow.complete.zsh ]; then . ~/.config/zsh/pgpow.complete.zsh; fi
 if [ -f ~/.config/zsh/hive.complete.zsh ]; then . ~/.config/zsh/hive.complete.zsh; fi
 if [ -f ~/.config/zsh/cluck.complete.zsh ]; then . ~/.config/zsh/cluck.complete.zsh; fi
+
+# fnm
+FNM_PATH="$HOME/.local/share/fnm"
+if [[ -d $FNM_PATH ]]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "`fnm env`"
+fi
+
+# Aider
+AIDER_CONFIG="$HOME/.config/aider/config.yml"
+export AIDER_ENV_FILE="$HOME/.config/aider/env"
+
+# Optional: Add an alias if you want to be extra sure
+alias aider='aider --config $AIDER_CONFIG --env-file $AIDER_ENV_FILE'
+
+# jj
+source <(jj util completion zsh)
