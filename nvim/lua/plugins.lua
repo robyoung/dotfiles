@@ -99,9 +99,13 @@ require("lazy").setup({
         --},
         {
             "nvim-treesitter/nvim-treesitter",
+	    tag = "v0.9.2",
             build = ":TSUpdate",
             config = function ()
-                require("config.nvim-treesitter")
+		    require("nvim-treesitter.configs").setup({
+		      ensure_installed = { "lua", "vim", "vimdoc", "query" }, -- add your languages here
+		      highlight = { enable = true },
+		    })
             end
         }
     },
